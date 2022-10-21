@@ -5,9 +5,7 @@ import Toast from 'react-native-simple-toast'
 
 import { commonStyles } from '../../utils/styles'
 import CustomTextInput from '../../components/CustomTextInput'
-import { setUser } from '../../redux/reducer/user'
 import { mobileLoginPostRequest } from '../../utils/API'
-import Auth from '../../services/Auth'
 import CustomLoader, { CustomPanel } from '../../components/CustomLoader'
 import { COLORS, SIZES } from '../../utils/theme'
 import Custom_Auth_Btn from '../../components/Custom_Auth_Btn'
@@ -33,26 +31,13 @@ export default function LoginScreen({ navigation }) {
             mobileLoginPostRequest(email, password, userType, async (response) => {
                 setLoading(false);
                 if (response !== null) {
-                    if (response?.message !== undefined) {
-                        if (response?.message === "Mail exists") {
-                            Alert.alert("Alert", response?.message);
-                        } else if (response?.message === "Auth failed") {
-                            Alert.alert("Alert", response?.message);
+                    if (response?.body !== undefined) {
+                        if (response?.body === "Mail exists") {
+                            Alert.alert("Alert", response?.body);
                         } else {
-                            const userData = response?.user;
-                            dispatch(setUser(userData));
-                            await Auth.setAccount(userData);
-                            await Auth.setLocalStorageData("bearer", response.token)
-                            const email_password = [];
-                            const userEmail = email;
-                            const userPassword = password;
-                            email_password.push(userEmail);
-                            email_password.push(userPassword);
-                            await Auth.setLocalStorageData("email_password", email_password?.toString())
-                            Toast.show('Register Successfully!');
+                            Toast.show(response?.body);
                             setEmail("")
                             setPassword("")
-                            // navigation.navigate("Root")
                         }
                     }
                 }
@@ -114,26 +99,9 @@ export default function LoginScreen({ navigation }) {
                     source={require("../../assets/img/login-bg.png")}
                     style={[styles.loginBg]}
                 />
-
-                {/* <View style={{ alignItems: "center", zIndex: 1 }}>
-                    <View style={{ ...commonStyles.row }}>
-                        <Text style={[styles.dontHaveAccount]}>
-                            Don’t have an account?
-                        </Text>
-                        <TouchableHighlight
-                            onPress={() => {
-                                navigation.navigate("RegisterScreen")
-                            }}
-                            underlayColor="#1572B9"
-                        >
-                            <Text style={[styles.registerText]}> Register</Text>
-                        </TouchableHighlight>
-                    </View>
-                </View> */}
             </View>
 
             <CustomPanel loading={loading} />
-
             <CustomLoader loading={loading} />
         </View>
     )

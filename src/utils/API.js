@@ -40,17 +40,20 @@ export const mobileRegisterPostRequest = async (email, password, name, phone, us
     }
 };
 
-export const mobileLoginPostRequest = async (email, password, userType, successCallBack) => {
-    console.log('\n\n mobileLoginPostRequest Called : ', email, password, userType);
+export const mobileLoginPostRequest = async (number, successCallBack) => {
+    console.log('\n\n mobileLoginPostRequest Called : ', number);
 
     var body = {
-        "email": email,
-        "password": password,
-        "userType": userType,
+        "endpoint": "auth",
+        "action": "loginByOTP",
+        "product_code": "JO",
+        "params": {
+            "number": "8768407750"
+        }
     }
 
     try {
-        let response = await fetch(BASE_URL + 'login', {
+        let response = await fetch('https://gclfo3ljyh.execute-api.us-east-1.amazonaws.com/prod/confluxhr', {
             method: 'POST',
             headers: {
                 "Accept": 'application/json',
