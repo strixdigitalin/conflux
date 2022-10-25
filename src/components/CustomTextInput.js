@@ -25,7 +25,7 @@ export default function CustomTextInput({ placeholder, value, onChange, keyboard
                 style={{
                     width: "100%", height: 55, borderWidth: 1, borderRadius: 50,
                     borderColor: COLORS.blue,
-                    paddingHorizontal: 50, color: "#fff", zIndex: 1
+                    paddingHorizontal: 50, color: "#000", zIndex: 1
                 }}
                 {...rest}
             />

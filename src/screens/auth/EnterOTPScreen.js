@@ -5,32 +5,27 @@ import Toast from 'react-native-simple-toast'
 
 import { commonStyles } from '../../utils/styles'
 import CustomTextInput from '../../components/CustomTextInput'
-import { mobileLoginPostRequest } from '../../utils/API'
+import { matchOTPPostRequest } from '../../utils/API'
 import CustomLoader, { CustomPanel } from '../../components/CustomLoader'
 import { COLORS, SIZES } from '../../utils/theme'
 import Custom_Auth_Btn from '../../components/Custom_Auth_Btn'
 
-export default function LoginScreen({ navigation }) {
-    const [phoneError, setMobileError] = React.useState(false);
-    const [companyIDError, setCompanyIDError] = React.useState(false);
+export default function EnterOTPScreen({ navigation, route }) {
+    const { phone } = route?.params;
+    const [otpValError, setOTPInputError] = React.useState(false);
     const [loading, setLoading] = React.useState(false);
 
-    const [phone, setMobile] = React.useState("");
-    const [companyID, setCompanyID] = React.useState("");
+    const [otpVal, setOTPInput] = React.useState("");
 
-    const handleLogin = () => {
-        if (phone.length === 0) {
-            setMobileError(true)
-        } if (companyID.length === 0) {
-            setCompanyIDError(true)
+    const handleOtpInput = () => {
+        if (otpVal.length === 0) {
+            setOTPInputError(true)
         } else {
             setLoading(true);
-            mobileLoginPostRequest(phone, companyID, async (response) => {
+            matchOTPPostRequest(phone, otpVal, async (response) => {
                 setLoading(false);
                 console.log("\n\n \n\n mobileLoginPostRequest response: ", response)
-                navigation.navigate("EnterOTPScreen", {
-                    phone: phone,
-                })
+                navigation.navigate("HomeScreen")
                 // if (response.body === "successfully Sent and Updated") {
                 // }
                 // if (response !== null) {
@@ -39,7 +34,7 @@ export default function LoginScreen({ navigation }) {
                 //             Alert.alert("Alert", response?.body);
                 //         } else {
                 //             Toast.show(response?.body);
-                //             setMobile("")
+                //             setOTPInput("")
                 //             setCompanyID("")
                 //         }
                 //     }
@@ -59,33 +54,23 @@ export default function LoginScreen({ navigation }) {
                 />
                 <View style={{ marginTop: "18%" }}>
                     <CustomTextInput
-                        placeholder='Mobile number'
-                        value={phone}
+                        placeholder='Enter OTP'
+                        value={otpVal}
                         keyboardType={'number-pad'}
                         autoCapitalize='none'
-                        maxLength={10}
-                        icon={require("../../assets/img/mobile.png")}
-                        onChange={(val) => { setMobile(val); setMobileError(false); }}
+                        icon={require("../../assets/img/otp.png")}
+                        onChange={(val) => { setOTPInput(val); setOTPInputError(false); }}
                     />
-                    {phoneError ? <Text style={{ ...commonStyles.fs13_400, color: "red" }}>phone is required</Text> : <></>}
+                    {otpValError
+                        ? <Text style={{ ...commonStyles.fs13_400, color: "red" }}>Please enter OTP</Text>
+                        : <></>}
                     <View style={{ height: 14 }} />
-
-                    <CustomTextInput
-                        placeholder='Enter Company ID'
-                        value={companyID}
-                        secureTextEntry={true}
-                        icon={require("../../assets/img/lock.png")}
-                        onChange={(val) => { setCompanyID(val); setCompanyIDError(false); }}
-                    />
-                    {companyIDError ? <Text style={{ ...commonStyles.fs13_400, color: "red" }}>Company ID is required</Text> : <></>}
-                    <View style={{ height: 60 }} />
 
                     <Custom_Auth_Btn
                         btnText={"Login"}
-                        onPress={handleLogin}
+                        onPress={handleOtpInput}
                     />
                 </View>
-
                 <View style={{ width: "100%", height: 40 }} />
 
                 <Image
@@ -136,7 +121,7 @@ const styles = StyleSheet.create({
         <TouchableHighlight underlayColor={COLORS.blue}
             onPress={() => {
                 navigation.navigate("ForgotPasswordPassword", {
-                    phone: phone,
+                    otpVal: otpVal,
                 })
             }}
         >
