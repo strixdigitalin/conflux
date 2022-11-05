@@ -75,19 +75,23 @@ export default function LoginScreen({navigation}) {
         <View style={{marginTop: '18%'}}>
           <CustomTextInput
             placeholder="Mobile number"
-            value={phone}
-            keyboardType={'number-pad'}
+            // value={phone}
+            keyboardType={'numeric'}
             autoCapitalize="none"
             maxLength={10}
             icon={require('../../assets/img/mobile.png')}
             onChange={val => {
+              // console.log(val, '<<<<val');
+              const numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0];
+
+              console.log();
               setMobile(val);
               setMobileError(false);
             }}
           />
           {phoneError ? (
             <Text style={{...commonStyles.fs13_400, color: 'red'}}>
-              phone is required
+              Mobile number is required
             </Text>
           ) : (
             <></>

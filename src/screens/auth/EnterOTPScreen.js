@@ -84,9 +84,16 @@ export default function EnterOTPScreen({navigation, route}) {
           ) : (
             <></>
           )}
-          <View style={{height: 14}} />
+          <View style={{height: 10}} />
 
           <Custom_Auth_Btn btnText={'Login'} onPress={handleOtpInput} />
+          <View>
+            <Text
+              onPress={() => navigation.navigate('LoginScreen')}
+              style={styles.regenerate}>
+              Regenerate Otp
+            </Text>
+          </View>
         </View>
         <View style={{width: '100%', height: 40}} />
 
@@ -106,6 +113,11 @@ const styles = StyleSheet.create({
   logo: {
     width: '100%',
     height: 65,
+  },
+  regenerate: {
+    width: '100%',
+    textAlign: 'right',
+    marginTop: 10,
   },
   loginWrapper: {
     justifyContent: 'center',
