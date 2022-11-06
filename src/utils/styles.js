@@ -213,7 +213,7 @@ export const commonStyles = StyleSheet.create({
     rowStart: {
         flexDirection: "row",
         justifyContent: "flex-start",
-        alignItems: 'flex-start'
+        alignItems: 'center'
     },
     rowBetween: {
         flexDirection: "row",
