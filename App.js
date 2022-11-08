@@ -1,20 +1,19 @@
-import React, { useEffect } from "react";
-import { createStackNavigator } from "@react-navigation/stack";
-import { NavigationContainer } from "@react-navigation/native";
+import React, {useEffect} from 'react';
+import {createStackNavigator} from '@react-navigation/stack';
+import {NavigationContainer} from '@react-navigation/native';
 
-import Auth from "./src/services/Auth";
-import { setUser } from './src/redux/reducer/user';
-import { useDispatch, useSelector } from 'react-redux';
-import AuthStack from "./src/navigation/AuthStack";
-import AppStack from "./src/navigation/AppStack";
-import { useState } from "react";
-import { StatusBar } from "react-native";
+import Auth from './src/services/Auth';
+import {setUser} from './src/redux/reducer/user';
+import {useDispatch, useSelector} from 'react-redux';
+import AuthStack from './src/navigation/AuthStack';
+import AppStack from './src/navigation/AppStack';
+import {useState} from 'react';
+import {StatusBar} from 'react-native';
 
 export default function App() {
-
   const dispatch = useDispatch();
 
-  const { userData, login } = useSelector(state => state.User);
+  const {userData, login} = useSelector(state => state.User);
 
   const Stack = createStackNavigator();
 
@@ -29,14 +28,14 @@ export default function App() {
     console.log('data fetched: ', data);
     if (data !== null) {
       dispatch(setUser(data));
-      setLoginChk(false);
+      setLoginChk(true);
     } else {
       setLoginChk(false);
     }
-  }
+  };
 
   useEffect(() => {
-    getUser()
+    getUser();
   }, []);
 
   if (loginChk) {
@@ -46,12 +45,12 @@ export default function App() {
   return (
     <>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="Auth"
-          screenOptions={screenOptions}
-        >
-          {!login
-            ? <Stack.Screen name="Auth" component={AuthStack} />
-            : <Stack.Screen name="AppStack" component={AppStack} />}
+        <Stack.Navigator initialRouteName="Auth" screenOptions={screenOptions}>
+          {true ? (
+            <Stack.Screen name="Auth" component={AuthStack} />
+          ) : (
+            <Stack.Screen name="AppStack" component={AppStack} />
+          )}
         </Stack.Navigator>
       </NavigationContainer>
     </>
