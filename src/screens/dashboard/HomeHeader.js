@@ -4,8 +4,33 @@ import {ImageBackground} from 'react-native';
 import {commonStyles} from '../../utils/styles';
 import {Image} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
+import {useSelector} from 'react-redux';
 
 export default function HomeHeader({navigation}) {
+  const [showDate, setShowDate] = React.useState('');
+  const calcdate = () => {
+    const curr = new Date();
+    const d =
+      curr.getDate() +
+      '/' +
+      (+curr.getMonth() + +1) +
+      '/' +
+      curr.getFullYear() +
+      '  ' +
+      '  ' +
+      curr.getHours() +
+      ':' +
+      curr.getMinutes();
+    setShowDate(d);
+  };
+  React.useEffect(() => {
+    calcdate();
+    setInterval(() => calcdate, 30000);
+  }, []);
+
+  const {userData} = useSelector(state => state.User);
+
+  console.log(userData, '<<<-----\n\nuserDataat home screen\n\n\n');
   return (
     <ImageBackground
       source={require('../../assets/img/dashboard-1.png')}
@@ -38,10 +63,11 @@ export default function HomeHeader({navigation}) {
         />
         <View style={{marginLeft: 12}}>
           <Text style={{...commonStyles.fs24_500, color: '#fff'}}>
-            Welcome UserName
+            {userData.first_name} {userData.last_name}
           </Text>
           <Text style={{...commonStyles.fs14_400, color: '#fff'}}>
-            12/04/2022 12:46 PM
+            {/* 12/04/2022 12:46 PM */}
+            {showDate}
           </Text>
         </View>
       </View>

@@ -17,6 +17,10 @@ import {matchOTPPostRequest} from '../../utils/API';
 import CustomLoader, {CustomPanel} from '../../components/CustomLoader';
 import {COLORS, SIZES} from '../../utils/theme';
 import Custom_Auth_Btn from '../../components/Custom_Auth_Btn';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {USER_DETAIL} from '../../redux/reducer/AsyncConst';
+import {userProfile} from '../../services/profile';
+import {setUser} from '../../redux/reducer/user';
 
 export default function EnterOTPScreen({navigation, route}) {
   const {phone} = route?.params;
@@ -32,17 +36,21 @@ export default function EnterOTPScreen({navigation, route}) {
       setLoading(true);
       matchOTPPostRequest(phone, otpVal, async response => {
         setLoading(false);
-        console.log('\n\n \n\n mobileLoginPostRequest response: ', response);
-        return null;
-        userProfile(326, res => {
+        console.log(
+          '\n\n \n\n mobileLoginPostRequest response: ',
+          response.body[0].staffid,
+        );
+        // return null;
+        userProfile(response.body[0].staffid,async res => {
           console.log(res, '\n\n<<<res at user profile apge');
           if (res.success == false) {
             Alert.alert('Unable to fetch profile data');
           } else {
+           await AsyncStorage.setItem('USER_DETAIL', JSON.stringify(res.data));
             setUser(res.data);
+            navigation.navigate('MenuScreen');
           }
         });
-        navigation.navigate('MenuScreen');
         // if (response.body === "successfully Sent and Updated") {
         // }
         // if (response !== null) {

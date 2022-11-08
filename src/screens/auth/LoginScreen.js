@@ -19,6 +19,9 @@ import {COLORS, SIZES} from '../../utils/theme';
 import Custom_Auth_Btn from '../../components/Custom_Auth_Btn';
 import {setUser} from '../../redux/reducer/user';
 import {userProfile} from '../../services/profile';
+import {useEffect} from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {USER_DETAIL} from '../../redux/reducer/AsyncConst';
 
 export default function LoginScreen({navigation}) {
   const [phoneError, setMobileError] = React.useState(false);
@@ -27,6 +30,8 @@ export default function LoginScreen({navigation}) {
 
   const [phone, setMobile] = React.useState('');
   const [companyID, setCompanyID] = React.useState('');
+
+
 
   const handleLogin = () => {
     if (phone.length === 0) {
