@@ -22,7 +22,7 @@ export default function AuthStack() {
     <>
       <Stack.Navigator
         screenOptions={screenOptions}
-        initialRouteName={'ProfileScreen'}>
+        initialRouteName={'GoToLoginPageScreen'}>
         <Stack.Screen
           name="GoToLoginPageScreen"
           component={GoToLoginPageScreen}

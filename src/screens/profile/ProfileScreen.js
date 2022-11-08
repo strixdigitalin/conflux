@@ -10,18 +10,20 @@ import {TouchableHighlight} from 'react-native';
 import {StyleSheet} from 'react-native';
 import {userProfile} from '../../services/profile';
 import {useState} from 'react';
+import {useSelector} from 'react-redux';
 
 export default function ProfileScreen({navigation}) {
-  const [userData, setUserData] = useState({});
+  // const [userData, setUserData] = useState({});
+  const {userData} = useSelector(state => state.User);
   React.useEffect(() => {
-    userProfile(326, res => {
-      console.log(res, '\n\n<<<res at user profile apge');
-      if (res.success == false) {
-        Alert.alert('Unable to fetch profile data');
-      } else {
-        setUserData(res.data);
-      }
-    });
+    // userProfile(326, res => {
+    //   console.log(res, '\n\n<<<res at user profile apge');
+    //   if (res.success == false) {
+    //     Alert.alert('Unable to fetch profile data');
+    //   } else {
+    //     setUserData(res.data);
+    //   }
+    // });
   }, []);
 
   return (
