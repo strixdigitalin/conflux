@@ -10,6 +10,8 @@ import EnterOTPScreen from "../screens/auth/EnterOTPScreen";
 import MenuScreen from "../screens/menu/MenuScreen";
 import PayslipScreen from "../screens/payslip/PayslipScreen";
 import ProfileScreen from "../screens/profile/ProfileScreen";
+import LeavesScreen from "../screens/leaves/LeavesScreen";
+import ApplyLeavesScreen from "../screens/leaves/ApplyLeaveScreen";
 
 const Stack = createStackNavigator();
 
@@ -23,7 +25,7 @@ export default function AuthStack() {
         <>
             <Stack.Navigator
                 screenOptions={screenOptions}
-                initialRouteName={"ProfileScreen"}
+                initialRouteName={"LeavesScreen"}
             >
                 <Stack.Screen name="GoToLoginPageScreen" component={GoToLoginPageScreen} />
                 <Stack.Screen name="LoginScreen" component={LoginScreen} />
@@ -33,6 +35,8 @@ export default function AuthStack() {
                 <Stack.Screen name="MenuScreen" component={MenuScreen} />
                 <Stack.Screen name="PayslipScreen" component={PayslipScreen} />
                 <Stack.Screen name="ProfileScreen" component={ProfileScreen} />
+                <Stack.Screen name="LeavesScreen" component={LeavesScreen} />
+                <Stack.Screen name="ApplyLeavesScreen" component={ApplyLeavesScreen} />
             </Stack.Navigator>
         </>
     );
