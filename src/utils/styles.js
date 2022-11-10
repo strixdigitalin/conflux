@@ -206,6 +206,11 @@ export const commonStyles = StyleSheet.create({
         fontWeight: "700",
         color: "#000"
     },
+    fs26_700: {
+        fontSize: 26,
+        fontWeight: "700",
+        color: "#000"
+    },
     row: {
         flexDirection: "row",
         alignItems: 'center'

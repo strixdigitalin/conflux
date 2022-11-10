@@ -1,16 +1,12 @@
 import React, { Component } from "react";
-import { Button, View, StyleSheet, Text, Dimensions, Image } from "react-native";
+import { View, StyleSheet, Text, Dimensions, Image } from "react-native";
 import DateTimePicker from "react-native-modal-datetime-picker";
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 const windowWidth = Dimensions.get("window").width;
-const windowHeight = Dimensions.get("window").height;
 import moment from 'moment';
 import { commonStyles } from "../utils/styles";
 
 var today = new Date();
-var tempToday1 = new Date();
-var tempToday2 = new Date();
 var forSecondStart = 0;
 var dateSliced = today.getFullYear() + "- 0" + parseInt(today.getMonth() + 1) + "- 0" + today.getDate();
 console.log(dateSliced);
@@ -37,13 +33,11 @@ export default class PersonalLeaveDatePicker extends Component {
         console.log('minDate is:', this.props.minimumDate);
         console.log('minDate type is:', typeof this.props.minimumDate);
         console.log('maxDate type is:', typeof this.props.maximumDate);
-        console.log('minDate is empty:', this.props.minimumDate.length);
-        console.log('maxDate is empty:', this.props.maximumDate.length);
         this.setState({ isDateTimePickerVisible: true });
 
         //Setting up minDateObj
         console.log('\n\n moment date:', moment(this.props.minimumDate, 'DD-MMM-YYYY').toDate())
-        var selectedMinDate = this.props.minimumDate.length == 0 ? moment('31-DEC-2010', 'DD-MMM-YYYY').toDate() : moment(this.props.minimumDate, 'DD-MMM-YYYY').toDate()
+        var selectedMinDate = this?.props?.minimumDate?.length == 0 ? moment('31-DEC-2010', 'DD-MMM-YYYY').toDate() : moment(this.props.minimumDate, 'DD-MMM-YYYY').toDate()
         console.log('selected min Date:', selectedMinDate);
         var startDateObj = new Date();
         console.log('type of:', typeof selectedMinDate)
@@ -57,7 +51,7 @@ export default class PersonalLeaveDatePicker extends Component {
 
         //Setting up maxDateObj
         console.log('\n\n moment date:', moment(this.props.maximumDate, 'DD-MMM-YYYY').toDate())
-        var selectedMaxDate = this.props.maximumDate.length == 0 ? moment('31-DEC-2030', 'DD-MMM-YYYY').toDate() : moment(this.props.maximumDate, 'DD-MMM-YYYY').toDate()
+        var selectedMaxDate = this?.props?.maximumDate?.length == 0 ? moment('31-DEC-2030', 'DD-MMM-YYYY').toDate() : moment(this.props.maximumDate, 'DD-MMM-YYYY').toDate()
         console.log('selected max Date:', selectedMaxDate);
         var endDateObj = new Date();
         console.log('type of:', typeof selectedMaxDate)
@@ -71,7 +65,7 @@ export default class PersonalLeaveDatePicker extends Component {
 
         //Setting up initialDateObj
         console.log('\n\n moment date:', moment(this.props.initialDate, 'DD-MMM-YYYY').toDate())
-        var selectedInitialDate = this.props.initialDate.length == 0 ? moment().toDate() : moment(this.props.initialDate, 'DD-MMM-YYYY').toDate()
+        var selectedInitialDate = this?.props?.initialDate?.length == 0 ? moment().toDate() : moment(this.props.initialDate, 'DD-MMM-YYYY').toDate()
         console.log('selected initial Date:', selectedInitialDate);
         var initialDateObj = new Date();
         console.log('type of:', typeof selectedInitialDate)
@@ -102,14 +96,13 @@ export default class PersonalLeaveDatePicker extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <Text style={styles.heading}>{this.props.heading}</Text>
-                <TouchableOpacity onPress={this.showDateTimePicker}>
+                <TouchableOpacity onPress={this.showDateTimePicker} style={styles.touchContainer} activeOpacity={0.8}>
                     <View style={[styles.inputContainer, { borderColor: this.props.error ? "red" : "#BDBDBD" }]}>
                         <Image
                             source={require("../assets/img/date.png")}
-                            style={{ width: 20, height: 20, marginRight: 14 }}
+                            style={{ width: 20, height: 20, marginRight: 4, tintColor: "#999" }}
                         />
-                        <Text style={this.initialDate != '' ? this.props.clear ? styles.input : styles.inputBlack : styles.input}>
+                        <Text style={this.initialDate === '' ? styles.input : styles.inputBlack}>
                             {this.initialDate != ''
                                 ? this.props.clear ? this.props.heading : this.initialDate
                                 : this.props.clear ? this.props.heading : this.props.placeholderText
@@ -152,18 +145,18 @@ const styles = StyleSheet.create({
         fontSize: 12,
         fontFamily: 'STCForward-Regular',
     },
+    touchContainer: {
+        elevation: 9,
+        shadowColor: "#999",
+        backgroundColor: "#fff",
+        borderRadius: 9,
+    },
     inputContainer: {
-        marginTop: 5,
-        marginHorizontal: 0,
-        marginBottom: 0,
-        width: windowWidth / 2 - 30,
-        borderWidth: 1, height: 55,
-        borderColor: "#BDBDBD",
-        borderRadius: 3,
+        width: "100%",
+        height: 50,
         flexDirection: 'row',
         alignItems: 'center',
-        backgroundColor: '#f0f0f0',
-        paddingHorizontal: 16
+        paddingHorizontal: 16,
     },
     inputContainerBig: {
         marginTop: 5,
@@ -194,14 +187,14 @@ const styles = StyleSheet.create({
     input: {
         padding: 10,
         flex: 1,
-        fontSize: 12,
+        fontSize: 14,
         fontFamily: 'STCForward-Regular',
         color: '#999999',
     },
     inputBlack: {
         padding: 10,
         flex: 1,
-        fontSize: 12,
+        fontSize: 14,
         fontFamily: 'STCForward-Regular',
         color: '#000',
     },
