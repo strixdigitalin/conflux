@@ -38,7 +38,8 @@ const menuItems = [
     image: require('../../assets/img/exit.png'),
     name: 'Leave',
     bgColor: '#7659F1',
-    pageName: '',
+    // pageName: 'ApplyLeavesScreen',
+    pageName: 'LeavesScreen',
   },
   {
     image: require('../../assets/img/certificate.png'),

@@ -31,8 +31,6 @@ export default function LoginScreen({navigation}) {
   const [phone, setMobile] = React.useState('');
   const [companyID, setCompanyID] = React.useState('');
 
-
-
   const handleLogin = () => {
     if (phone.length === 0) {
       setMobileError(true);
@@ -99,7 +97,7 @@ export default function LoginScreen({navigation}) {
           <CustomTextInput
             placeholder="Enter Company ID"
             value={companyID}
-            secureTextEntry={true}
+            // secureTextEntry={true}
             icon={require('../../assets/img/lock.png')}
             onChange={val => {
               setCompanyID(val);
