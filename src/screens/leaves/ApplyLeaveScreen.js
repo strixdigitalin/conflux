@@ -1,23 +1,23 @@
-import {View, Text} from 'react-native';
+import { View, Text } from 'react-native';
 import React from 'react';
 import LeavesHeader from './LeavesHeader';
-import {commonStyles} from '../../utils/styles';
-import {StyleSheet} from 'react-native';
-import {ScrollView} from 'react-native';
-import {TouchableOpacity} from 'react-native';
+import { commonStyles } from '../../utils/styles';
+import { StyleSheet } from 'react-native';
+import { ScrollView } from 'react-native';
+import { TouchableOpacity } from 'react-native';
 import PersonalLeaveDatePicker from '../../components/CustomDatePicker';
-import {TextInput} from 'react-native';
-import {TouchableHighlight} from 'react-native';
-import {applyLeave} from '../../utils/API';
-import {useSelector} from 'react-redux';
+import { TextInput } from 'react-native';
+import { TouchableHighlight } from 'react-native';
+import { applyLeave } from '../../utils/API';
+import { useSelector } from 'react-redux';
 import moment from 'moment/moment';
-import {Alert} from 'react-native';
+import { Alert } from 'react-native';
 
-export default function ApplyLeavesScreen({navigation}) {
+export default function ApplyLeavesScreen({ navigation }) {
   const [shift, setShift] = React.useState('Full-Day');
   const [startDate, setStartDate] = React.useState(null);
   const [reason, setReason] = React.useState(null);
-  const {userData} = useSelector(state => state.User);
+  const { userData } = useSelector(state => state.User);
 
   const [labelUp, setLabelUp] = React.useState(false);
 
@@ -72,9 +72,9 @@ export default function ApplyLeavesScreen({navigation}) {
       <LeavesHeader />
 
       <ScrollView
-        style={{width: '100%', height: '100%', backgroundColor: '#fff'}}>
-        <View style={{alignItems: 'center', marginTop: 22}}>
-          <Text style={{...commonStyles.fs14_400, color: '#0073FF'}}>
+        style={{ width: '100%', height: '100%', backgroundColor: '#fff' }}>
+        <View style={{ alignItems: 'center', marginTop: 22 }}>
+          <Text style={{ ...commonStyles.fs14_400, color: '#0073FF' }}>
             Leaves Available
           </Text>
         </View>
@@ -102,7 +102,7 @@ export default function ApplyLeavesScreen({navigation}) {
           />
         </View>
 
-        <View style={{paddingHorizontal: 16}}>
+        <View style={{ paddingHorizontal: 16 }}>
           <View style={styles.tabContainer}>
             {['Full Day', 'Half Day', 'Above a Day'].map((item, index) => {
               return (
@@ -129,7 +129,7 @@ export default function ApplyLeavesScreen({navigation}) {
           </View>
         </View>
 
-        <View style={{padding: 16, marginTop: 12}}>
+        <View style={{ padding: 16, marginTop: 12 }}>
           <PersonalLeaveDatePicker
             placeholderText="Start Date"
             minimumDate="24-Dec-1900"
@@ -143,10 +143,10 @@ export default function ApplyLeavesScreen({navigation}) {
             }}
           />
 
-          <View style={{marginTop: 16}}>
+          <View style={{ marginTop: 16 }}>
             {renderFullNameLabel()}
             <View
-              style={{borderWidth: 1, borderColor: '#999', borderRadius: 10}}>
+              style={{ borderWidth: 1, borderColor: '#999', borderRadius: 10 }}>
               <TextInput
                 value={reason}
                 onChangeText={text => {
@@ -170,30 +170,30 @@ export default function ApplyLeavesScreen({navigation}) {
           <Text />
 
           <TouchableHighlight
-            style={{...styles.applyBtn, width: '50%', borderRadius: 50}}
+            style={{ ...styles.applyBtn, width: '50%', borderRadius: 50 }}
             underlayColor="#0073FF"
             onPress={() => {
               SubmitForApply();
               //   navigation.navigate('ApplyLeavesScreen');
             }}>
-            <Text style={{...commonStyles.fs16_400, color: '#fff'}}>
+            <Text style={{ ...commonStyles.fs16_400, color: '#fff' }}>
               Submit Request
             </Text>
           </TouchableHighlight>
         </View>
 
-        <View style={{height: 70}} />
+        <View style={{ height: 70 }} />
       </ScrollView>
     </View>
   );
 }
 
-const RenderLeaveCount = ({count, title, bgColor, color}) => {
+const RenderLeaveCount = ({ count, title, bgColor, color }) => {
   return (
-    <View style={{...styles.leaveCount, backgroundColor: bgColor}}>
-      <Text style={{...commonStyles.fs26_700, color: color}}>{count}</Text>
+    <View style={{ ...styles.leaveCount, backgroundColor: bgColor }}>
+      <Text style={{ ...commonStyles.fs26_700, color: color }}>{count}</Text>
       <Text
-        style={{...commonStyles.fs14_500, textAlign: 'center', color: color}}>
+        style={{ ...commonStyles.fs14_500, textAlign: 'center', color: color }}>
         {title}
       </Text>
     </View>

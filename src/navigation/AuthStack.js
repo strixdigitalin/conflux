@@ -11,6 +11,7 @@ import ApplyLeavesScreen from "../screens/leaves/ApplyLeaveScreen";
 import GoToLoginPageScreen from '../screens/auth/GoToLoginPageScreen';
 import ForgotPasswordScreen from '../screens/auth/ForgotPasswordScreen';
 import HomeScreen from '../screens/dashboard/HomeScreen';
+import CalendarScreen from '../screens/calendar/CalendarScreen';
 
 const Stack = createStackNavigator();
 
@@ -22,7 +23,7 @@ export default function AuthStack() {
         <>
             <Stack.Navigator
                 screenOptions={screenOptions}
-                initialRouteName={'GoToLoginPageScreen'}>
+                initialRouteName={'CalendarScreen'}>
                 <Stack.Screen
                     name="GoToLoginPageScreen"
                     component={GoToLoginPageScreen}
@@ -39,6 +40,7 @@ export default function AuthStack() {
                 <Stack.Screen name="ProfileScreen" component={ProfileScreen} />
                 <Stack.Screen name="LeavesScreen" component={LeavesScreen} />
                 <Stack.Screen name="ApplyLeavesScreen" component={ApplyLeavesScreen} />
+                <Stack.Screen name="CalendarScreen" component={CalendarScreen} />
             </Stack.Navigator>
         </>
     );
