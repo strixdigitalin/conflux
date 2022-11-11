@@ -70,3 +70,107 @@ export const matchOTPPostRequest = async (phone, otpVal, successCallBack) => {
     successCallBack(null);
   }
 };
+
+export const applyLeave = async (payload, successCallBack) => {
+  const {staffid, type, start_date, end_date, reason} = payload;
+  var myHeaders = new Headers();
+  myHeaders.append('X-api-key', 'xDC7BEzNo44zu1Nk7GlE564V2jlsjnsf2RrO2ErD');
+  myHeaders.append('Content-Type', 'application/json');
+
+  var raw = JSON.stringify({
+    endpoint: 'leave',
+    action: 'apply_leave',
+    product_code: 'JO',
+    params: {
+      staff_id: staffid, //326,
+      leave_type: type, //'Full Day',
+      start_date: start_date, //'2022-09-12',
+      end_date: end_date, //'2022-09-15',
+      reason: reason, //'Test Reason',
+    },
+  });
+
+  var requestOptions = {
+    method: 'POST',
+    headers: myHeaders,
+    body: raw,
+    redirect: 'follow',
+  };
+
+  fetch(
+    'https://gclfo3ljyh.execute-api.us-east-1.amazonaws.com/prod/confluxhr',
+    requestOptions,
+  )
+    .then(response => response.text())
+    .then(result => {
+      console.log(result, '<<<Result');
+      successCallBack(result);
+    })
+    .catch(error => console.log('error', error));
+};
+
+export const getAllLeaves = async (id, callBack) => {
+  var myHeaders = new Headers();
+  myHeaders.append('X-api-key', 'xDC7BEzNo44zu1Nk7GlE564V2jlsjnsf2RrO2ErD');
+  myHeaders.append('Content-Type', 'application/json');
+
+  var raw = JSON.stringify({
+    endpoint: 'leave',
+    action: 'get_leave',
+    product_code: 'JO',
+    params: {
+      staffid: id,
+    },
+  });
+
+  var requestOptions = {
+    method: 'POST',
+    headers: myHeaders,
+    body: raw,
+    redirect: 'follow',
+  };
+
+  fetch(
+    'https://gclfo3ljyh.execute-api.us-east-1.amazonaws.com/prod/confluxhr',
+    requestOptions,
+  )
+    .then(response => response.text())
+    .then(result => {
+      // console.log(result, '<<<<< get all leave result');
+      callBack(JSON.parse(result));
+    })
+    .catch(error => console.log('error', error));
+};
+
+export const getAttedance = async (id, callBack) => {
+  var myHeaders = new Headers();
+  myHeaders.append('X-api-key', 'xDC7BEzNo44zu1Nk7GlE564V2jlsjnsf2RrO2ErD');
+  myHeaders.append('Content-Type', 'application/json');
+
+  var raw = JSON.stringify({
+    endpoint: 'attendance',
+    action: 'get_attendance',
+    product_code: 'JO',
+    params: {
+      staffid: 152, //152
+    },
+  });
+
+  var requestOptions = {
+    method: 'POST',
+    headers: myHeaders,
+    body: raw,
+    redirect: 'follow',
+  };
+
+  fetch(
+    'https://gclfo3ljyh.execute-api.us-east-1.amazonaws.com/prod/confluxhr',
+    requestOptions,
+  )
+    .then(response => response.text())
+    .then(result => {
+      // console.log(result, '<<<<attandance result at api screen');
+      callBack(JSON.parse(result));
+    })
+    .catch(error => console.log('error', error));
+};

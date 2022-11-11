@@ -21,6 +21,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {USER_DETAIL} from '../../redux/reducer/AsyncConst';
 import {userProfile} from '../../services/profile';
 import {setUser} from '../../redux/reducer/user';
+import {TouchableOpacity} from 'react-native-gesture-handler';
 
 export default function EnterOTPScreen({navigation, route}) {
   const {phone} = route?.params;
@@ -38,16 +39,19 @@ export default function EnterOTPScreen({navigation, route}) {
         setLoading(false);
         console.log(
           '\n\n \n\n mobileLoginPostRequest response: ',
-          response.body[0].staffid,
+          response.body[0],
         );
         // return null;
-        userProfile(response.body[0].staffid,async res => {
+        userProfile(response.body[0].staffid, async res => {
           console.log(res, '\n\n<<<res at user profile apge');
           if (res.success == false) {
             Alert.alert('Unable to fetch profile data');
           } else {
-           await AsyncStorage.setItem('USER_DETAIL', JSON.stringify(res.data));
-            setUser(res.data);
+            await AsyncStorage.setItem(
+              'USER_DETAIL',
+              JSON.stringify({...res.data, staffid: response.body[0].staffid}),
+            );
+            setUser({...res.data, staffid: response.body[0].staffid});
             navigation.navigate('MenuScreen');
           }
         });
@@ -83,10 +87,15 @@ export default function EnterOTPScreen({navigation, route}) {
             value={otpVal}
             keyboardType={'number-pad'}
             autoCapitalize="none"
+            maxLength={6}
             icon={require('../../assets/img/otp.png')}
             onChange={val => {
-              setOTPInput(val);
+              // if (otpVal.length < 6) {
+              const cleanNumber = val.replace(/[^0-9]/g, '');
+
+              setOTPInput(cleanNumber);
               setOTPInputError(false);
+              // }
             }}
           />
           {otpValError ? (
@@ -99,6 +108,20 @@ export default function EnterOTPScreen({navigation, route}) {
           <View style={{height: 14}} />
 
           <Custom_Auth_Btn btnText={'Login'} onPress={handleOtpInput} />
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate('LoginScreen');
+            }}>
+            <Text
+              style={{
+                color: COLORS.darkLime,
+                width: '100%',
+                marginTop: 18,
+                textAlign: 'right',
+              }}>
+              Go to login
+            </Text>
+          </TouchableOpacity>
         </View>
         <View style={{width: '100%', height: 40}} />
 

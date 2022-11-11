@@ -7,7 +7,7 @@ export const userProfile = (id, callBack) => {
     action: 'my_profile',
     product_code: 'JO',
     params: {
-      staffid: '326',
+      staffid: id,
     },
   });
 

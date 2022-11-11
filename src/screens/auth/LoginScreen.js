@@ -31,18 +31,25 @@ export default function LoginScreen({navigation}) {
   const [phone, setMobile] = React.useState('');
   const [companyID, setCompanyID] = React.useState('');
 
-
-
   const handleLogin = () => {
     if (phone.length === 0) {
-      setMobileError(true);
+      return setMobileError(true);
+    }
+    if (phone.length < 10) {
+      // setMobileError(true);
+      return Alert.alert('Phone must be of 10 digit.');
     }
     if (companyID.length === 0) {
-      setCompanyIDError(true);
+      return setCompanyIDError(true);
     } else {
       setLoading(true);
       mobileLoginPostRequest(phone, companyID, async response => {
         setLoading(false);
+        if (response.statusCode != 200) {
+          return Alert.alert(
+            response.body.replace('RMN', 'registered mobile number'),
+          );
+        }
         console.log('\n\n \n\n mobileLoginPostRequest response: ', response);
         navigation.navigate('EnterOTPScreen', {
           phone: phone,
@@ -76,20 +83,21 @@ export default function LoginScreen({navigation}) {
         />
         <View style={{marginTop: '18%'}}>
           <CustomTextInput
-            placeholder="Mobile number"
+            placeholder="Enter mobile number"
             value={phone}
-            keyboardType={'number-pad'}
+            keyboardType={'numeric'}
             autoCapitalize="none"
             maxLength={10}
             icon={require('../../assets/img/mobile.png')}
             onChange={val => {
-              setMobile(val);
+              const cleanNumber = val.replace(/[^0-9]/g, '');
+              setMobile(cleanNumber);
               setMobileError(false);
             }}
           />
           {phoneError ? (
             <Text style={{...commonStyles.fs13_400, color: 'red'}}>
-              phone is required
+              Mobile number is required
             </Text>
           ) : (
             <></>
@@ -99,7 +107,9 @@ export default function LoginScreen({navigation}) {
           <CustomTextInput
             placeholder="Enter Company ID"
             value={companyID}
-            secureTextEntry={true}
+            maxLength={2}
+            // secureTextEntry={true}
+            autoCapitalize="characters"
             icon={require('../../assets/img/lock.png')}
             onChange={val => {
               setCompanyID(val);
