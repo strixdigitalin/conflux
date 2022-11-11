@@ -5,6 +5,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 const windowWidth = Dimensions.get("window").width;
 import moment from 'moment';
 import { commonStyles } from "../utils/styles";
+import { SIZES } from "../utils/theme";
 
 var today = new Date();
 var forSecondStart = 0;
@@ -96,7 +97,11 @@ export default class PersonalLeaveDatePicker extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <TouchableOpacity onPress={this.showDateTimePicker} style={styles.touchContainer} activeOpacity={0.8}>
+                <TouchableOpacity
+                    onPress={this.showDateTimePicker}
+                    style={{ ...styles.touchContainer, width: SIZES.width / 2.26 }}
+                    activeOpacity={0.8}
+                >
                     <View style={[styles.inputContainer, { borderColor: this.props.error ? "red" : "#BDBDBD" }]}>
                         <Image
                             source={require("../assets/img/date.png")}
@@ -138,12 +143,6 @@ const styles = StyleSheet.create({
     container: {
         marginBottom: 15,
         marginLeft: 0,
-    },
-    containerBig: {
-        marginTop: 0,
-        marginLeft: 0,
-        fontSize: 12,
-        fontFamily: 'STCForward-Regular',
     },
     touchContainer: {
         elevation: 9,

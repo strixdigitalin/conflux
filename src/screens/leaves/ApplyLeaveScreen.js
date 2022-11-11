@@ -15,7 +15,7 @@ import { Alert } from 'react-native';
 
 export default function ApplyLeavesScreen({ navigation }) {
   const [shift, setShift] = React.useState('Full-Day');
-  const [startDate, setStartDate] = React.useState(null);
+  const [startDate, setStartDate] = React.useState("");
   const [reason, setReason] = React.useState(null);
   const { userData } = useSelector(state => state.User);
 
@@ -130,18 +130,37 @@ export default function ApplyLeavesScreen({ navigation }) {
         </View>
 
         <View style={{ padding: 16, marginTop: 12 }}>
-          <PersonalLeaveDatePicker
-            placeholderText="Start Date"
-            minimumDate="24-Dec-1900"
-            maximumDate="24-Dec-2200"
-            initialDate={startDate}
-            isStart="yes"
-            onDateSelected={function (selectedStartDate) {
-              const checkDate = moment(selectedStartDate).format('YYYY-MM-DD');
-              console.log(checkDate, '<<<<this is checkDate');
-              setStartDate(`${checkDate}`);
-            }}
-          />
+          <View style={{ ...commonStyles.rowBetween }}>
+            <View style={{}}>
+              <PersonalLeaveDatePicker
+                placeholderText="Start Date"
+                minimumDate="24-Dec-1900"
+                maximumDate="24-Dec-2200"
+                initialDate={startDate}
+                isStart="yes"
+                onDateSelected={function (selectedStartDate) {
+                  const checkDate = moment(selectedStartDate).format('YYYY-MM-DD');
+                  console.log(checkDate, '<<<<this is checkDate');
+                  setStartDate(`${checkDate}`);
+                }}
+              />
+            </View>
+
+            <View style={{}}>
+              <PersonalLeaveDatePicker
+                placeholderText="Start Date"
+                minimumDate="24-Dec-1900"
+                maximumDate="24-Dec-2200"
+                initialDate={startDate}
+                isStart="yes"
+                onDateSelected={function (selectedStartDate) {
+                  const checkDate = moment(selectedStartDate).format('YYYY-MM-DD');
+                  console.log(checkDate, '<<<<this is checkDate');
+                  setStartDate(`${checkDate}`);
+                }}
+              />
+            </View>
+          </View>
 
           <View style={{ marginTop: 16 }}>
             {renderFullNameLabel()}
