@@ -1,29 +1,35 @@
-import { View, Text } from 'react-native';
+import {View, Text} from 'react-native';
 import React from 'react';
 import LeavesHeader from './LeavesHeader';
-import { commonStyles } from '../../utils/styles';
-import { StyleSheet } from 'react-native';
-import { ScrollView } from 'react-native';
-import { TouchableOpacity } from 'react-native';
+import {commonStyles} from '../../utils/styles';
+import {StyleSheet} from 'react-native';
+import {ScrollView} from 'react-native';
+import {TouchableOpacity} from 'react-native';
 import PersonalLeaveDatePicker from '../../components/CustomDatePicker';
-import { TextInput } from 'react-native';
-import { TouchableHighlight } from 'react-native';
-import { applyLeave } from '../../utils/API';
-import { useSelector } from 'react-redux';
+import {TextInput} from 'react-native';
+import {TouchableHighlight} from 'react-native';
+import {applyLeave} from '../../utils/API';
+import {useSelector} from 'react-redux';
 import moment from 'moment/moment';
-import { Alert } from 'react-native';
+import {Alert} from 'react-native';
 
-export default function ApplyLeavesScreen({ navigation }) {
-  const [shift, setShift] = React.useState('Full-Day');
-  const [startDate, setStartDate] = React.useState("");
+export default function ApplyLeavesScreen({navigation}) {
+  const [shift, setShift] = React.useState('Full Day');
+  const [startDate, setStartDate] = React.useState('');
+  const [endDate, setendDate] = React.useState('');
   const [reason, setReason] = React.useState(null);
-  const { userData } = useSelector(state => state.User);
+  const {userData} = useSelector(state => state.User);
 
   const [labelUp, setLabelUp] = React.useState(false);
 
   const SubmitForApply = () => {
-    if (startDate == null) return Alert.alert('Date is required!');
+    console.log(endDate, shift, '<<<this is dend date');
+    // return null;
+    if (startDate == '') return Alert.alert('Date is required!');
     if (reason == null) return Alert.alert('Reason is required!');
+    // if (reason == null) return Alert.alert('Reason is required!');
+    if (shift == 'Above a Day' && endDate == '')
+      return Alert.alert('Please select end date');
     console.log(
       userData.staffid,
       shift,
@@ -33,11 +39,12 @@ export default function ApplyLeavesScreen({ navigation }) {
 
       '<<<this is user data',
     );
+
     const payload = {
       staffid: userData.staffid,
       type: shift,
       start_date: startDate,
-      end_date: startDate,
+      end_date: endDate,
       reason: reason,
     };
     // return null;
@@ -72,9 +79,9 @@ export default function ApplyLeavesScreen({ navigation }) {
       <LeavesHeader />
 
       <ScrollView
-        style={{ width: '100%', height: '100%', backgroundColor: '#fff' }}>
-        <View style={{ alignItems: 'center', marginTop: 22 }}>
-          <Text style={{ ...commonStyles.fs14_400, color: '#0073FF' }}>
+        style={{width: '100%', height: '100%', backgroundColor: '#fff'}}>
+        <View style={{alignItems: 'center', marginTop: 22}}>
+          <Text style={{...commonStyles.fs14_400, color: '#0073FF'}}>
             Leaves Available
           </Text>
         </View>
@@ -102,7 +109,7 @@ export default function ApplyLeavesScreen({ navigation }) {
           />
         </View>
 
-        <View style={{ paddingHorizontal: 16 }}>
+        <View style={{paddingHorizontal: 16}}>
           <View style={styles.tabContainer}>
             {['Full Day', 'Half Day', 'Above a Day'].map((item, index) => {
               return (
@@ -129,18 +136,23 @@ export default function ApplyLeavesScreen({ navigation }) {
           </View>
         </View>
 
-        <View style={{ padding: 16, marginTop: 12 }}>
-          <View style={{ ...commonStyles.rowBetween }}>
+        <View style={{padding: 16, marginTop: 12}}>
+          <View style={{...commonStyles.rowBetween}}>
             <View style={{}}>
               <PersonalLeaveDatePicker
                 placeholderText="Start Date"
                 minimumDate="24-Dec-1900"
                 maximumDate="24-Dec-2200"
                 initialDate={startDate}
+                value={startDate}
                 isStart="yes"
                 onDateSelected={function (selectedStartDate) {
-                  const checkDate = moment(selectedStartDate).format('YYYY-MM-DD');
+                  const checkDate =
+                    moment(selectedStartDate).format('YYYY-MM-DD');
                   console.log(checkDate, '<<<<this is checkDate');
+                  if (shift != 'Above a Day') {
+                    setendDate(`${checkDate}`);
+                  }
                   setStartDate(`${checkDate}`);
                 }}
               />
@@ -148,24 +160,26 @@ export default function ApplyLeavesScreen({ navigation }) {
 
             <View style={{}}>
               <PersonalLeaveDatePicker
-                placeholderText="Start Date"
+                placeholderText="End Date"
                 minimumDate="24-Dec-1900"
                 maximumDate="24-Dec-2200"
                 initialDate={startDate}
+                value={endDate}
                 isStart="yes"
                 onDateSelected={function (selectedStartDate) {
-                  const checkDate = moment(selectedStartDate).format('YYYY-MM-DD');
+                  const checkDate =
+                    moment(selectedStartDate).format('YYYY-MM-DD');
                   console.log(checkDate, '<<<<this is checkDate');
-                  setStartDate(`${checkDate}`);
+                  setendDate(`${checkDate}`);
                 }}
               />
             </View>
           </View>
 
-          <View style={{ marginTop: 16 }}>
+          <View style={{marginTop: 16}}>
             {renderFullNameLabel()}
             <View
-              style={{ borderWidth: 1, borderColor: '#999', borderRadius: 10 }}>
+              style={{borderWidth: 1, borderColor: '#999', borderRadius: 10}}>
               <TextInput
                 value={reason}
                 onChangeText={text => {
@@ -189,30 +203,30 @@ export default function ApplyLeavesScreen({ navigation }) {
           <Text />
 
           <TouchableHighlight
-            style={{ ...styles.applyBtn, width: '50%', borderRadius: 50 }}
+            style={{...styles.applyBtn, width: '50%', borderRadius: 50}}
             underlayColor="#0073FF"
             onPress={() => {
               SubmitForApply();
               //   navigation.navigate('ApplyLeavesScreen');
             }}>
-            <Text style={{ ...commonStyles.fs16_400, color: '#fff' }}>
+            <Text style={{...commonStyles.fs16_400, color: '#fff'}}>
               Submit Request
             </Text>
           </TouchableHighlight>
         </View>
 
-        <View style={{ height: 70 }} />
+        <View style={{height: 70}} />
       </ScrollView>
     </View>
   );
 }
 
-const RenderLeaveCount = ({ count, title, bgColor, color }) => {
+const RenderLeaveCount = ({count, title, bgColor, color}) => {
   return (
-    <View style={{ ...styles.leaveCount, backgroundColor: bgColor }}>
-      <Text style={{ ...commonStyles.fs26_700, color: color }}>{count}</Text>
+    <View style={{...styles.leaveCount, backgroundColor: bgColor}}>
+      <Text style={{...commonStyles.fs26_700, color: color}}>{count}</Text>
       <Text
-        style={{ ...commonStyles.fs14_500, textAlign: 'center', color: color }}>
+        style={{...commonStyles.fs14_500, textAlign: 'center', color: color}}>
         {title}
       </Text>
     </View>
