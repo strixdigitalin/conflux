@@ -22,6 +22,7 @@ import {userProfile} from '../../services/profile';
 import {useEffect} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {USER_DETAIL} from '../../redux/reducer/AsyncConst';
+import {TextInput} from 'react-native';
 
 export default function LoginScreen({navigation}) {
   const [phoneError, setMobileError] = React.useState(false);
@@ -37,7 +38,11 @@ export default function LoginScreen({navigation}) {
     }
     if (phone.length < 10) {
       // setMobileError(true);
-      return Alert.alert('Phone must be of 10 digit.');
+      return Alert.alert('Enter 10 digit mobile number');
+    }
+    if (companyID.length < 1) {
+      // setMobileError(true);
+      return Alert.alert('Enter valid company ID');
     }
     if (companyID.length === 0) {
       return setCompanyIDError(true);
@@ -107,15 +112,17 @@ export default function LoginScreen({navigation}) {
           <CustomTextInput
             placeholder="Enter Company ID"
             value={companyID}
-            maxLength={2}
+            // maxLength={2}
             // secureTextEntry={true}
             autoCapitalize="characters"
             icon={require('../../assets/img/lock.png')}
             onChange={val => {
-              setCompanyID(val);
+              const upper = val.replace(' ', '');
+              setCompanyID(upper);
               setCompanyIDError(false);
             }}
           />
+          <TextInput autoCapitalize="characters" />
           {companyIDError ? (
             <Text style={{...commonStyles.fs13_400, color: 'red'}}>
               Company ID is required
