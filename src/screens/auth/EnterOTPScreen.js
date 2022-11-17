@@ -37,10 +37,10 @@ export default function EnterOTPScreen({navigation, route}) {
       setLoading(true);
       matchOTPPostRequest(phone, otpVal, async response => {
         setLoading(false);
-        console.log(
-          '\n\n \n\n mobileLoginPostRequest response: ',
-          response.body[0],
-        );
+        console.log('\n\n \n\n mobileLoginPostRequest response: ', response);
+        if (response.statusCode != 200) {
+          return Alert.alert(response.body);
+        }
         // return null;
         userProfile(response.body[0].staffid, async res => {
           console.log(res, '\n\n<<<res at user profile apge');

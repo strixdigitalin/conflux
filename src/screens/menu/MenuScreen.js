@@ -7,6 +7,7 @@ import {FlatList} from 'react-native';
 import {Image} from 'react-native';
 import {commonStyles} from '../../utils/styles';
 import {StyleSheet} from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const menuItems = [
   {
@@ -55,8 +56,8 @@ const menuItems = [
     pageName: '',
   },
   {
-    image: require('../../assets/img/attendance.png'),
-    name: 'Attendance',
+    image: require('../../assets/img/logout.png'),
+    name: 'Logout',
     bgColor: '#33AEF4',
     pageName: '',
   },
@@ -78,7 +79,11 @@ export default function MenuScreen({navigation}) {
           return (
             <View style={styles.menuItem}>
               <TouchableOpacity
-                onPress={() => {
+                onPress={async () => {
+                  if (item.name == 'Logout') {
+                    await AsyncStorage.removeItem('USER_DETAIL');
+                    navigation.navigate('GoToLoginPageScreen');
+                  }
                   //   Alert.alert('er');
                   navigation.navigate(item.pageName);
                 }}>

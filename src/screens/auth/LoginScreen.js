@@ -33,6 +33,10 @@ export default function LoginScreen({navigation}) {
   const [companyID, setCompanyID] = React.useState('');
 
   const handleLogin = () => {
+    if (phone.length === 0 && companyID.length < 1) {
+      setMobileError(true);
+      return setCompanyIDError(true);
+    }
     if (phone.length === 0) {
       return setMobileError(true);
     }
@@ -73,6 +77,7 @@ export default function LoginScreen({navigation}) {
         //         }
         //     }
         // }
+        
       });
     }
   };
@@ -122,7 +127,6 @@ export default function LoginScreen({navigation}) {
               setCompanyIDError(false);
             }}
           />
-          <TextInput autoCapitalize="characters" />
           {companyIDError ? (
             <Text style={{...commonStyles.fs13_400, color: 'red'}}>
               Company ID is required
