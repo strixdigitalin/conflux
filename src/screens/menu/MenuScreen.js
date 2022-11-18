@@ -56,8 +56,8 @@ const menuItems = [
     pageName: '',
   },
   {
-    image: require('../../assets/img/attendance.png'),
-    name: 'Attendance',
+    image: require('../../assets/img/logout.png'),
+    name: 'Logout',
     bgColor: '#33AEF4',
     pageName: '',
   },
@@ -71,7 +71,6 @@ export default function MenuScreen({ navigation }) {
 
       <LinearGradient
         colors={['#0249CD', '#D9EAF7', "#E7F3FF", '#E7F3FF']}
-      // style={{ height: 64, marginBottom: -15, paddingTop: 10, width: SIZES.width / 4, }}
       >
         <FlatList
           data={menuItems}

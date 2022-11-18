@@ -164,6 +164,9 @@ export default function CalendarScreen({navigation, route}) {
               theme={{todayTextColor: 'black'}}
               enableSwipeMonths={true}
               markedDates={dates}
+              onDayPress={day => {
+                console.log('selected day', day);
+              }}
             />
             <View
               style={{
@@ -236,7 +239,9 @@ export default function CalendarScreen({navigation, route}) {
                 data={attandance}
                 renderItem={({item, id}) => {
                   var bgColor = '#E8EBFB';
+
                   var d = moment(item.CALENDAR_DATE).format('DD');
+                  //
                   // return (
                   //   <View
                   //     style={[
@@ -270,6 +275,7 @@ export default function CalendarScreen({navigation, route}) {
                   //     </Text>
                   //   </View>
                   // );
+
                   return (
                     <EventCard
                       count={10}

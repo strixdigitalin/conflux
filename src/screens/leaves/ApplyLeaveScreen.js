@@ -35,8 +35,13 @@ export default function ApplyLeavesScreen({ navigation }) {
   const [selectedLength, setSelectedLength] = React.useState("");
 
   const SubmitForApply = () => {
-    if (startDate == null) return Alert.alert('Date is required!');
+    console.log(endDate, shift, '<<<this is dend date');
+    // return null;
+    if (startDate == '') return Alert.alert('Date is required!');
     if (reason == null) return Alert.alert('Reason is required!');
+    // if (reason == null) return Alert.alert('Reason is required!');
+    if (shift == 'Above a Day' && endDate == '')
+      return Alert.alert('Please select end date');
     console.log(
       userData.staffid,
       shift,
@@ -46,11 +51,12 @@ export default function ApplyLeavesScreen({ navigation }) {
 
       '<<<this is user data',
     );
+
     const payload = {
       staffid: userData.staffid,
       type: shift,
       start_date: startDate,
-      end_date: startDate,
+      end_date: endDate,
       reason: reason,
     };
     // return null;
@@ -169,8 +175,6 @@ export default function ApplyLeavesScreen({ navigation }) {
                 setEndData(`${checkDate}`);
               }}
             /> : <></>}
-
-            {/*  */}
 
             {shift === "Half Day" ? <View style={styles.selectedLength}>
               <Image

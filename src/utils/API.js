@@ -8,7 +8,7 @@ export const mobileLoginPostRequest = async (
   const body = {
     endpoint: 'auth',
     action: 'loginByOTP',
-    product_code: companyId,
+    product_code: companyId.toLocaleUpperCase(),
     params: {
       number: phone, // "8768407750"
     },

@@ -35,7 +35,7 @@ export default function CustomTextInput({
         onChangeText={onChange}
         keyboardType={keyboardType}
         maxLength={maxLength}
-        autoCapitalize={autoCapitalize}
+        autoCapitalize={'characters'}
         defaultValue={value}
         style={{
           width: '100%',

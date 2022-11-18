@@ -27,9 +27,10 @@ export const userProfile = (id, callBack) => {
       console.log(result);
       const result = JSON.parse(res);
       if (result.statusCode == 200) {
+        console.log(result, '<<<<result at api');
         callBack({success: true, data: result.body});
       } else {
-        callBack({success: false});
+        callBack({success: false, data: result.body});
       }
     })
     .catch(error => console.log('error', error));
