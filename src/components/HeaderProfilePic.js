@@ -5,7 +5,7 @@ import { TouchableHighlight } from 'react-native';
 import { Image } from 'react-native';
 import { useState } from 'react';
 
-export function HeaderProfilePic() {
+export function HeaderProfilePic({navigation}) {
     const [profileModalVisible, setProfileModalVisible] = useState(false);
 
     return (
@@ -18,6 +18,7 @@ export function HeaderProfilePic() {
             </TouchableHighlight>
 
             <ProfileModal
+            navigation={navigation}
                 modalVisible={profileModalVisible}
                 callback={() => setProfileModalVisible(!profileModalVisible)}
             />

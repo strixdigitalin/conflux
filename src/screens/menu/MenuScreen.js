@@ -1,13 +1,14 @@
-import { View, Text, TouchableOpacity, Alert } from 'react-native';
+import {View, Text, TouchableOpacity, Alert} from 'react-native';
 import React from 'react';
-import { StatusBar } from 'react-native';
-import { COLORS, SIZES } from '../../utils/theme';
+import {StatusBar} from 'react-native';
+import {COLORS, SIZES} from '../../utils/theme';
 import MenuHeader from './MenuHeader';
-import { FlatList } from 'react-native';
-import { Image } from 'react-native';
-import { commonStyles } from '../../utils/styles';
-import { StyleSheet } from 'react-native';
+import {FlatList} from 'react-native';
+import {Image} from 'react-native';
+import {commonStyles} from '../../utils/styles';
+import {StyleSheet} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const menuItems = [
   {
@@ -63,35 +64,42 @@ const menuItems = [
   },
 ];
 
-export default function MenuScreen({ navigation }) {
+export default function MenuScreen({navigation}) {
   return (
-    <View style={{ backgroundColor: '#fff', width: '100%', height: '100%' }}>
+    <View style={{backgroundColor: '#fff', width: '100%', height: '100%'}}>
       <StatusBar barStyle="light-content" backgroundColor="#0249CD" />
       <MenuHeader navigation={navigation} />
 
-      <LinearGradient
-        colors={['#0249CD', '#D9EAF7', "#E7F3FF", '#E7F3FF']}
-      >
+      <LinearGradient colors={['#0249CD', '#D9EAF7', '#E7F3FF', '#E7F3FF']}>
         <FlatList
           data={menuItems}
           numColumns={2}
-          style={{ marginVertical: 14 }}
-          columnWrapperStyle={{ justifyContent: 'space-between' }}
-          contentContainerStyle={{ alignItems: 'center' }}
-          renderItem={({ item }) => {
+          style={{marginVertical: 14}}
+          columnWrapperStyle={{justifyContent: 'space-between'}}
+          contentContainerStyle={{alignItems: 'center'}}
+          renderItem={({item}) => {
             return (
               <View style={styles.menuItem}>
                 <TouchableOpacity
-                  onPress={() => {
+                  onPress={async () => {
                     //   Alert.alert('er');
+                    if (item.name == 'Logout') {
+                      await AsyncStorage.removeItem('USER_DETAIL');
+                      // navigation.navigate('GoToLoginPageScreen');
+                    }
+
                     navigation.navigate(item.pageName);
-                  }} style={{ alignItems: "center" }}>
+                  }}
+                  style={{alignItems: 'center'}}>
                   <View
-                    style={[styles.menuImage, { backgroundColor: item?.bgColor }]}>
+                    style={[
+                      styles.menuImage,
+                      {backgroundColor: item?.bgColor},
+                    ]}>
                     <Image
                       source={item?.image}
                       resizeMode="contain"
-                      style={{ width: 26, height: 26, tintColor: '#fff' }}
+                      style={{width: 26, height: 26, tintColor: '#fff'}}
                     />
                   </View>
 
@@ -108,9 +116,7 @@ export default function MenuScreen({ navigation }) {
               </View>
             );
           }}
-          ListFooterComponent={
-            <View style={{ height: 120 }} />
-          }
+          ListFooterComponent={<View style={{height: 120}} />}
         />
       </LinearGradient>
     </View>
