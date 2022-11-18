@@ -1,19 +1,20 @@
-import {View, Text} from 'react-native';
-import React from 'react';
-import {ImageBackground} from 'react-native';
-import {commonStyles} from '../../utils/styles';
-import {Image} from 'react-native';
-import {TouchableOpacity} from 'react-native-gesture-handler';
+import { View, Text, Modal } from 'react-native';
+import React, { useState } from 'react';
+import { ImageBackground } from 'react-native';
+import { commonStyles } from '../../utils/styles';
+import { Image } from 'react-native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import ProfileModal from './ProfileModal';
+import { TouchableHighlight } from 'react-native';
+import { HeaderProfilePic } from '../../components/HeaderProfilePic';
 
-export default function ProfileHeader({navigation, userData}) {
+export default function ProfileHeader({ navigation, userData }) {
   return (
     <ImageBackground
       source={
-        userData.em_image == null
-          ? require('../../assets/img/dashboard-1.png')
-          : userData.em_image
+        require('../../assets/img/dashboard-1.png')
       }
-      style={{width: '100%', height: 290, marginTop: -11}}>
+      style={{ width: '100%', height: 290, marginTop: -11 }}>
       <View
         style={{
           ...commonStyles.rowBetween,
@@ -27,22 +28,19 @@ export default function ProfileHeader({navigation, userData}) {
           }}>
           <Image
             source={require('../../assets/img/menu.png')}
-            style={{width: 28, height: 28, tintColor: '#fff'}}
+            style={{ width: 28, height: 28, tintColor: '#fff' }}
           />
         </TouchableOpacity>
-        <Image
-          source={require('../../assets/img/user-pic.png')}
-          style={{width: 35, height: 35}}
-        />
+        <HeaderProfilePic />
       </View>
 
-      <View style={{paddingHorizontal: 15, alignItems: 'center'}}>
+      <View style={{ paddingHorizontal: 15, alignItems: 'center' }}>
         <Image
           source={require('../../assets/img/user-pic.png')}
-          style={{width: 100, height: 100}}
+          style={{ width: 100, height: 100 }}
         />
-        <View style={{marginLeft: 12, alignItems: 'center'}}>
-          <Text style={{...commonStyles.fs24_500, color: '#fff'}}>
+        <View style={{ marginLeft: 12, alignItems: 'center' }}>
+          <Text style={{ ...commonStyles.fs24_500, color: '#fff' }}>
             {userData?.first_name} {userData?.last_name}
           </Text>
           <Text
@@ -53,7 +51,7 @@ export default function ProfileHeader({navigation, userData}) {
             }}>
             {userData?.designation_name}
           </Text>
-          <Text style={{...commonStyles.fs16_400, color: '#fff'}}>
+          <Text style={{ ...commonStyles.fs16_400, color: '#fff' }}>
             Emp ID - {userData?.em_id}
           </Text>
         </View>

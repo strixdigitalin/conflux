@@ -35,13 +35,6 @@ export default function AuthStack() {
           component={ForgotPasswordScreen}
         />
         <Stack.Screen name="EnterOTPScreen" component={EnterOTPScreen} />
-        <Stack.Screen name="HomeScreen" component={HomeScreen} />
-        <Stack.Screen name="MenuScreen" component={MenuScreen} />
-        <Stack.Screen name="PayslipScreen" component={PayslipScreen} />
-        <Stack.Screen name="ProfileScreen" component={ProfileScreen} />
-        <Stack.Screen name="LeavesScreen" component={LeavesScreen} />
-        <Stack.Screen name="ApplyLeavesScreen" component={ApplyLeavesScreen} />
-        <Stack.Screen name="CalendarScreen" component={CalendarScreen} />
       </Stack.Navigator>
     </>
   );

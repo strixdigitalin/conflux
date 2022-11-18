@@ -8,23 +8,23 @@ import {
   StyleSheet,
 } from 'react-native';
 import React from 'react';
-import {useDispatch, useSelector} from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Toast from 'react-native-simple-toast';
 
-import {commonStyles} from '../../utils/styles';
+import { commonStyles } from '../../utils/styles';
 import CustomTextInput from '../../components/CustomTextInput';
-import {matchOTPPostRequest} from '../../utils/API';
-import CustomLoader, {CustomPanel} from '../../components/CustomLoader';
-import {COLORS, SIZES} from '../../utils/theme';
+import { matchOTPPostRequest } from '../../utils/API';
+import CustomLoader, { CustomPanel } from '../../components/CustomLoader';
+import { COLORS, SIZES } from '../../utils/theme';
 import Custom_Auth_Btn from '../../components/Custom_Auth_Btn';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {USER_DETAIL} from '../../redux/reducer/AsyncConst';
-import {userProfile} from '../../services/profile';
-import {setUser} from '../../redux/reducer/user';
-import {TouchableOpacity} from 'react-native-gesture-handler';
+import { USER_DETAIL } from '../../redux/reducer/AsyncConst';
+import { userProfile } from '../../services/profile';
+import { setUser } from '../../redux/reducer/user';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
-export default function EnterOTPScreen({navigation, route}) {
-  const {phone} = route?.params;
+export default function EnterOTPScreen({ navigation, route }) {
+  const { phone } = route?.params;
   const [otpValError, setOTPInputError] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
 
@@ -49,10 +49,10 @@ export default function EnterOTPScreen({navigation, route}) {
           } else {
             await AsyncStorage.setItem(
               'USER_DETAIL',
-              JSON.stringify({...res.data, staffid: response.body[0].staffid}),
+              JSON.stringify({ ...res.data, staffid: response.body[0].staffid }),
             );
-            setUser({...res.data, staffid: response.body[0].staffid});
-            navigation.navigate('MenuScreen');
+            setUser({ ...res.data, staffid: response.body[0].staffid });
+            navigation.navigate('Root');
           }
         });
         // if (response.body === "successfully Sent and Updated") {
@@ -75,13 +75,13 @@ export default function EnterOTPScreen({navigation, route}) {
   return (
     <View>
       <StatusBar barStyle="dark-content" backgroundColor="#fff" />
-      <View style={{...styles.loginWrapper}}>
+      <View style={{ ...styles.loginWrapper }}>
         <Image
           source={require('../../assets/img/logo.png')}
           resizeMode="contain"
           style={[styles.logo]}
         />
-        <View style={{marginTop: '18%'}}>
+        <View style={{ marginTop: '18%' }}>
           <CustomTextInput
             placeholder="Enter OTP"
             value={otpVal}
@@ -99,13 +99,13 @@ export default function EnterOTPScreen({navigation, route}) {
             }}
           />
           {otpValError ? (
-            <Text style={{...commonStyles.fs13_400, color: 'red'}}>
+            <Text style={{ ...commonStyles.fs13_400, color: 'red' }}>
               Please enter OTP
             </Text>
           ) : (
             <></>
           )}
-          <View style={{height: 14}} />
+          <View style={{ height: 14 }} />
 
           <Custom_Auth_Btn btnText={'Login'} onPress={handleOtpInput} />
           <TouchableOpacity
@@ -123,7 +123,7 @@ export default function EnterOTPScreen({navigation, route}) {
             </Text>
           </TouchableOpacity>
         </View>
-        <View style={{width: '100%', height: 40}} />
+        <View style={{ width: '100%', height: 40 }} />
 
         <Image
           source={require('../../assets/img/login-bg.png')}

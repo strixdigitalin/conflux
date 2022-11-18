@@ -6,10 +6,8 @@ export const dropdownStyles = StyleSheet.create({
         paddingHorizontal: 4
     },
     dropdown: {
-        height: 30,
+        width: "100%",
         color: "#000",
-        borderBottomColor: 'gray',
-        borderBottomWidth: 1,
         paddingHorizontal: 8,
     },
     placeholderStyle: {
@@ -18,7 +16,7 @@ export const dropdownStyles = StyleSheet.create({
         marginLeft: -8
     },
     iconStyle: {
-        width: 24,
-        height: 24,
+        width: 0,
+        height: 0,
     },
 });

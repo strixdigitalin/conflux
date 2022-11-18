@@ -99,7 +99,7 @@ export default class PersonalLeaveDatePicker extends Component {
             <View style={styles.container}>
                 <TouchableOpacity
                     onPress={this.showDateTimePicker}
-                    style={{ ...styles.touchContainer, width: SIZES.width / 2.26 }}
+                    style={{ ...styles.touchContainer, width: this?.props?.pickerWidth ? this?.props?.pickerWidth : SIZES.width / 2.26 }}
                     activeOpacity={0.8}
                 >
                     <View style={[styles.inputContainer, { borderColor: this.props.error ? "red" : "#BDBDBD" }]}>

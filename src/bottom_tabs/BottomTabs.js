@@ -9,6 +9,7 @@ import HomeScreen from "../screens/dashboard/HomeScreen";
 import ProfileScreen from "../screens/profile/ProfileScreen";
 import LeaveScreen from "../screens/leave/LeaveScreen";
 import AttendanceScreen from "../screens/attendance/AttendanceScreen";
+import MenuScreen from "../screens/menu/MenuScreen";
 
 const Tab = createBottomTabNavigator();
 
@@ -32,7 +33,7 @@ const BottomTabs = () => {
         >
             <Tab.Screen
                 name="HomeTab"
-                component={HomeScreen}
+                component={MenuScreen}
                 options={{
                     headerShown: false,
                     tabBarIcon: ({ focused }) => {

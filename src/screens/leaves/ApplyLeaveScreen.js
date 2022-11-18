@@ -1,4 +1,4 @@
-import { View, Text } from 'react-native';
+import { View, Text, Image } from 'react-native';
 import React from 'react';
 import LeavesHeader from './LeavesHeader';
 import { commonStyles } from '../../utils/styles';
@@ -12,14 +12,27 @@ import { applyLeave } from '../../utils/API';
 import { useSelector } from 'react-redux';
 import moment from 'moment/moment';
 import { Alert } from 'react-native';
+import { SIZES } from '../../utils/theme';
+import { Dropdown } from 'react-native-element-dropdown'
+import { dropdownStyles } from '../../utils/dropdownStyles';
+
+const data = [
+  { label: '1 Hour', value: '1 Hour' },
+  { label: '2 Hour', value: '2 Hour' },
+  { label: '3 Hour', value: '3 Hour' },
+  { label: '4 Hour', value: '4 Hour' },
+  { label: '5 Hour', value: '5 Hour' },
+];
 
 export default function ApplyLeavesScreen({ navigation }) {
-  const [shift, setShift] = React.useState('Full-Day');
+  const [shift, setShift] = React.useState('Full Day');
   const [startDate, setStartDate] = React.useState("");
+  const [endDate, setEndData] = React.useState("");
   const [reason, setReason] = React.useState(null);
   const { userData } = useSelector(state => state.User);
 
   const [labelUp, setLabelUp] = React.useState(false);
+  const [selectedLength, setSelectedLength] = React.useState("");
 
   const SubmitForApply = () => {
     if (startDate == null) return Alert.alert('Date is required!');
@@ -107,6 +120,7 @@ export default function ApplyLeavesScreen({ navigation }) {
             {['Full Day', 'Half Day', 'Above a Day'].map((item, index) => {
               return (
                 <TouchableOpacity
+                  key={index}
                   style={[
                     styles.applyBtn,
                     {
@@ -131,35 +145,62 @@ export default function ApplyLeavesScreen({ navigation }) {
 
         <View style={{ padding: 16, marginTop: 12 }}>
           <View style={{ ...commonStyles.rowBetween }}>
-            <View style={{}}>
-              <PersonalLeaveDatePicker
-                placeholderText="Start Date"
-                minimumDate="24-Dec-1900"
-                maximumDate="24-Dec-2200"
-                initialDate={startDate}
-                isStart="yes"
-                onDateSelected={function (selectedStartDate) {
-                  const checkDate = moment(selectedStartDate).format('YYYY-MM-DD');
-                  console.log(checkDate, '<<<<this is checkDate');
-                  setStartDate(`${checkDate}`);
-                }}
-              />
-            </View>
+            <PersonalLeaveDatePicker
+              placeholderText="Start Date"
+              minimumDate="24-Dec-1900"
+              maximumDate="24-Dec-2200"
+              pickerWidth={shift === "Full Day" ? SIZES.width - 34 : SIZES.width / 2.26}
+              initialDate={startDate}
+              isStart="yes"
+              onDateSelected={function (val) {
+                const checkDate = moment(val).format('YYYY-MM-DD');
+                setStartDate(`${checkDate}`);
+              }}
+            />
 
-            <View style={{}}>
-              <PersonalLeaveDatePicker
-                placeholderText="Start Date"
-                minimumDate="24-Dec-1900"
-                maximumDate="24-Dec-2200"
-                initialDate={startDate}
-                isStart="yes"
-                onDateSelected={function (selectedStartDate) {
-                  const checkDate = moment(selectedStartDate).format('YYYY-MM-DD');
-                  console.log(checkDate, '<<<<this is checkDate');
-                  setStartDate(`${checkDate}`);
+            {shift === "Above a Day" ? <PersonalLeaveDatePicker
+              placeholderText="End Date"
+              minimumDate="24-Dec-1900"
+              maximumDate="24-Dec-2200"
+              initialDate={endDate}
+              isStart="yes"
+              onDateSelected={function (val) {
+                const checkDate = moment(val).format('YYYY-MM-DD');
+                setEndData(`${checkDate}`);
+              }}
+            /> : <></>}
+
+            {/*  */}
+
+            {shift === "Half Day" ? <View style={styles.selectedLength}>
+              <Image
+                source={require("../../assets/img/clock.png")}
+                style={{ width: 20, height: 20, marginRight: 12 }}
+              />
+              <Dropdown
+                style={[dropdownStyles.dropdown]}
+                placeholderStyle={dropdownStyles.placeholderStyle}
+                iconStyle={dropdownStyles.iconStyle}
+                data={data}
+                maxHeight={200}
+                placeholder={selectedLength.length !== 0 ? "" : 'Selected Length'}
+                value={selectedLength.length !== 0 ? "" : selectedLength}
+                renderItem={(item) => {
+                  return (
+                    <View style={{ width: "100%", height: 34, justifyContent: "center", alignItems: "center" }}>
+                      <Text style={{ fontSize: 14, color: "#555" }}>{item.label}</Text>
+                    </View>
+                  );
+                }}
+                onChange={item => {
+                  setSelectedLength(item.value);
                 }}
               />
-            </View>
+
+              {selectedLength.length !== 0 ? <View style={{ position: "absolute", top: 14, left: 52 }}>
+                <Text style={{ fontSize: 14, fontWeight: "500", color: "#555" }}>{selectedLength}</Text>
+              </View> : <></>}
+            </View> : <></>}
           </View>
 
           <View style={{ marginTop: 16 }}>
@@ -267,4 +308,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 8,
     fontSize: 14,
   },
+  selectedLength: {
+    ...commonStyles.rowStart, elevation: 9, marginTop: -16,
+    shadowColor: "#999", backgroundColor: "#fff", height: 50,
+    borderRadius: 9, width: SIZES.width / 2.26, paddingHorizontal: 16
+  }
 });

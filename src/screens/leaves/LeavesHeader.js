@@ -2,6 +2,7 @@ import { View, Text } from 'react-native'
 import React from 'react'
 import { commonStyles } from '../../utils/styles'
 import { Image } from 'react-native'
+import { HeaderProfilePic } from '../../components/HeaderProfilePic'
 
 export default function LeavesHeader() {
     return (
@@ -10,10 +11,11 @@ export default function LeavesHeader() {
                 source={require("../../assets/img/menu.png")}
                 style={{ width: 28, height: 28, tintColor: "#fff" }}
             />
-            <Image
+            <HeaderProfilePic />
+            {/* <Image
                 source={require("../../assets/img/user-pic.png")}
                 style={{ width: 35, height: 35 }}
-            />
+            /> */}
         </View>
     )
 }
