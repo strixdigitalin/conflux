@@ -10,6 +10,8 @@ import ProfileScreen from '../screens/profile/ProfileScreen';
 import LeavesScreen from '../screens/leaves/LeavesScreen';
 import ApplyLeavesScreen from '../screens/leaves/ApplyLeaveScreen';
 import CalendarScreen from '../screens/calendar/CalendarScreen';
+import EnterOTPScreen from '../screens/auth/EnterOTPScreen';
+import GoToLoginPageScreen from '../screens/auth/GoToLoginPageScreen';
 
 export default function AppStack() {
   const Stack = createStackNavigator();
@@ -29,6 +31,10 @@ export default function AppStack() {
         <Stack.Screen name="LeavesScreen" component={LeavesScreen} />
         <Stack.Screen name="ApplyLeavesScreen" component={ApplyLeavesScreen} />
         <Stack.Screen name="CalendarScreen" component={CalendarScreen} />
+        {/* <Stack.Screen
+          name="GoToLoginPageScreen"
+          component={GoToLoginPageScreen}
+        /> */}
       </Stack.Navigator>
     </>
   );

@@ -1,10 +1,10 @@
-import { View, Text, TouchableOpacity } from 'react-native';
+import {View, Text, TouchableOpacity} from 'react-native';
 import React from 'react';
-import { commonStyles } from '../../utils/styles';
-import { Image } from 'react-native';
-import { HeaderProfilePic } from '../../components/HeaderProfilePic';
+import {commonStyles} from '../../utils/styles';
+import {Image} from 'react-native';
+import {HeaderProfilePic} from '../../components/HeaderProfilePic';
 
-export default function MenuHeader({ navigation }) {
+export default function MenuHeader({navigation}) {
   return (
     <View
       style={{
@@ -16,14 +16,14 @@ export default function MenuHeader({ navigation }) {
       }}>
       <TouchableOpacity
         onPress={() => {
-          navigation.goBack();
+          // navigation.goBack();
         }}>
-        <Image
+        {/* <Image
           source={require('../../assets/img/left-arrow.png')}
-          style={{ width: 28, height: 28, tintColor: '#fff' }}
-        />
+          style={{width: 28, height: 28, tintColor: '#fff'}}
+        /> */}
       </TouchableOpacity>
-      <HeaderProfilePic navigation={navigation}/>
+      <HeaderProfilePic navigation={navigation} />
       {/* <Image
         source={require('../../assets/img/user-pic.png')}
         style={{ width: 35, height: 35 }}
