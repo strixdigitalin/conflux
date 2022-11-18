@@ -24,6 +24,8 @@ import { setUser } from '../../redux/reducer/user';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
 export default function EnterOTPScreen({ navigation, route }) {
+  const dispatch = useDispatch();
+
   const { phone } = route?.params;
   const [otpValError, setOTPInputError] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
@@ -51,7 +53,7 @@ export default function EnterOTPScreen({ navigation, route }) {
               'USER_DETAIL',
               JSON.stringify({ ...res.data, staffid: response.body[0].staffid }),
             );
-            setUser({ ...res.data, staffid: response.body[0].staffid });
+            dispatch(setUser({ ...res.data, staffid: response.body[0].staffid }));
             navigation.navigate('Root');
           }
         });
