@@ -23,7 +23,7 @@ export default function MenuHeader({ navigation }) {
           style={{ width: 28, height: 28, tintColor: '#fff' }}
         />
       </TouchableOpacity>
-      <HeaderProfilePic />
+      <HeaderProfilePic navigation={navigation}/>
       {/* <Image
         source={require('../../assets/img/user-pic.png')}
         style={{ width: 35, height: 35 }}
