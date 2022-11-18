@@ -84,8 +84,9 @@ export default function MenuScreen({navigation}) {
                   onPress={async () => {
                     //   Alert.alert('er');
                     if (item.name == 'Logout') {
+                      alert('logout');
                       await AsyncStorage.removeItem('USER_DETAIL');
-                      // navigation.navigate('GoToLoginPageScreen');
+                      navigation.navigate({name: 'GoToLoginPageScreen'});
                     }
 
                     navigation.navigate(item.pageName);
