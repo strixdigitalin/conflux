@@ -133,14 +133,16 @@ export default function MenuScreen({navigation}) {
 
 const styles = StyleSheet.create({
   menuItem: {
-    elevation: 6,
-    shadowColor: '#eee',
+    elevation: 15,
+    // shadowColor: '#C0C0C0',
+    shadowColor: '#000000',
     backgroundColor: 'rgba(256,256,256,1)',
     width: SIZES.width / 2.46,
     height: SIZES.width / 2.46,
     ...commonStyles.centerStyles,
     margin: 16,
     borderRadius: 6,
+    // opacity: 0.5,
   },
   menuImage: {
     width: 75,
