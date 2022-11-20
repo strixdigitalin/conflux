@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { TouchableHighlight } from 'react-native';
 import {
     Animated,
     FlatList,
@@ -37,7 +38,7 @@ export default function IntroScreen({ navigation }) {
         return (
             <View style={styles.card}>
                 <Image
-                    resizeMode={'contain'}
+                    resizeMode="stretch"
                     style={styles.image}
                     source={item.image}
                 />
@@ -46,12 +47,9 @@ export default function IntroScreen({ navigation }) {
     };
 
     const completeAppIntro = async () => {
-        console.log("Entering the completeAppIntro: ")
         Auth.setIntro('true')
             .then(() => {
-                console.log("Successfully saved data of intro screen: ")
-                navigation.navigate('RegisterLoginScreen');
-                // navigation.navigate('RazorpayCheckout');
+                navigation.navigate('GoToLoginPageScreen');
             })
             .catch((error) => {
                 console.log("Error in saving intro screen data: ", error);
@@ -67,83 +65,76 @@ export default function IntroScreen({ navigation }) {
                 animated: true,
             });
         }
-        if (index > 2) {
+        if (index > 3) {
             completeAppIntro();
         }
     };
 
     const itemWidth = SIZES.width;
 
-    function renderDots() {
-        return (
-            <View style={{ alignItems: 'center' }}>
-                <View style={styles.dotsContainer}>
-                    {sliders.map((item, index) => {
-                        return (
-                            <TouchableOpacity
-                                onPress={() => {
-                                    const actualIndex =
-                                        currentIndex > 0 ? currentIndex - 1 : currentIndex;
-                                    changeSliderIndex(actualIndex);
-                                }}
-                                key={`dot-${index}`}
-                                style={{
-                                    justifyContent: 'center',
-                                    alignItems: 'center',
-                                    width: 16,
-                                    height: 16,
-                                    marginHorizontal: 5,
-                                    borderWidth: currentIndex === index ? 1 : 0,
-                                    borderColor: COLORS.pink,
-                                    borderRadius: 100,
-                                }}>
-                                <Animated.View
-                                    style={[
-                                        styles.dot,
-                                        { width: 9, height: 9, backgroundColor: COLORS.pink },
-                                    ]}
-                                />
-                            </TouchableOpacity>
-                        );
-                    })}
-                </View>
-            </View>
-        );
-    }
-
     const renderSkipAndNextBtn = () => {
-        return (
-            <View style={{ ...commonStyles.centerStyles, width: '100%' }}>
-                <TouchableOpacity onPress={completeAppIntro}>
-                    <Text style={styles.skipBtnText}>{'Skip'}</Text>
-                </TouchableOpacity>
+        if (currentIndex === 3) { return (<></>) } else {
+            return (
+                <View style={{ position: "absolute", bottom: 34, right: 22 }}>
+                    <TouchableOpacity
+                        style={styles.nextBtn}
+                        onPress={() => {
+                            const actualIndex = currentIndex + 1;
+                            changeSliderIndex(actualIndex);
+                        }}>
+                        <Image
+                            source={require("../assets/img/c-next.png")}
+                            style={{ width: 22, height: 22, tintColor: "#256EFA" }}
+                        />
+                    </TouchableOpacity>
+                </View>
+            );
+        }
+    };
 
-                <TouchableOpacity
-                    style={styles.nextBtn}
-                    onPress={() => {
-                        const actualIndex = currentIndex + 1;
-                        changeSliderIndex(actualIndex);
-                    }}>
-                    <Image
-                        source={require("../assets/img/c-next.png")}
-                        style={{ width: 25, height: 25 }}
-                    />
-                </TouchableOpacity>
-            </View>
-        );
+    const renderSkipAndPrevBtn = () => {
+        if (currentIndex === 0 || currentIndex === 3) { return (<></>) } else {
+            return (
+                <View style={{ position: "absolute", bottom: 34, left: 22 }}>
+                    <TouchableOpacity
+                        style={styles.nextBtn}
+                        onPress={() => {
+                            const actualIndex = currentIndex - 1;
+                            changeSliderIndex(actualIndex);
+                        }}>
+                        <Image
+                            source={require("../assets/img/c-back.png")}
+                            style={{ width: 22, height: 22, tintColor: "#256EFA" }}
+                        />
+                    </TouchableOpacity>
+                </View>
+            );
+        }
+    };
+
+    const renderGetStartedBtn = () => {
+        if (currentIndex === 3) {
+            return (
+                <View style={{ position: "absolute", bottom: 34, alignSelf: "center" }}>
+                    <TouchableHighlight
+                        style={{
+                            width: SIZES.width / 1.3, height: 48, backgroundColor: "#256EFA", borderRadius: 50,
+                            ...commonStyles.centerStyles,
+                        }}
+                        onPress={() => {
+                            completeAppIntro()
+                        }}>
+                        <Text style={{ ...commonStyles.fs18_500, color: "#fff" }}>Get Started</Text>
+                    </TouchableHighlight>
+                </View>
+            );
+        }
     };
 
     return (
         <>
             <StatusBar backgroundColor="#fff" barStyle="dark-content" />
-            <View
-                style={{
-                    paddingTop: '18%',
-                    justifyContent: 'space-between',
-                    height: '100%',
-                    alignItems: 'center',
-                    backgroundColor: "#fff"
-                }}>
+            <View style={{ height: SIZES.height }}>
                 <FlatList
                     ref={slider}
                     getItemLayout={(data, index) => ({
@@ -155,82 +146,32 @@ export default function IntroScreen({ navigation }) {
                     horizontal={true}
                     data={sliders}
                     renderItem={SliderItem}
-                    scrollEnabled={false}
+                    scrollEnabled={true}
                     decelerationRate="fast"
                     bounces={false}
                     showsHorizontalScrollIndicator={false}
                     keyExtractor={(item, index) => index}
+                    disableIntervalMomentum
                 />
-                <View
-                    style={{
-                        flexDirection: 'row',
-                        position: 'absolute',
-                        left: 10,
-                        right: 10,
-                        bottom: "4%",
-                        ...commonStyles.centerStyles,
-                        backgroundColor: "#fff"
-                    }}>
-                    <View style={{ ...styles.introDetailStyle }}>
-                        {renderDots()}
-                        {renderTextAndInfo(currentIndex)}
-                        {renderSkipAndNextBtn()}
-                    </View>
-                </View>
+                {renderSkipAndNextBtn()}
+                {renderSkipAndPrevBtn()}
+                {renderGetStartedBtn()}
             </View>
         </>
     );
 }
 
-const renderTextAndInfo = currentIndex => {
-    if (currentIndex === 0) {
-        return (
-            <View style={{}}>
-                <Text style={styles.title}>Lorem Ipsum 1</Text>
-                <View style={{ marginVertical: 8 }}>
-                    <Text style={styles.description}>
-                        Thousand of people are using vacyss \n' + 'for great look
-                    </Text>
-                </View>
-            </View>
-        );
-    } else if (currentIndex === 1) {
-        return (
-            <View style={{}}>
-                <Text style={styles.title}>Lorem Ipsum 2</Text>
-                <View style={{ marginVertical: 8 }}>
-                    <Text style={styles.description}>
-                        Thousand of people are using vacyss for creating bodyShape
-                    </Text>
-                </View>
-            </View>
-        );
-    } else if (currentIndex === 2) {
-        return (
-            <View style={{}}>
-                <Text style={styles.title}>Lorem Ipsum 3</Text>
-                <View style={{ marginVertical: 8 }}>
-                    <Text style={styles.description}>
-                        Thousand of people are using vacyss for share looks
-                    </Text>
-                </View>
-            </View>
-        );
-    }
-};
-
 const styles = StyleSheet.create({
     card: {
         width: SIZES.width,
-        height: '65%',
+        height: SIZES.height,
         justifyContent: 'center',
         alignItems: 'center',
     },
     image: {
-        width: 250,
-        height: 350,
+        width: SIZES.width,
+        height: SIZES.height,
         alignSelf: "center",
-        tintColor: COLORS.pink
     },
     title: {
         fontSize: 18,
@@ -272,9 +213,9 @@ const styles = StyleSheet.create({
         color: '#700CB3',
     },
     nextBtn: {
-        width: 40,
-        height: 40,
-        backgroundColor: COLORS.pink,
+        width: 50,
+        height: 50,
+        backgroundColor: "#fff",
         justifyContent: 'center',
         alignItems: 'center',
         borderRadius: 100,
