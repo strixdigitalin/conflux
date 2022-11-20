@@ -137,7 +137,7 @@ export default function CalendarScreen({navigation, route}) {
   return (
     <>
       {/* <NavBar navigation={navigation} title="My Calendar" /> */}
-      <PayslipHeader />
+      <PayslipHeader navigation={navigation} />
       <ScrollView>
         {loading ? (
           <CalendarLoader />

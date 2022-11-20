@@ -1,13 +1,13 @@
-import { View, Text } from 'react-native';
+import {View, Text} from 'react-native';
 import React from 'react';
-import { ImageBackground } from 'react-native';
-import { commonStyles } from '../../utils/styles';
-import { Image } from 'react-native';
-import { TouchableOpacity } from 'react-native-gesture-handler';
-import { useSelector } from 'react-redux';
-import { HeaderProfilePic } from '../../components/HeaderProfilePic';
+import {ImageBackground} from 'react-native';
+import {commonStyles} from '../../utils/styles';
+import {Image} from 'react-native';
+import {TouchableOpacity} from 'react-native-gesture-handler';
+import {useSelector} from 'react-redux';
+import {HeaderProfilePic} from '../../components/HeaderProfilePic';
 
-export default function HomeHeader({ navigation }) {
+export default function HomeHeader({navigation}) {
   const [showDate, setShowDate] = React.useState('');
   const calcdate = () => {
     const curr = new Date();
@@ -29,13 +29,13 @@ export default function HomeHeader({ navigation }) {
     setInterval(() => calcdate, 30000);
   }, []);
 
-  const { userData } = useSelector(state => state.User);
+  const {userData} = useSelector(state => state.User);
 
   console.log(userData, '<<<-----\n\nuserDataat home screen\n\n\n');
   return (
     <ImageBackground
       source={require('../../assets/img/dashboard-1.png')}
-      style={{ width: '100%', height: 180, marginTop: -10 }}>
+      style={{width: '100%', height: 180, marginTop: -10}}>
       <View
         style={{
           ...commonStyles.rowBetween,
@@ -44,11 +44,11 @@ export default function HomeHeader({ navigation }) {
         }}>
         <TouchableOpacity
           onPress={() => {
-            navigation.navigate('MenuScreen');
+            navigation.navigate('Root');
           }}>
           <Image
             source={require('../../assets/img/menu.png')}
-            style={{ width: 28, height: 28, tintColor: '#fff' }}
+            style={{width: 28, height: 28, tintColor: '#fff'}}
           />
         </TouchableOpacity>
         <HeaderProfilePic />
@@ -58,16 +58,16 @@ export default function HomeHeader({ navigation }) {
         /> */}
       </View>
 
-      <View style={{ ...commonStyles.rowStart, paddingHorizontal: 15 }}>
+      <View style={{...commonStyles.rowStart, paddingHorizontal: 15}}>
         <Image
           source={require('../../assets/img/user-pic.png')}
-          style={{ width: 70, height: 70 }}
+          style={{width: 70, height: 70}}
         />
-        <View style={{ marginLeft: 12 }}>
-          <Text style={{ ...commonStyles.fs24_500, color: '#fff' }}>
+        <View style={{marginLeft: 12}}>
+          <Text style={{...commonStyles.fs24_500, color: '#fff'}}>
             {userData.first_name} {userData.last_name}
           </Text>
-          <Text style={{ ...commonStyles.fs14_400, color: '#fff' }}>
+          <Text style={{...commonStyles.fs14_400, color: '#fff'}}>
             {/* 12/04/2022 12:46 PM */}
             {showDate}
           </Text>

@@ -9,6 +9,8 @@ import {commonStyles} from '../../utils/styles';
 import {StyleSheet} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {useDispatch} from 'react-redux';
+import {removeUser} from '../../redux/reducer/user';
 
 const menuItems = [
   {
@@ -21,7 +23,8 @@ const menuItems = [
     image: require('../../assets/img/user.png'),
     name: 'My Profile',
     bgColor: '#FE5A36',
-    pageName: 'ProfileScreen',
+    pageName: 'ProfileTab',
+    // pageName: 'ProfileScreen',
   },
   {
     image: require('../../assets/img/recruitment.png'),
@@ -33,8 +36,8 @@ const menuItems = [
     image: require('../../assets/img/attendance.png'),
     name: 'Attendance',
     bgColor: '#33AEF4',
-    pageName: 'CalendarScreen',
-    // pageName: 'PayslipScreen',
+    // pageName: 'CalendarScreen',
+    pageName: 'AttendanceScreen',
   },
 
   {
@@ -42,7 +45,8 @@ const menuItems = [
     name: 'Leave',
     bgColor: '#7659F1',
     // pageName: 'ApplyLeavesScreen',
-    pageName: 'LeavesScreen',
+    // pageName: 'LeavesScreen',
+    pageName: 'LeaveTab',
   },
   {
     image: require('../../assets/img/certificate.png'),
@@ -50,21 +54,22 @@ const menuItems = [
     bgColor: '#FDA000',
     pageName: '',
   },
-  {
-    image: require('../../assets/img/recruitment.png'),
-    name: 'Recruitment',
-    bgColor: '#FF1B1B',
-    pageName: '',
-  },
-  {
-    image: require('../../assets/img/logout.png'),
-    name: 'Logout',
-    bgColor: '#33AEF4',
-    pageName: '',
-  },
+  // {
+  //   image: require('../../assets/img/recruitment.png'),
+  //   name: 'Recruitment',
+  //   bgColor: '#FF1B1B',
+  //   pageName: '',
+  // },
+  // {
+  //   image: require('../../assets/img/logout.png'),
+  //   name: 'Logout',
+  //   bgColor: '#33AEF4',
+  //   pageName: '',
+  // },
 ];
 
 export default function MenuScreen({navigation}) {
+  const dispatch = useDispatch();
   return (
     <View style={{backgroundColor: '#fff', width: '100%', height: '100%'}}>
       <StatusBar barStyle="light-content" backgroundColor="#0249CD" />
@@ -84,7 +89,10 @@ export default function MenuScreen({navigation}) {
                   onPress={async () => {
                     //   Alert.alert('er');
                     if (item.name == 'Logout') {
+                      // alert('logout');
                       await AsyncStorage.removeItem('USER_DETAIL');
+                      // navigation.navigate('GoToLoginPageScreen');
+                      dispatch(removeUser());
                       // navigation.navigate('GoToLoginPageScreen');
                     }
 
@@ -125,14 +133,16 @@ export default function MenuScreen({navigation}) {
 
 const styles = StyleSheet.create({
   menuItem: {
-    elevation: 6,
-    shadowColor: '#eee',
+    elevation: 15,
+    // shadowColor: '#C0C0C0',
+    shadowColor: '#000000',
     backgroundColor: 'rgba(256,256,256,1)',
     width: SIZES.width / 2.46,
     height: SIZES.width / 2.46,
     ...commonStyles.centerStyles,
     margin: 16,
     borderRadius: 6,
+    // opacity: 0.5,
   },
   menuImage: {
     width: 75,

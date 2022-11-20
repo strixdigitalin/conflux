@@ -1,3 +1,4 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import React from 'react';
 import {
   Modal,
@@ -8,10 +9,13 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
+import {useDispatch} from 'react-redux';
+import {removeUser} from '../../redux/reducer/user';
 import {commonStyles} from '../../utils/styles';
 import {SIZES} from '../../utils/theme';
 
 const ProfileModal = ({modalVisible, callback, navigation}) => {
+  const dispatch = useDispatch();
   return (
     <View style={{alignItems: 'flex-start'}}>
       <Modal
@@ -31,13 +35,20 @@ const ProfileModal = ({modalVisible, callback, navigation}) => {
             <SubmitFeedbackbtn
               btnText="My Profile"
               onPress={() => {
-                navigation.navigation('ProfileScreen');
+                navigation.navigate('ProfileScreen');
               }}
             />
 
             <SubmitFeedbackbtn btnText="Change Password" onPress={() => {}} />
 
-            <SubmitFeedbackbtn btnText="Log Out" onPress={() => {}} />
+            <SubmitFeedbackbtn
+              btnText="Log Out"
+              onPress={async () => {
+                await AsyncStorage.removeItem('USER_DETAIL');
+                // navigation.navigate('GoToLoginPageScreen');
+                dispatch(removeUser());
+              }}
+            />
           </TouchableOpacity>
         </TouchableHighlight>
       </Modal>
