@@ -1,5 +1,5 @@
 import {View, Text, Image} from 'react-native';
-import React from 'react';
+import React, {useState} from 'react';
 import LeavesHeader from './LeavesHeader';
 import {commonStyles} from '../../utils/styles';
 import {StyleSheet} from 'react-native';
@@ -15,13 +15,14 @@ import {Alert} from 'react-native';
 import {SIZES} from '../../utils/theme';
 import {Dropdown} from 'react-native-element-dropdown';
 import {dropdownStyles} from '../../utils/dropdownStyles';
+import {ActivityIndicator} from 'react-native-paper';
 
 const data = [
-  {label: '1 Hour', value: '1 Hour'},
-  {label: '2 Hour', value: '2 Hour'},
-  {label: '3 Hour', value: '3 Hour'},
-  {label: '4 Hour', value: '4 Hour'},
-  {label: '5 Hour', value: '5 Hour'},
+  {label: 'First half', value: 'First half'},
+  {label: 'Second half', value: 'Secnod half'},
+  // {label: '3 Hour', value: '3 Hour'},
+  // {label: '4 Hour', value: '4 Hour'},
+  // {label: '5 Hour', value: '5 Hour'},
 ];
 
 export default function ApplyLeavesScreen({navigation}) {
@@ -30,18 +31,21 @@ export default function ApplyLeavesScreen({navigation}) {
   const [endDate, setEndData] = React.useState('');
   const [reason, setReason] = React.useState(null);
   const {userData} = useSelector(state => state.User);
-
+  const [showLoader, setShowLoader] = React.useState(false);
+  const [halfLength, setHalfLength] = useState(null);
   const [labelUp, setLabelUp] = React.useState(false);
   const [selectedLength, setSelectedLength] = React.useState('');
 
   const SubmitForApply = () => {
     console.log(endDate, shift, '<<<this is dend date');
     // return null;
-    if (startDate == '') return Alert.alert('Date is required!');
-    if (reason == null) return Alert.alert('Reason is required!');
+    if (startDate == '') return Alert.alert('Error', 'Date is required!');
+    if (reason == null) return Alert.alert('Error', 'Reason is required!');
     // if (reason == null) return Alert.alert('Reason is required!');
     if (shift == 'Above a Day' && endDate == '')
       return Alert.alert('Please select end date');
+    if (shift == 'Half Day' && halfLength == null)
+      return Alert.alert('Error', 'Please select Length ');
     console.log(
       userData.staffid,
       shift,
@@ -51,6 +55,7 @@ export default function ApplyLeavesScreen({navigation}) {
 
       '<<<this is user data',
     );
+    setShowLoader(true);
 
     const payload = {
       staffid: userData.staffid,
@@ -64,6 +69,8 @@ export default function ApplyLeavesScreen({navigation}) {
       const response = JSON.parse(res);
       console.log(res, '<<<at apply leave screen');
       Alert.alert(response.body);
+      setShowLoader(false);
+      navigation.navigate('LeavesScreen');
     });
   };
 
@@ -197,7 +204,8 @@ export default function ApplyLeavesScreen({navigation}) {
                   placeholder={
                     selectedLength.length !== 0 ? '' : 'Selected Length'
                   }
-                  value={selectedLength.length !== 0 ? '' : selectedLength}
+                  // value={selectedLength.length !== 0 ? '' : selectedLength}
+                  value={halfLength}
                   renderItem={item => {
                     return (
                       <View
@@ -214,15 +222,15 @@ export default function ApplyLeavesScreen({navigation}) {
                     );
                   }}
                   onChange={item => {
-                    setSelectedLength(item.value);
+                    setHalfLength(item.label);
                   }}
                 />
 
-                {selectedLength.length !== 0 ? (
+                {halfLength != null ? (
                   <View style={{position: 'absolute', top: 14, left: 52}}>
                     <Text
                       style={{fontSize: 14, fontWeight: '500', color: '#555'}}>
-                      {selectedLength}
+                      {halfLength}
                     </Text>
                   </View>
                 ) : (
@@ -261,17 +269,20 @@ export default function ApplyLeavesScreen({navigation}) {
           </View>
           <Text />
 
-          <TouchableHighlight
-            style={{...styles.applyBtn, width: '50%', borderRadius: 50}}
-            underlayColor="#0073FF"
-            onPress={() => {
-              SubmitForApply();
-              //   navigation.navigate('ApplyLeavesScreen');
-            }}>
-            <Text style={{...commonStyles.fs16_400, color: '#fff'}}>
-              Submit Request
-            </Text>
-          </TouchableHighlight>
+          {!showLoader && (
+            <TouchableHighlight
+              style={{...styles.applyBtn, width: '50%', borderRadius: 50}}
+              underlayColor="#0073FF"
+              onPress={() => {
+                SubmitForApply();
+                //   navigation.navigate('ApplyLeavesScreen');
+              }}>
+              <Text style={{...commonStyles.fs16_400, color: '#fff'}}>
+                Submit Request
+              </Text>
+            </TouchableHighlight>
+          )}
+          {showLoader && <ActivityIndicator />}
         </View>
 
         <View style={{height: 70}} />

@@ -6,18 +6,18 @@ import {
   Image,
   StyleSheet,
 } from 'react-native';
-import React, { useEffect } from 'react';
+import React, {useEffect} from 'react';
 
-import { commonStyles } from '../../utils/styles';
-import CustomLoader, { CustomPanel } from '../../components/CustomLoader';
-import { COLORS, SIZES } from '../../utils/theme';
+import {commonStyles} from '../../utils/styles';
+import CustomLoader, {CustomPanel} from '../../components/CustomLoader';
+import {COLORS, SIZES} from '../../utils/theme';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { USER_DETAIL } from '../../redux/reducer/AsyncConst';
-import { useFocusEffect, useIsFocused } from '@react-navigation/native';
-import { setUser } from '../../redux/reducer/user';
-import { useDispatch } from 'react-redux';
+import {USER_DETAIL} from '../../redux/reducer/AsyncConst';
+import {useFocusEffect, useIsFocused} from '@react-navigation/native';
+import {setUser} from '../../redux/reducer/user';
+import {useDispatch} from 'react-redux';
 
-export default function GoToLoginPageScreen({ navigation }) {
+export default function GoToLoginPageScreen({navigation}) {
   const onFocus = useIsFocused();
   const dispatch = useDispatch();
   useEffect(() => {
@@ -27,7 +27,7 @@ export default function GoToLoginPageScreen({ navigation }) {
       if (data != null) {
         dispatch(setUser(JSON.parse(data)));
         // setUser(data);
-        navigation.navigate('Root');
+        navigation.navigate('HomeScreen');
       }
     })();
   }, [onFocus]);
@@ -36,15 +36,15 @@ export default function GoToLoginPageScreen({ navigation }) {
       <StatusBar barStyle="dark-content" backgroundColor="#eee" />
       <Image
         source={require('../../assets/img/login-bg-2.png')}
-        style={{ width: '100%', height: '93%' }}
+        style={{width: '100%', height: '93%'}}
       />
-      <View style={{ ...styles.loginWrapper }}>
+      <View style={{...styles.loginWrapper}}>
         <Image
           source={require('../../assets/img/logo.png')}
           resizeMode="contain"
           style={[styles.logo]}
         />
-        <View style={{ marginTop: '18%', alignItems: 'center' }}>
+        <View style={{marginTop: '18%', alignItems: 'center'}}>
           <Text style={[styles.emailSent]}>
             An Email sent to Your Email Id. Please go through the link
           </Text>
@@ -58,7 +58,7 @@ export default function GoToLoginPageScreen({ navigation }) {
           </TouchableHighlight>
         </View>
 
-        <View style={{ width: '100%', height: 40 }} />
+        <View style={{width: '100%', height: 40}} />
 
         <Image
           source={require('../../assets/img/login-bg.png')}

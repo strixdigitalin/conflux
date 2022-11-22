@@ -22,7 +22,7 @@ export default function LeavesScreen({navigation}) {
 
   return (
     <View>
-      <LeavesHeader />
+      <LeavesHeader navigation={navigation} />
 
       <ScrollView style={{width: '100%', height: '100%'}}>
         <View style={{alignItems: 'center', marginTop: 22}}>

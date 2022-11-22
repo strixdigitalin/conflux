@@ -3,6 +3,7 @@ import React from 'react';
 import {commonStyles} from '../../utils/styles';
 import {Image} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
+import {HeaderProfilePic} from '../../components/HeaderProfilePic';
 
 export default function PayslipHeader({navigation}) {
   return (
@@ -24,10 +25,11 @@ export default function PayslipHeader({navigation}) {
         />
       </TouchableOpacity>
 
-      <Image
+      {/* <Image
         source={require('../../assets/img/user-pic.png')}
         style={{width: 35, height: 35}}
-      />
+      /> */}
+      <HeaderProfilePic navigation={navigation} />
     </View>
   );
 }

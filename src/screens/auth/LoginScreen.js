@@ -56,6 +56,7 @@ export default function LoginScreen({navigation}) {
         setLoading(false);
         if (response.statusCode != 200) {
           return Alert.alert(
+            'Error',
             response.body.replace('RMN', 'registered mobile number'),
           );
         }
@@ -77,7 +78,6 @@ export default function LoginScreen({navigation}) {
         //         }
         //     }
         // }
-        
       });
     }
   };
