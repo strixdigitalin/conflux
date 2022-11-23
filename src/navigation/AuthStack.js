@@ -1,5 +1,5 @@
 import React from 'react';
-import { createStackNavigator } from '@react-navigation/stack';
+import {createStackNavigator} from '@react-navigation/stack';
 
 import LoginScreen from '../screens/auth/LoginScreen';
 import EnterOTPScreen from '../screens/auth/EnterOTPScreen';
@@ -11,14 +11,14 @@ import Auth from '../services/Auth';
 const Stack = createStackNavigator();
 
 export default function AuthStack() {
-  const screenOptions = { headerShown: false };
+  const screenOptions = {headerShown: false};
 
   const [isFirstLaunch, setIsFirstLaunch] = React.useState(null);
   let routeName;
 
   React.useEffect(() => {
     Auth.getIntro().then(value => {
-      console.log("value: ", value)
+      console.log('value: ', value);
       if (value == null) {
         setIsFirstLaunch(true);
       } else {
@@ -29,18 +29,18 @@ export default function AuthStack() {
 
   if (isFirstLaunch === null) {
     return null;
-  } else if (isFirstLaunch.toString() === "true") {
+  } else if (isFirstLaunch.toString() === 'true') {
     routeName = 'IntroScreen';
   } else {
-    routeName = 'GoToLoginPageScreen';
+    // routeName = 'GoToLoginPageScreen';
+    routeName = 'IntroScreen';
   }
 
   return (
     <>
       <Stack.Navigator
         screenOptions={screenOptions}
-        initialRouteName={routeName}
-      >
+        initialRouteName={routeName}>
         <Stack.Screen name="IntroScreen" component={IntroScreen} />
         <Stack.Screen
           name="GoToLoginPageScreen"

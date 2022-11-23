@@ -103,9 +103,11 @@ const BottomTabs = () => {
 const BuildTabComponent = ({image, text, focused, center}) => {
   return (
     <LinearGradient
-      colors={focused ? ['#E27127', '#EDAA26'] : ['#fff', '#fff']}
+      // colors={focused ? ['#E27127', '#EDAA26'] : ['#fff', '#fff']}
+      colors={focused ? ['#4169E1', '#87CEEB'] : ['#fff', '#fff']}
       style={{
         height: 64,
+        // opacity: focused ? 1 : 0.5,
         marginBottom: -15,
         paddingTop: 10,
         width: SIZES.width / 4,

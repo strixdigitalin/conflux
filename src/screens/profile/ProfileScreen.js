@@ -27,7 +27,10 @@ export default function ProfileScreen({navigation}) {
   }, []);
 
   return (
-    <ScrollView>
+    <ScrollView
+      style={{
+        marginBottom: 50,
+      }}>
       <ProfileHeader navigation={navigation} userData={userData} />
       <StatusBar barStyle="light-content" backgroundColor={COLORS.blue} />
 
@@ -184,10 +187,12 @@ const PresonalInfo = ({title, subTitle}) => {
 
 const styles = StyleSheet.create({
   applyBtn: {
-    width: '100%',
-    height: 60,
+    width: '70%',
+    height: 40,
     backgroundColor: '#1C67F6',
     ...commonStyles.centerStyles,
+    // margin: 'auto',
+    alignSelf: 'center',
     borderRadius: 50,
     marginTop: 20,
     marginBottom: 10,

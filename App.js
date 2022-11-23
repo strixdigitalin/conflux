@@ -1,19 +1,19 @@
-import React, { useEffect } from 'react';
-import { createStackNavigator } from '@react-navigation/stack';
-import { NavigationContainer } from '@react-navigation/native';
+import React, {useEffect} from 'react';
+import {createStackNavigator} from '@react-navigation/stack';
+import {NavigationContainer} from '@react-navigation/native';
 
 import Auth from './src/services/Auth';
-import { setUser } from './src/redux/reducer/user';
-import { useDispatch, useSelector } from 'react-redux';
+import {setUser} from './src/redux/reducer/user';
+import {useDispatch, useSelector} from 'react-redux';
 import AuthStack from './src/navigation/AuthStack';
 import AppStack from './src/navigation/AppStack';
-import { useState } from 'react';
-import { StatusBar } from 'react-native';
+import {useState} from 'react';
+import {StatusBar} from 'react-native';
 
 export default function App() {
   const dispatch = useDispatch();
 
-  const { userData, login } = useSelector(state => state.User);
+  const {userData, login} = useSelector(state => state.User);
 
   const Stack = createStackNavigator();
 

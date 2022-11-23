@@ -7,7 +7,7 @@ import {
   Alert,
   StyleSheet,
 } from 'react-native';
-import React from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import Toast from 'react-native-simple-toast';
 
@@ -24,13 +24,27 @@ import {setUser} from '../../redux/reducer/user';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 
 export default function EnterOTPScreen({navigation, route}) {
+  const [timer, setTimer] = useState(20);
+  const timeOutCallback = useCallback(
+    () => setTimer(currTimer => currTimer - 1),
+    [],
+  );
   const dispatch = useDispatch();
 
   const {phone} = route?.params;
   const [otpValError, setOTPInputError] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
-
   const [otpVal, setOTPInput] = React.useState('');
+
+  useEffect(() => {
+    timer > 0 && setTimeout(timeOutCallback, 1000);
+  }, [timer, timeOutCallback]);
+
+  const resetTimer = function () {
+    if (!timer) {
+      setTimer(20);
+    }
+  };
 
   const handleOtpInput = () => {
     if (otpVal.length === 0) {
@@ -54,7 +68,9 @@ export default function EnterOTPScreen({navigation, route}) {
               JSON.stringify({...res.data, staffid: response.body[0].staffid}),
             );
             dispatch(setUser({...res.data, staffid: response.body[0].staffid}));
-            navigation.navigate('Root');
+            // navigation.navigate('Root');
+            // navigation.navigate('HomeTab');
+            navigation.navigate('HomeScreen');
           }
         });
         // if (response.body === "successfully Sent and Updated") {
@@ -114,7 +130,7 @@ export default function EnterOTPScreen({navigation, route}) {
             onPress={() => {
               navigation.navigate('LoginScreen');
             }}>
-            <Text
+            {/* <Text
               style={{
                 color: COLORS.darkLime,
                 width: '100%',
@@ -122,7 +138,29 @@ export default function EnterOTPScreen({navigation, route}) {
                 textAlign: 'right',
               }}>
               Go to login
-            </Text>
+            </Text> */}
+            {timer != 0 ? (
+              <Text
+                style={{
+                  color: COLORS.darkLime,
+                  width: '100%',
+                  marginTop: 18,
+                  textAlign: 'right',
+                }}
+                onPress={resetTimer}>
+                Resend OTP ({timer})
+              </Text>
+            ) : (
+              <Text
+                style={{
+                  color: COLORS.darkLime,
+                  width: '100%',
+                  marginTop: 18,
+                  textAlign: 'right',
+                }}>
+                Go to login
+              </Text>
+            )}
           </TouchableOpacity>
         </View>
         <View style={{width: '100%', height: 40}} />
