@@ -1,4 +1,4 @@
-import { View, Text } from 'react-native'
+import { View, Text, TouchableHighlight } from 'react-native'
 import React from 'react'
 import PayslipHeader from './PayslipHeader'
 import { StatusBar } from 'react-native'
@@ -7,7 +7,8 @@ import { FlatList } from 'react-native'
 import { StyleSheet } from 'react-native'
 import { Image } from 'react-native'
 import { commonStyles } from '../../utils/styles'
-import { TouchableOpacity } from 'react-native'
+import { TouchableOpacity, PermissionsAndroid, Alert } from 'react-native'
+import RNFetchBlob from 'rn-fetch-blob'
 
 const paySlips = [
     { name: "January" },
@@ -59,6 +60,41 @@ export default function PayslipScreen() {
 }
 
 export const RenderPaySlip = ({ title }) => {
+
+    const actualDownload = () => {
+        const { dirs } = RNFetchBlob.fs;
+        RNFetchBlob.config({
+            fileCache: true,
+            addAndroidDownloads: {
+                useDownloadManager: true,
+                notification: true,
+                mediaScannable: true,
+                title: `test.pdf`,
+                path: `${dirs.DownloadDir}/test.pdf`,
+            },
+        })
+            .fetch('GET', 'http://www.africau.edu/images/default/sample.pdf', {})
+            .then((res) => {
+                console.log('The file saved to ', res.path());
+            })
+            .catch((e) => {
+                console.log(e)
+            });
+    }
+
+    const downloadFile = async () => {
+        try {
+            const granted = await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE);
+            if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+                actualDownload();
+            } else {
+                Alert.alert('Permission Denied!', 'You need to give storage permission to download the file');
+            }
+        } catch (err) {
+            console.warn(err);
+        }
+    }
+
     return (
         <View style={styles.paySlipItem}>
             <View style={{ ...commonStyles.rowStart }}>
@@ -69,11 +105,13 @@ export const RenderPaySlip = ({ title }) => {
                 />
                 <Text style={{ ...commonStyles.fs15_400, marginLeft: 8 }}>{title}</Text>
             </View>
-            <Image
-                source={require("../../assets/img/download.png")}
-                resizeMode="contain"
-                style={{ width: 22, height: 22 }}
-            />
+            <TouchableHighlight onPress={downloadFile} underlayColor="#dcdcdc">
+                <Image
+                    source={require("../../assets/img/download.png")}
+                    resizeMode="contain"
+                    style={{ width: 22, height: 22 }}
+                />
+            </TouchableHighlight>
         </View>
     );
 }
