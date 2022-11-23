@@ -1,26 +1,11 @@
-import { View, Text, TouchableHighlight } from 'react-native'
-import React from 'react'
+import { View, Text, TouchableHighlight, StatusBar, PermissionsAndroid, Alert, StyleSheet, Image, TouchableOpacity } from 'react-native'
+import React, { useState, useEffect } from 'react';
 import PayslipHeader from './PayslipHeader'
-import { StatusBar } from 'react-native'
 import { COLORS, SIZES } from '../../utils/theme'
-import { FlatList } from 'react-native'
-import { StyleSheet } from 'react-native'
-import { Image } from 'react-native'
 import { commonStyles } from '../../utils/styles'
-import { TouchableOpacity, PermissionsAndroid, Alert } from 'react-native'
 import RNFetchBlob from 'rn-fetch-blob'
-import { View, Text } from 'react-native';
-import React, { useState } from 'react';
-import PayslipHeader from './PayslipHeader';
-import { StatusBar } from 'react-native';
-import { COLORS, SIZES } from '../../utils/theme';
-import { FlatList } from 'react-native';
-import { StyleSheet } from 'react-native';
-import { Image } from 'react-native';
-import { commonStyles } from '../../utils/styles';
-import { TouchableOpacity } from 'react-native';
-import { useEffect } from 'react';
 import { getPayslipData } from '../../services/profile';
+import { FlatList } from 'react-native';
 
 const paySlips = [
     { name: 'January' },
@@ -35,8 +20,9 @@ const paySlips = [
 
 export default function PayslipScreen() {
     const [payslipData, setPayslipData] = useState([]);
+
     useEffect(() => {
-        first;
+        // first;
 
         getPayslipData(4, res => {
             console.log(res, '\n\n<<<< payslip data');
@@ -73,6 +59,22 @@ export default function PayslipScreen() {
                     />
                 </TouchableOpacity>
             </View>
+
+            <FlatList
+                data={paySlips}
+                style={{ marginVertical: 14 }}
+                contentContainerStyle={{ alignItems: "center" }}
+                renderItem={({ item }) => {
+                    return (
+                        <RenderPaySlip
+                            title={item?.name}
+                        />
+                    );
+                }}
+                ListFooterComponent={
+                    <View style={{ marginBottom: 50 }} />
+                }
+            />
         </View>
     )
 }
@@ -124,11 +126,14 @@ export const RenderPaySlip = ({ title }) => {
                 />
                 <Text style={{ ...commonStyles.fs15_400, marginLeft: 8 }}>{title}</Text>
             </View>
-            <Image
-                source={require('../../assets/img/download.png')}
-                resizeMode="contain"
-                style={{ width: 22, height: 22 }}
-            />
+
+            <TouchableHighlight onPress={downloadFile} underlayColor="#dcdcdc">
+                <Image
+                    source={require('../../assets/img/download.png')}
+                    resizeMode="contain"
+                    style={{ width: 22, height: 22 }}
+                />
+            </TouchableHighlight>
         </View>
     );
 };
