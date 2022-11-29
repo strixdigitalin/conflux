@@ -28,9 +28,9 @@ export const userProfile = (id, callBack) => {
       const result = JSON.parse(res);
       if (result.statusCode == 200) {
         console.log(result, '<<<<result at api');
-        callBack({success: true, data: result.body});
+        callBack({ success: true, data: result.body });
       } else {
-        callBack({success: false, data: result.body});
+        callBack({ success: false, data: result.body });
       }
     })
     .catch(error => console.log('error', error));
@@ -61,7 +61,7 @@ export const getPayslipData = (id, callBack) => {
     'https://gclfo3ljyh.execute-api.us-east-1.amazonaws.com/prod/confluxhr',
     requestOptions,
   )
-    .then(response => response.text())
+    .then(response => response.json())
     .then(result => {
       callBack(result);
     })

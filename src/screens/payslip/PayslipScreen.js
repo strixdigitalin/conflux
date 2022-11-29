@@ -1,9 +1,19 @@
-import { View, Text, TouchableHighlight, StatusBar, PermissionsAndroid, Alert, StyleSheet, Image, TouchableOpacity } from 'react-native'
+import {
+    View,
+    Text,
+    TouchableHighlight,
+    StatusBar,
+    PermissionsAndroid,
+    Alert,
+    StyleSheet,
+    Image,
+    TouchableOpacity,
+} from 'react-native';
 import React, { useState, useEffect } from 'react';
-import PayslipHeader from './PayslipHeader'
-import { COLORS, SIZES } from '../../utils/theme'
-import { commonStyles } from '../../utils/styles'
-import RNFetchBlob from 'rn-fetch-blob'
+import PayslipHeader from './PayslipHeader';
+import { COLORS, SIZES } from '../../utils/theme';
+import { commonStyles } from '../../utils/styles';
+import RNFetchBlob from 'rn-fetch-blob';
 import { getPayslipData } from '../../services/profile';
 import { FlatList } from 'react-native';
 
@@ -25,10 +35,11 @@ export default function PayslipScreen() {
         // first;
 
         getPayslipData(4, res => {
-            console.log(res, '\n\n<<<< payslip data');
+            console.log('\n\n<<<< payslip data payslipData: ', res.body);
             setPayslipData(res.body);
         });
     }, []);
+
 
     return (
         <View style={{ backgroundColor: '#fff', width: '100%', height: '100%' }}>
@@ -63,25 +74,17 @@ export default function PayslipScreen() {
             <FlatList
                 data={paySlips}
                 style={{ marginVertical: 14 }}
-                contentContainerStyle={{ alignItems: "center" }}
+                contentContainerStyle={{ alignItems: 'center' }}
                 renderItem={({ item }) => {
-                    return (
-                        <RenderPaySlip
-                            title={item?.name}
-                        />
-                    );
+                    return <RenderPaySlip title={item?.name} />;
                 }}
-                ListFooterComponent={
-                    <View style={{ marginBottom: 50 }} />
-                }
+                ListFooterComponent={<View style={{ marginBottom: 50 }} />}
             />
         </View>
-    )
+    );
 }
 
-
 export const RenderPaySlip = ({ title }) => {
-
     const actualDownload = () => {
         const { dirs } = RNFetchBlob.fs;
         RNFetchBlob.config({
@@ -94,27 +97,33 @@ export const RenderPaySlip = ({ title }) => {
                 path: `${dirs.DownloadDir}/test.pdf`,
             },
         })
-            .fetch('GET', 'http://www.africau.edu/images/default/sample.pdf', {})
-            .then((res) => {
-                console.log('The file saved to ', res.path());
-            })
-            .catch((e) => {
-                console.log(e)
-            });
-    }
+            .fetch("GET", "file:///C:/Users/Hp/Downloads/JIO_FIBER_DEC_RECIEPT.pdf")
+        // .fetch('GET', 'http://www.africau.edu/images/default/sample.pdf', {})
+        // .then(res => {
+        //     console.log('The file saved to ', res.path());
+        // })
+        // .catch(e => {
+        //     console.log(e);
+        // });
+    };
 
     const downloadFile = async () => {
         try {
-            const granted = await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE);
+            const granted = await PermissionsAndroid.request(
+                PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
+            );
             if (granted === PermissionsAndroid.RESULTS.GRANTED) {
                 actualDownload();
             } else {
-                Alert.alert('Permission Denied!', 'You need to give storage permission to download the file');
+                Alert.alert(
+                    'Permission Denied!',
+                    'You need to give storage permission to download the file',
+                );
             }
         } catch (err) {
             console.warn(err);
         }
-    }
+    };
 
     return (
         <View style={styles.paySlipItem}>
