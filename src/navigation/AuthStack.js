@@ -1,5 +1,5 @@
 import React from 'react';
-import {createStackNavigator} from '@react-navigation/stack';
+import { createStackNavigator } from '@react-navigation/stack';
 
 import LoginScreen from '../screens/auth/LoginScreen';
 import EnterOTPScreen from '../screens/auth/EnterOTPScreen';
@@ -7,12 +7,12 @@ import GoToLoginPageScreen from '../screens/auth/GoToLoginPageScreen';
 import ForgotPasswordScreen from '../screens/auth/ForgotPasswordScreen';
 import IntroScreen from '../onboarding/IntroScreen';
 import Auth from '../services/Auth';
-import PayslipScreen from '../screens/payslip/PayslipScreen';
+import ApplyLeavesScreen from '../screens/leaves/ApplyLeaveScreen';
 
 const Stack = createStackNavigator();
 
 export default function AuthStack() {
-  const screenOptions = {headerShown: false};
+  const screenOptions = { headerShown: false };
 
   const [isFirstLaunch, setIsFirstLaunch] = React.useState(null);
   let routeName;
@@ -40,8 +40,8 @@ export default function AuthStack() {
     <>
       <Stack.Navigator
         screenOptions={screenOptions}
-        initialRouteName={'GoToLoginPageScreen'}>
-        <Stack.Screen name="PayslipScreen" component={PayslipScreen} />
+        initialRouteName={'ApplyLeavesScreen'}>
+        <Stack.Screen name="ApplyLeavesScreen" component={ApplyLeavesScreen} />
         <Stack.Screen name="IntroScreen" component={IntroScreen} />
         <Stack.Screen
           name="GoToLoginPageScreen"

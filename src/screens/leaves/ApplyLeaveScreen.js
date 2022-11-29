@@ -1,38 +1,38 @@
-import {View, Text, Image, ToastAndroid} from 'react-native';
-import React, {useState} from 'react';
+import { View, Text, Image, ToastAndroid } from 'react-native';
+import React, { useState } from 'react';
 import LeavesHeader from './LeavesHeader';
-import {commonStyles} from '../../utils/styles';
-import {StyleSheet} from 'react-native';
-import {ScrollView} from 'react-native';
-import {TouchableOpacity} from 'react-native';
+import { commonStyles } from '../../utils/styles';
+import { StyleSheet } from 'react-native';
+import { ScrollView } from 'react-native';
+import { TouchableOpacity } from 'react-native';
 import PersonalLeaveDatePicker from '../../components/CustomDatePicker';
-import {TextInput} from 'react-native';
-import {TouchableHighlight} from 'react-native';
-import {applyLeave} from '../../utils/API';
-import {useSelector} from 'react-redux';
+import { TextInput } from 'react-native';
+import { TouchableHighlight } from 'react-native';
+import { applyLeave } from '../../utils/API';
+import { useSelector } from 'react-redux';
 import moment from 'moment/moment';
-import {Alert} from 'react-native';
-import {SIZES} from '../../utils/theme';
-import {Dropdown} from 'react-native-element-dropdown';
-import {dropdownStyles} from '../../utils/dropdownStyles';
-import {ActivityIndicator} from 'react-native-paper';
-import {useEffect} from 'react';
-import {useIsFocused} from '@react-navigation/native';
+import { Alert } from 'react-native';
+import { SIZES } from '../../utils/theme';
+import { Dropdown } from 'react-native-element-dropdown';
+import { dropdownStyles } from '../../utils/dropdownStyles';
+import { ActivityIndicator } from 'react-native-paper';
+import { useEffect } from 'react';
+import { useIsFocused } from '@react-navigation/native';
 
 const data = [
-  {label: 'First half', value: 'First half'},
-  {label: 'Second half', value: 'Secnod half'},
+  { label: 'First half', value: 'First half' },
+  { label: 'Second half', value: 'Secnod half' },
   // {label: '3 Hour', value: '3 Hour'},
   // {label: '4 Hour', value: '4 Hour'},
   // {label: '5 Hour', value: '5 Hour'},
 ];
 
-export default function ApplyLeavesScreen({navigation}) {
+export default function ApplyLeavesScreen({ navigation }) {
   const [shift, setShift] = React.useState('Full Day');
   const [startDate, setStartDate] = React.useState('');
-  const [endDate, setEndData] = React.useState('');
+  const [endDate, setEndDate] = React.useState('');
   const [reason, setReason] = React.useState(null);
-  const {userData} = useSelector(state => state.User);
+  const { userData } = useSelector(state => state.User);
   const [showLoader, setShowLoader] = React.useState(false);
   const [halfLength, setHalfLength] = useState('Select length');
   const [labelUp, setLabelUp] = React.useState(false);
@@ -40,7 +40,7 @@ export default function ApplyLeavesScreen({navigation}) {
   const isfocused = useIsFocused();
   useEffect(() => {
     setStartDate('');
-    setEndData('');
+    setEndDate('');
     setReason('');
     setHalfLength('Select length');
     setShift('Full Day');
@@ -86,7 +86,7 @@ export default function ApplyLeavesScreen({navigation}) {
       console.log(res, '<<<at apply leave screen');
       Alert.alert(response.body);
       setShowLoader(false);
-      setEndData('');
+      setEndDate('');
       setReason('');
       setStartDate('');
       navigation.navigate('LeavesScreen');
@@ -120,9 +120,9 @@ export default function ApplyLeavesScreen({navigation}) {
       <LeavesHeader navigation={navigation} />
 
       <ScrollView
-        style={{width: '100%', height: '100%', backgroundColor: '#fff'}}>
-        <View style={{alignItems: 'center', marginTop: 22}}>
-          <Text style={{...commonStyles.fs14_400, color: '#0073FF'}}>
+        style={{ width: '100%', height: '100%', backgroundColor: '#fff' }}>
+        <View style={{ alignItems: 'center', marginTop: 22 }}>
+          <Text style={{ ...commonStyles.fs14_400, color: '#0073FF' }}>
             Leaves Available
           </Text>
         </View>
@@ -150,7 +150,7 @@ export default function ApplyLeavesScreen({navigation}) {
           />
         </View>
 
-        <View style={{paddingHorizontal: 16}}>
+        <View style={{ paddingHorizontal: 16 }}>
           <View style={styles.tabContainer}>
             {['Full Day', 'Half Day', 'Above a Day'].map((item, index) => {
               return (
@@ -178,45 +178,64 @@ export default function ApplyLeavesScreen({navigation}) {
           </View>
         </View>
 
-        <View style={{padding: 16, marginTop: 12}}>
-          <View style={{...commonStyles.rowBetween}}>
+        <View style={{ padding: 16, marginTop: 12 }}>
+          <View style={{ ...commonStyles.rowBetween }}>
             <PersonalLeaveDatePicker
               placeholderText="Start Date"
-              minimumDate="01-10-2022"
-              date={new Date(startDate)}
-              maximumDate="24-Dec-2224"
+              heading="Start Date *"
+              selectedVal={startDate}
+              minimumDate={''}
+              maximumDate={endDate === '' ? '' : endDate}
+              initialDate={startDate === '' ? endDate : startDate}
+              isStart="yes"
               pickerWidth={
                 shift === 'Full Day' ? SIZES.width - 34 : SIZES.width / 2.26
               }
-              initialDate={startDate}
-              isStart="yes"
               onDateSelected={function (val) {
-                const checkDate = moment(val).format('YYYY-MM-DD');
-                setStartDate(`${checkDate}`);
+                setStartDate(moment(val).format('DD-MMM-YYYY'));
               }}
             />
 
             {shift === 'Above a Day' ? (
-              <PersonalLeaveDatePicker
-                placeholderText="End Date"
-                minimumDate={startDate}
-                maximumDate="24-Dec-2222"
-                value={endDate}
-                initialDate={endDate}
-                date={new Date(endDate)}
-                isStart="yes"
-                onDateSelected={function (val) {
-                  console.log(
-                    '----',
-                    `${startDate.length}`,
-                    '\n\n\n\n<<<startDate',
-                  );
-                  if (startDate.length == 0)
-                    return showToast('Please select start date first');
-                  const checkDate = moment(val).format('YYYY-MM-DD');
-                  setEndData(`${checkDate}`);
-                }}
-              />
+              startDate.length !== 0 ? (
+                <PersonalLeaveDatePicker
+                  placeholderText="End Date"
+                  heading="End Date *"
+                  selectedVal={endDate}
+                  minimumDate={startDate === '' ? '' : startDate}
+                  maximumDate={endDate === '' ? '' : ''}
+                  initialDate={endDate === '' ? startDate : endDate}
+                  onDateSelected={function (val) {
+                    if (startDate.length === 0) {
+                      alert('Please select start date first');
+                      console.log('\n\n Selected date: 1111');
+                    } else {
+                      setEndDate(moment(val).format('DD-MMM-YYYY'));
+                      console.log('\n\n Selected date: 2222');
+                    }
+                  }}
+                />
+              ) : (
+                <TouchableOpacity
+                  onPress={() => {
+                    Alert.alert("Important", 'Please select start date');
+                  }}
+                  style={{ ...styles.touchContainer }}
+                  activeOpacity={0.8}>
+                  <View style={[styles.inputContainer]}>
+                    <Image
+                      source={require('../../assets/img/date.png')}
+                      style={{
+                        width: 20,
+                        height: 20,
+                        marginRight: 4,
+                        tintColor: '#999',
+                      }}
+                    />
+                    <Text style={styles.input}>End Date</Text>
+                  </View>
+                </TouchableOpacity>
+              )
             ) : (
               <></>
             )}
@@ -225,7 +244,7 @@ export default function ApplyLeavesScreen({navigation}) {
               <View style={styles.selectedLength}>
                 <Image
                   source={require('../../assets/img/clock.png')}
-                  style={{width: 20, height: 20, marginRight: 12}}
+                  style={{ width: 20, height: 20, marginRight: 12 }}
                 />
                 <Dropdown
                   style={[dropdownStyles.dropdown]}
@@ -247,7 +266,7 @@ export default function ApplyLeavesScreen({navigation}) {
                           justifyContent: 'center',
                           alignItems: 'center',
                         }}>
-                        <Text style={{fontSize: 14, color: '#555'}}>
+                        <Text style={{ fontSize: 14, color: '#555' }}>
                           {item.label}
                         </Text>
                       </View>
@@ -285,10 +304,10 @@ export default function ApplyLeavesScreen({navigation}) {
             )}
           </View>
 
-          <View style={{marginTop: 16}}>
+          <View style={{ marginTop: 16 }}>
             {renderFullNameLabel()}
             <View
-              style={{borderWidth: 1, borderColor: '#999', borderRadius: 10}}>
+              style={{ borderWidth: 1, borderColor: '#999', borderRadius: 10 }}>
               <TextInput
                 multiline
                 value={reason}
@@ -314,13 +333,13 @@ export default function ApplyLeavesScreen({navigation}) {
 
           {!showLoader && (
             <TouchableHighlight
-              style={{...styles.applyBtn, width: '50%', borderRadius: 50}}
+              style={{ ...styles.applyBtn, width: '50%', borderRadius: 50 }}
               underlayColor="#0073FF"
               onPress={() => {
                 SubmitForApply();
                 //   navigation.navigate('ApplyLeavesScreen');
               }}>
-              <Text style={{...commonStyles.fs16_400, color: '#fff'}}>
+              <Text style={{ ...commonStyles.fs16_400, color: '#fff' }}>
                 Submit Request
               </Text>
             </TouchableHighlight>
@@ -328,18 +347,18 @@ export default function ApplyLeavesScreen({navigation}) {
           {showLoader && <ActivityIndicator />}
         </View>
 
-        <View style={{height: 70}} />
+        <View style={{ height: 70 }} />
       </ScrollView>
     </View>
   );
 }
 
-const RenderLeaveCount = ({count, title, bgColor, color}) => {
+const RenderLeaveCount = ({ count, title, bgColor, color }) => {
   return (
-    <View style={{...styles.leaveCount, backgroundColor: bgColor}}>
-      <Text style={{...commonStyles.fs26_700, color: color}}>{count}</Text>
+    <View style={{ ...styles.leaveCount, backgroundColor: bgColor }}>
+      <Text style={{ ...commonStyles.fs26_700, color: color }}>{count}</Text>
       <Text
-        style={{...commonStyles.fs14_500, textAlign: 'center', color: color}}>
+        style={{ ...commonStyles.fs14_500, textAlign: 'center', color: color }}>
         {title}
       </Text>
     </View>
@@ -404,5 +423,32 @@ const styles = StyleSheet.create({
     borderRadius: 9,
     width: SIZES.width / 2.26,
     paddingHorizontal: 16,
+  },
+  touchContainer: {
+    elevation: 9,
+    shadowColor: '#999',
+    backgroundColor: '#fff',
+    borderRadius: 9,
+    marginTop: -16
+  },
+  inputContainer: {
+    width: '100%',
+    height: 50,
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 16,
+    width: SIZES.width / 2.26,
+  },
+  input: {
+    padding: 10,
+    flex: 1,
+    fontSize: 14,
+    color: '#999999',
+  },
+  inputBlack: {
+    padding: 10,
+    flex: 1,
+    fontSize: 14,
+    color: '#000',
   },
 });

@@ -1,15 +1,20 @@
-import React, { Component } from "react";
-import { View, StyleSheet, Text, Dimensions, Image } from "react-native";
-import DateTimePicker from "react-native-modal-datetime-picker";
+import React, { Component } from 'react';
+import { View, StyleSheet, Text, Dimensions, Image } from 'react-native';
+import DateTimePicker from 'react-native-modal-datetime-picker';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-const windowWidth = Dimensions.get("window").width;
+const windowWidth = Dimensions.get('window').width;
 import moment from 'moment';
-import { commonStyles } from "../utils/styles";
-import { SIZES } from "../utils/theme";
+import { commonStyles } from '../utils/styles';
+import { SIZES } from '../utils/theme';
 
 var today = new Date();
 var forSecondStart = 0;
-var dateSliced = today.getFullYear() + "- 0" + parseInt(today.getMonth() + 1) + "- 0" + today.getDate();
+var dateSliced =
+    today.getFullYear() +
+    '- 0' +
+    parseInt(today.getMonth() + 1) +
+    '- 0' +
+    today.getDate();
 console.log(dateSliced);
 
 export default class PersonalLeaveDatePicker extends Component {
@@ -20,7 +25,7 @@ export default class PersonalLeaveDatePicker extends Component {
             selectedValue: false,
             minDateObj: undefined,
             maxDateObj: undefined,
-            iniDateObj: undefined
+            iniDateObj: undefined,
         };
     }
 
@@ -32,17 +37,26 @@ export default class PersonalLeaveDatePicker extends Component {
         console.log('Today is set to: ', today);
         console.log('forsecondstart is:', forSecondStart);
         console.log('minDate is:', this.props.minimumDate);
+        console.log('maxDate is:', this.props.maximumDate);
         console.log('minDate type is:', typeof this.props.minimumDate);
         console.log('maxDate type is:', typeof this.props.maximumDate);
+        console.log('minDate is empty:', this.props.minimumDate.length);
+        console.log('maxDate is empty:', this.props.maximumDate.length);
         this.setState({ isDateTimePickerVisible: true });
 
         //Setting up minDateObj
-        console.log('\n\n moment date:', moment(this.props.minimumDate, 'DD-MMM-YYYY').toDate())
-        var selectedMinDate = this?.props?.minimumDate?.length == 0 ? moment('31-DEC-2010', 'DD-MMM-YYYY').toDate() : moment(this.props.minimumDate, 'DD-MMM-YYYY').toDate()
+        console.log(
+            '\n\n moment date:',
+            moment(this.props.minimumDate, 'DD-MMM-YYYY').toDate(),
+        );
+        var selectedMinDate =
+            this.props.minimumDate.length == 0
+                ? moment('31-DEC-2010', 'DD-MMM-YYYY').toDate()
+                : moment(this.props.minimumDate, 'DD-MMM-YYYY').toDate();
         console.log('selected min Date:', selectedMinDate);
         var startDateObj = new Date();
-        console.log('type of:', typeof selectedMinDate)
-        console.log('selectedMinDate is:', selectedMinDate)
+        console.log('type of:', typeof selectedMinDate);
+        console.log('selectedMinDate is:', selectedMinDate);
         console.log('selectedDate.getDate():', selectedMinDate.getDate());
         startDateObj.setFullYear(selectedMinDate.getFullYear());
         startDateObj.setMonth(selectedMinDate.getMonth());
@@ -51,12 +65,18 @@ export default class PersonalLeaveDatePicker extends Component {
         this.setState({ minDateObj: startDateObj });
 
         //Setting up maxDateObj
-        console.log('\n\n moment date:', moment(this.props.maximumDate, 'DD-MMM-YYYY').toDate())
-        var selectedMaxDate = this?.props?.maximumDate?.length == 0 ? moment('31-DEC-2030', 'DD-MMM-YYYY').toDate() : moment(this.props.maximumDate, 'DD-MMM-YYYY').toDate()
+        console.log(
+            '\n\n moment date:',
+            moment(this.props.maximumDate, 'DD-MMM-YYYY').toDate(),
+        );
+        var selectedMaxDate =
+            this.props.maximumDate.length == 0
+                ? moment('31-DEC-2030', 'DD-MMM-YYYY').toDate()
+                : moment(this.props.maximumDate, 'DD-MMM-YYYY').toDate();
         console.log('selected max Date:', selectedMaxDate);
         var endDateObj = new Date();
-        console.log('type of:', typeof selectedMaxDate)
-        console.log('selectedMaxDate is:', selectedMaxDate)
+        console.log('type of:', typeof selectedMaxDate);
+        console.log('selectedMaxDate is:', selectedMaxDate);
         console.log('selectedDate.getDate():', selectedMaxDate.getDate());
         endDateObj.setFullYear(selectedMaxDate.getFullYear());
         endDateObj.setMonth(selectedMaxDate.getMonth());
@@ -65,12 +85,18 @@ export default class PersonalLeaveDatePicker extends Component {
         this.setState({ maxDateObj: endDateObj });
 
         //Setting up initialDateObj
-        console.log('\n\n moment date:', moment(this.props.initialDate, 'DD-MMM-YYYY').toDate())
-        var selectedInitialDate = this?.props?.initialDate?.length == 0 ? moment().toDate() : moment(this.props.initialDate, 'DD-MMM-YYYY').toDate()
+        console.log(
+            '\n\n moment date:',
+            moment(this.props.initialDate, 'DD-MMM-YYYY').toDate(),
+        );
+        var selectedInitialDate =
+            this.props.initialDate.length == 0
+                ? moment().toDate()
+                : moment(this.props.initialDate, 'DD-MMM-YYYY').toDate();
         console.log('selected initial Date:', selectedInitialDate);
         var initialDateObj = new Date();
-        console.log('type of:', typeof selectedInitialDate)
-        console.log('selectedInitialDate is:', selectedInitialDate)
+        console.log('type of:', typeof selectedInitialDate);
+        console.log('selectedInitialDate is:', selectedInitialDate);
         console.log('selectedDate.getDate():', selectedInitialDate.getDate());
         initialDateObj.setFullYear(selectedInitialDate.getFullYear());
         initialDateObj.setMonth(selectedInitialDate.getMonth());
@@ -84,13 +110,13 @@ export default class PersonalLeaveDatePicker extends Component {
     };
 
     handleDatePicked = date => {
-        console.log("A date has been picked: ", date);
+        console.log('A date has been picked: ', date);
         this.initialDate = '' + date;
-        this.initialDate = this.initialDate.slice(4, 16)
-        this.props.isStart != 'yes' ? forSecondStart++ : forSecondStart = 0;
-        tempToday1 = date
+        this.initialDate = this.initialDate.slice(4, 16);
+        this.props.isStart != 'yes' ? forSecondStart++ : (forSecondStart = 0);
+        tempToday1 = date;
         this.props.onDateSelected(date);
-        this.setState({ selectedValue: true })
+        this.setState({ selectedValue: true });
         this.hideDateTimePicker();
     };
 
@@ -99,31 +125,30 @@ export default class PersonalLeaveDatePicker extends Component {
             <View style={styles.container}>
                 <TouchableOpacity
                     onPress={this.showDateTimePicker}
-                    style={{ ...styles.touchContainer, width: this?.props?.pickerWidth ? this?.props?.pickerWidth : SIZES.width / 2.26 }}
-                    activeOpacity={0.8}
-                >
-                    <View style={[styles.inputContainer, { borderColor: this.props.error ? "red" : "#BDBDBD" }]}>
+                    style={{
+                        ...styles.touchContainer,
+                        width: this?.props?.pickerWidth
+                            ? this?.props?.pickerWidth
+                            : SIZES.width / 2.26,
+                    }}
+                    activeOpacity={0.8}>
+                    <View
+                        style={[
+                            styles.inputContainer,
+                            { borderColor: this.props.error ? 'red' : '#BDBDBD' },
+                        ]}>
                         <Image
-                            source={require("../assets/img/date.png")}
-                            style={{ width: 20, height: 20, marginRight: 4, tintColor: "#999" }}
+                            source={require('../assets/img/date.png')}
+                            style={{ width: 20, height: 20, marginRight: 4, tintColor: '#999' }}
                         />
-                        <Text style={this.initialDate === '' ? styles.input : styles.inputBlack}>
+                        <Text
+                            style={
+                                this.initialDate === '' ? styles.input : styles.inputBlack
+                            }>
                             {this.initialDate != ''
-                                ? this.props.clear ? this.props.heading : this.initialDate
-                                : this.props.clear ? this.props.heading : this.props.placeholderText
-                            }
+                                ? this.initialDate
+                                : this.props.placeholderText}
                         </Text>
-                        {/* {this.props.dropDownValue
-                            ? <Text style={this.props.dropDownValue ? styles.inputBlack : styles.input}>
-                                {this.props.dropDownValue}kcbh
-                            </Text>
-                            : <Text style={this.initialDate != '' ? this.props.clear ? styles.input : styles.inputBlack : styles.input}>
-                                {this.initialDate != ''
-                                    ? this.props.clear ? this.props.heading : this.initialDate
-                                    : this.props.clear ? this.props.heading : this.props.placeholderText
-                                }
-                            </Text>} */}
-                        {/* <FontAwesome5Icon name="sort-down" style={styles.iconStyle} size={15} /> */}
                     </View>
                 </TouchableOpacity>
                 <DateTimePicker
@@ -146,12 +171,12 @@ const styles = StyleSheet.create({
     },
     touchContainer: {
         elevation: 9,
-        shadowColor: "#999",
-        backgroundColor: "#fff",
+        shadowColor: '#999',
+        backgroundColor: '#fff',
         borderRadius: 9,
     },
     inputContainer: {
-        width: "100%",
+        width: '100%',
         height: 50,
         flexDirection: 'row',
         alignItems: 'center',
@@ -167,21 +192,24 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         backgroundColor: '#f0f0f0',
-    }, heading: {
+    },
+    heading: {
         marginTop: 0,
         marginLeft: 0,
-        ...commonStyles.fs16_500, marginTop: 14
-    }, headingBig: {
+        ...commonStyles.fs16_500,
+        marginTop: 14,
+    },
+    headingBig: {
         marginTop: 0,
         marginLeft: 20,
         fontSize: 12,
         fontFamily: 'STCForward-Regular',
     },
     iconStyle: {
-        color: "#8e9aa0",
+        color: '#8e9aa0',
         marginBottom: 5,
         marginRight: 10,
-        marginHorizontal: 0
+        marginHorizontal: 0,
     },
     input: {
         padding: 10,
@@ -198,4 +226,3 @@ const styles = StyleSheet.create({
         color: '#000',
     },
 });
-

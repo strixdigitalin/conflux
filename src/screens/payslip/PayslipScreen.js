@@ -97,14 +97,13 @@ export const RenderPaySlip = ({ title }) => {
                 path: `${dirs.DownloadDir}/test.pdf`,
             },
         })
-            .fetch("GET", "file:///C:/Users/Hp/Downloads/JIO_FIBER_DEC_RECIEPT.pdf")
-        // .fetch('GET', 'http://www.africau.edu/images/default/sample.pdf', {})
-        // .then(res => {
-        //     console.log('The file saved to ', res.path());
-        // })
-        // .catch(e => {
-        //     console.log(e);
-        // });
+            .fetch('GET', 'http://www.africau.edu/images/default/sample.pdf', {})
+            .then(res => {
+                console.log('The file saved to ', res.path());
+            })
+            .catch(e => {
+                console.log(e);
+            });
     };
 
     const downloadFile = async () => {
