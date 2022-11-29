@@ -37,6 +37,14 @@ export default function LoginScreen({navigation}) {
       setMobileError(true);
       return setCompanyIDError(true);
     }
+    if (companyID.length < 1) {
+      // setMobileError(true);
+      return setCompanyIDError(true);
+    }
+    if (phone.length === 0) {
+      return setMobileError(true);
+      // return setCompanyIDError(true);
+    }
     if (phone.length === 0) {
       return setMobileError(true);
     }
@@ -63,6 +71,7 @@ export default function LoginScreen({navigation}) {
         console.log('\n\n \n\n mobileLoginPostRequest response: ', response);
         navigation.navigate('EnterOTPScreen', {
           phone: phone,
+          companyID,
         });
 
         // if (response.body === "successfully Sent and Updated") {
@@ -93,7 +102,7 @@ export default function LoginScreen({navigation}) {
         />
         <View style={{marginTop: '18%'}}>
           <CustomTextInput
-            placeholder="Enter mobile number"
+            placeholder="Enter Mobile Number"
             value={phone}
             keyboardType={'numeric'}
             autoCapitalize="none"

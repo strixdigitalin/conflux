@@ -8,10 +8,29 @@ import HomeHeader from './HomeHeader';
 import NoticeBoardComponent from './NoticeBoardComponent';
 import {ScrollView} from 'react-native';
 import {StatusBar} from 'react-native';
+import {useIsFocused} from '@react-navigation/native';
+import {useEffect} from 'react';
+import {useScrollToTop} from '@react-navigation/native';
 
 export default function HomeScreen({navigation}) {
+  const isfocused = useIsFocused();
+  const ref = React.useRef(0);
+  useScrollToTop(ref);
+  useEffect(() => {
+    // return () => {};
+  }, [isfocused]);
+  useScrollToTop(
+    React.useRef({
+      scrollToTop: () => ref.current?.scrollToOffset({offset: 0}),
+    }),
+  );
+
   return (
-    <ScrollView>
+    <ScrollView
+      ref={ref}
+      style={{
+        marginBottom: 50,
+      }}>
       <HomeHeader navigation={navigation} />
       <StatusBar barStyle="light-content" backgroundColor={COLORS.blue} />
       <View style={{padding: 15}}>

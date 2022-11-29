@@ -81,7 +81,8 @@ export default function CalendarScreen({navigation, route}) {
   var currentyear = parseInt(moment().format('YYYY'));
   useEffect(() => {
     console.log('\n\n\n calling attandance api');
-    getAttedance(userData.staffid, res => {
+    // getAttedance(userData.staffid, res => {
+    getAttedance(1, res => {
       console.log('\n\n\n\n\n', res, '<<<<staffidresponse', userData.staffid);
       if (res.statusCode === 200) {
         setattandance(res.body);
@@ -152,7 +153,7 @@ export default function CalendarScreen({navigation, route}) {
                 margin: 20,
                 textAlign: 'center',
               }}>
-              Interview Calender
+              Attendance Calendar
             </Text>
             <CalendarList
               current={currMonthPassed}
@@ -163,7 +164,16 @@ export default function CalendarScreen({navigation, route}) {
               markingType={'multi-dot'}
               theme={{todayTextColor: 'black'}}
               enableSwipeMonths={true}
-              markedDates={dates}
+              markedDates={{
+                '2022-28-11': {
+                  selected: true,
+                  marked: true,
+                  selectedColor: 'blue',
+                },
+                '2012-05-17': {marked: true},
+                '2012-05-18': {marked: true, dotColor: 'red', activeOpacity: 0},
+                '2012-05-19': {disabled: true, disableTouchEvent: true},
+              }}
               onDayPress={day => {
                 console.log('selected day', day);
               }}
@@ -316,11 +326,11 @@ function EventCard({count, head, from, to, subhead, item}) {
     <View style={styles.userBlock}>
       <View style={{width: SIZES.width - 45, paddingLeft: 2}}>
         <Text style={{marginBottom: 2, ...commonStyles.fs15_600}}>
-          Interview For {head}
+          Financial Year {head}
         </Text>
         <View style={{...commonStyles.rowStart}}>
           <Text style={{...commonStyles.fs13_400, marginBottom: 2}}>
-            Interviewer Name
+            Status
           </Text>
           <Text
             style={{...commonStyles.fs13_500, marginBottom: 2, marginLeft: 8}}>

@@ -5,7 +5,10 @@ import {commonStyles} from '../../utils/styles';
 import {Image} from 'react-native';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {useSelector} from 'react-redux';
-import {HeaderProfilePic} from '../../components/HeaderProfilePic';
+import {
+  HeaderLogout,
+  HeaderProfilePic,
+} from '../../components/HeaderProfilePic';
 
 export default function HomeHeader({navigation}) {
   const [showDate, setShowDate] = React.useState('');
@@ -35,7 +38,12 @@ export default function HomeHeader({navigation}) {
   return (
     <ImageBackground
       source={require('../../assets/img/dashboard-1.png')}
-      style={{width: '100%', height: 180, marginTop: -10}}>
+      style={{
+        width: '100%',
+        height: 60,
+        marginTop: -10,
+        // paddingHorizontal: -25,
+      }}>
       <View
         style={{
           ...commonStyles.rowBetween,
@@ -44,7 +52,7 @@ export default function HomeHeader({navigation}) {
         }}>
         <TouchableOpacity
           onPress={() => {
-            navigation.navigate('Root');
+            navigation.navigate('MenuScreen');
           }}>
           <Image
             source={require('../../assets/img/menu.png')}
@@ -58,7 +66,7 @@ export default function HomeHeader({navigation}) {
         /> */}
       </View>
 
-      <View style={{...commonStyles.rowStart, paddingHorizontal: 15}}>
+      {/* <View style={{...commonStyles.rowStart, paddingHorizontal: 15}}>
         <Image
           source={require('../../assets/img/user-pic.png')}
           style={{width: 70, height: 70}}
@@ -68,11 +76,11 @@ export default function HomeHeader({navigation}) {
             {userData.first_name} {userData.last_name}
           </Text>
           <Text style={{...commonStyles.fs14_400, color: '#fff'}}>
-            {/* 12/04/2022 12:46 PM */}
+            12/04/2022 12:46 PM
             {showDate}
           </Text>
         </View>
-      </View>
+      </View> */}
     </ImageBackground>
   );
 }

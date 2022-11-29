@@ -35,7 +35,7 @@ const ProfileModal = ({modalVisible, callback, navigation}) => {
             <SubmitFeedbackbtn
               btnText="My Profile"
               onPress={() => {
-                navigation.navigate('ProfileScreen');
+                navigation.navigate('ProfileTab');
               }}
             />
 

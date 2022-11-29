@@ -27,7 +27,7 @@ export default function GoToLoginPageScreen({navigation}) {
       if (data != null) {
         dispatch(setUser(JSON.parse(data)));
         // setUser(data);
-        navigation.navigate('HomeScreen');
+        navigation.navigate('HomeTab');
       }
     })();
   }, [onFocus]);

@@ -25,7 +25,7 @@ const BottomTabs = () => {
           position: 'absolute',
           backgroundColor: COLORS.white,
           borderRadius: 0,
-          height: 64,
+          height: 40,
           justifyContent: 'center',
           alignItems: 'center',
           borderTopStartRadius: 8,
@@ -34,7 +34,8 @@ const BottomTabs = () => {
       }}>
       <Tab.Screen
         name="HomeTab"
-        component={MenuScreen}
+        // component={MenuScreen}
+        component={HomeScreen}
         options={{
           headerShown: false,
           tabBarIcon: ({focused}) => {
@@ -109,7 +110,7 @@ const BuildTabComponent = ({image, text, focused, center}) => {
         height: 64,
         // opacity: focused ? 1 : 0.5,
         marginBottom: -15,
-        paddingTop: 10,
+        paddingTop: 4,
         width: SIZES.width / 4,
       }}>
       <View style={{alignItems: 'center', paddingTop: 2}}>

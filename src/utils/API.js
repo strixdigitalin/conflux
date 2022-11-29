@@ -110,6 +110,7 @@ export const applyLeave = async (payload, successCallBack) => {
 };
 
 export const getAllLeaves = async (id, callBack) => {
+  console.log(id, 'get all leave id');
   var myHeaders = new Headers();
   myHeaders.append('X-api-key', 'xDC7BEzNo44zu1Nk7GlE564V2jlsjnsf2RrO2ErD');
   myHeaders.append('Content-Type', 'application/json');
@@ -152,7 +153,7 @@ export const getAttedance = async (id, callBack) => {
     action: 'get_attendance',
     product_code: 'JO',
     params: {
-      staffid: 152, //152
+      staffid: id, //152
     },
   });
 

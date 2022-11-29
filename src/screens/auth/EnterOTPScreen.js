@@ -6,10 +6,12 @@ import {
   Image,
   Alert,
   StyleSheet,
+  ToastAndroid,
 } from 'react-native';
 import React, {useCallback, useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import Toast from 'react-native-simple-toast';
+import {mobileLoginPostRequest} from '../../utils/API';
 
 import {commonStyles} from '../../utils/styles';
 import CustomTextInput from '../../components/CustomTextInput';
@@ -23,15 +25,16 @@ import {userProfile} from '../../services/profile';
 import {setUser} from '../../redux/reducer/user';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 
+let otptimer = 60;
 export default function EnterOTPScreen({navigation, route}) {
-  const [timer, setTimer] = useState(20);
+  const [timer, setTimer] = useState(otptimer);
   const timeOutCallback = useCallback(
     () => setTimer(currTimer => currTimer - 1),
     [],
   );
   const dispatch = useDispatch();
 
-  const {phone} = route?.params;
+  const {phone, companyID} = route?.params;
   const [otpValError, setOTPInputError] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
   const [otpVal, setOTPInput] = React.useState('');
@@ -42,7 +45,7 @@ export default function EnterOTPScreen({navigation, route}) {
 
   const resetTimer = function () {
     if (!timer) {
-      setTimer(20);
+      setTimer(otptimer);
     }
   };
 
@@ -68,9 +71,9 @@ export default function EnterOTPScreen({navigation, route}) {
               JSON.stringify({...res.data, staffid: response.body[0].staffid}),
             );
             dispatch(setUser({...res.data, staffid: response.body[0].staffid}));
-            // navigation.navigate('Root');
+            navigation.navigate('Root');
             // navigation.navigate('HomeTab');
-            navigation.navigate('HomeScreen');
+            // navigation.navigate('HomeScreen');
           }
         });
         // if (response.body === "successfully Sent and Updated") {
@@ -88,6 +91,40 @@ export default function EnterOTPScreen({navigation, route}) {
         // }
       });
     }
+  };
+  const showToast = () => {
+    ToastAndroid.show(
+      'Otp sent to registered mobile number',
+      ToastAndroid.SHORT,
+    );
+  };
+  const resendOtp = () => {
+    mobileLoginPostRequest(phone, companyID, async response => {
+      // setLoading(false);
+      if (response.statusCode != 200) {
+        return Alert.alert(
+          'Error',
+          response.body.replace('RMN', 'registered mobile number'),
+        );
+      }
+      showToast();
+      setOTPInput('');
+      console.log('\n\n \n\n mobileLoginPostRequest response: ', response);
+
+      // if (response.body === "successfully Sent and Updated") {
+      // }
+      // if (response !== null) {
+      //     if (response?.body !== undefined) {
+      //         if (response?.body === "Mail exists") {
+      //             Alert.alert("Alert", response?.body);
+      //         } else {
+      //             Toast.show(response?.body);
+      //             setMobile("")
+      //             setCompanyID("")
+      //         }
+      //     }
+      // }
+    });
   };
 
   return (
@@ -126,42 +163,55 @@ export default function EnterOTPScreen({navigation, route}) {
           <View style={{height: 14}} />
 
           <Custom_Auth_Btn btnText={'Login'} onPress={handleOtpInput} />
-          <TouchableOpacity
-            onPress={() => {
-              navigation.navigate('LoginScreen');
-            }}>
-            {/* <Text
+          {/* <TouchableOpacity> */}
+          {timer != 0 ? (
+            <Text
               style={{
                 color: COLORS.darkLime,
                 width: '100%',
                 marginTop: 18,
                 textAlign: 'right',
+              }}
+              // onPress={resetTimer}
+            >
+              Resend OTP ({timer})
+            </Text>
+          ) : (
+            <View
+              style={{
+                justifyContent: 'flex-end',
+                // borderWidth: 2,
+
+                // alignSelf: 'right',
+                // width: '50%',
               }}>
-              Go to login
-            </Text> */}
-            {timer != 0 ? (
-              <Text
+              <View
                 style={{
                   color: COLORS.darkLime,
-                  width: '100%',
-                  marginTop: 18,
-                  textAlign: 'right',
-                }}
-                onPress={resetTimer}>
-                Resend OTP ({timer})
-              </Text>
-            ) : (
-              <Text
-                style={{
-                  color: COLORS.darkLime,
-                  width: '100%',
+                  width: '30%',
+                  // borderWidth: 1,
+                  alignSelf: 'flex-end',
                   marginTop: 18,
                   textAlign: 'right',
                 }}>
-                Go to login
-              </Text>
-            )}
-          </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => {
+                    if (timer == 0) {
+                      resendOtp();
+                      setTimer(10);
+                    }
+                  }}>
+                  <Text
+                    style={{
+                      color: COLORS.darkLime,
+                    }}>
+                    Resend Otp
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          )}
+          {/* </TouchableOpacity> */}
         </View>
         <View style={{width: '100%', height: 40}} />
 

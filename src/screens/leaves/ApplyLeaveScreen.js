@@ -1,4 +1,4 @@
-import {View, Text, Image} from 'react-native';
+import {View, Text, Image, ToastAndroid} from 'react-native';
 import React, {useState} from 'react';
 import LeavesHeader from './LeavesHeader';
 import {commonStyles} from '../../utils/styles';
@@ -16,6 +16,8 @@ import {SIZES} from '../../utils/theme';
 import {Dropdown} from 'react-native-element-dropdown';
 import {dropdownStyles} from '../../utils/dropdownStyles';
 import {ActivityIndicator} from 'react-native-paper';
+import {useEffect} from 'react';
+import {useIsFocused} from '@react-navigation/native';
 
 const data = [
   {label: 'First half', value: 'First half'},
@@ -32,19 +34,32 @@ export default function ApplyLeavesScreen({navigation}) {
   const [reason, setReason] = React.useState(null);
   const {userData} = useSelector(state => state.User);
   const [showLoader, setShowLoader] = React.useState(false);
-  const [halfLength, setHalfLength] = useState(null);
+  const [halfLength, setHalfLength] = useState('Select length');
   const [labelUp, setLabelUp] = React.useState(false);
   const [selectedLength, setSelectedLength] = React.useState('');
+  const isfocused = useIsFocused();
+  useEffect(() => {
+    setStartDate('');
+    setEndData('');
+    setReason('');
+    setHalfLength('Select length');
+    setShift('Full Day');
+  }, [isfocused]);
 
   const SubmitForApply = () => {
-    console.log(endDate, shift, '<<<this is dend date');
+    console.log(endDate, shift, halfLength, '<<<this is dend date');
     // return null;
     if (startDate == '') return Alert.alert('Error', 'Date is required!');
     if (reason == null) return Alert.alert('Error', 'Reason is required!');
+    if (reason.length < 30)
+      return Alert.alert(
+        'Error',
+        'Reason should be greater than 30 characters!',
+      );
     // if (reason == null) return Alert.alert('Reason is required!');
     if (shift == 'Above a Day' && endDate == '')
-      return Alert.alert('Please select end date');
-    if (shift == 'Half Day' && halfLength == null)
+      return Alert.alert('Error', 'Please select end date');
+    if (shift == 'Half Day' && halfLength == 'Select length')
       return Alert.alert('Error', 'Please select Length ');
     console.log(
       userData.staffid,
@@ -59,6 +74,7 @@ export default function ApplyLeavesScreen({navigation}) {
 
     const payload = {
       staffid: userData.staffid,
+      // staffid: 393,
       type: shift,
       start_date: startDate,
       end_date: endDate,
@@ -70,9 +86,13 @@ export default function ApplyLeavesScreen({navigation}) {
       console.log(res, '<<<at apply leave screen');
       Alert.alert(response.body);
       setShowLoader(false);
+      setEndData('');
+      setReason('');
+      setStartDate('');
       navigation.navigate('LeavesScreen');
     });
   };
+  console.log(halfLength, '<<<<this is half length');
 
   const renderFullNameLabel = () => {
     if (reason || labelUp) {
@@ -92,10 +112,12 @@ export default function ApplyLeavesScreen({navigation}) {
     }
     return null;
   };
-
+  const showToast = msg => {
+    ToastAndroid.show(msg, ToastAndroid.SHORT);
+  };
   return (
     <View>
-      <LeavesHeader />
+      <LeavesHeader navigation={navigation} />
 
       <ScrollView
         style={{width: '100%', height: '100%', backgroundColor: '#fff'}}>
@@ -160,8 +182,9 @@ export default function ApplyLeavesScreen({navigation}) {
           <View style={{...commonStyles.rowBetween}}>
             <PersonalLeaveDatePicker
               placeholderText="Start Date"
-              minimumDate="24-Dec-1900"
-              maximumDate="24-Dec-2200"
+              minimumDate="01-10-2022"
+              date={new Date(startDate)}
+              maximumDate="24-Dec-2224"
               pickerWidth={
                 shift === 'Full Day' ? SIZES.width - 34 : SIZES.width / 2.26
               }
@@ -176,11 +199,20 @@ export default function ApplyLeavesScreen({navigation}) {
             {shift === 'Above a Day' ? (
               <PersonalLeaveDatePicker
                 placeholderText="End Date"
-                minimumDate="24-Dec-1900"
-                maximumDate="24-Dec-2200"
+                minimumDate={startDate}
+                maximumDate="24-Dec-2222"
+                value={endDate}
                 initialDate={endDate}
+                date={new Date(endDate)}
                 isStart="yes"
                 onDateSelected={function (val) {
+                  console.log(
+                    '----',
+                    `${startDate.length}`,
+                    '\n\n\n\n<<<startDate',
+                  );
+                  if (startDate.length == 0)
+                    return showToast('Please select start date first');
                   const checkDate = moment(val).format('YYYY-MM-DD');
                   setEndData(`${checkDate}`);
                 }}
@@ -202,7 +234,7 @@ export default function ApplyLeavesScreen({navigation}) {
                   data={data}
                   maxHeight={200}
                   placeholder={
-                    selectedLength.length !== 0 ? '' : 'Selected Length'
+                    halfLength == null ? 'Select length' : halfLength
                   }
                   // value={selectedLength.length !== 0 ? '' : selectedLength}
                   value={halfLength}
@@ -226,7 +258,7 @@ export default function ApplyLeavesScreen({navigation}) {
                   }}
                 />
 
-                {halfLength != null ? (
+                {/* {halfLength != null ? (
                   <View style={{position: 'absolute', top: 14, left: 52}}>
                     <Text
                       style={{fontSize: 14, fontWeight: '500', color: '#555'}}>
@@ -234,8 +266,19 @@ export default function ApplyLeavesScreen({navigation}) {
                     </Text>
                   </View>
                 ) : (
-                  <></>
-                )}
+                  <>
+                    <View style={{position: 'absolute', top: 14, left: 52}}>
+                      <Text
+                        style={{
+                          fontSize: 14,
+                          fontWeight: '500',
+                          color: '#555',
+                        }}>
+                        Select Length
+                      </Text>
+                    </View>
+                  </>
+                )} */}
               </View>
             ) : (
               <></>

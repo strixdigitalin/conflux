@@ -17,7 +17,8 @@ const menuItems = [
     image: require('../../assets/img/dashboard.png'),
     name: 'Dashboard',
     bgColor: '#4CB848',
-    pageName: 'HomeScreen',
+    // pageName: 'HomeScreen',
+    pageName: 'HomeTab',
   },
   {
     image: require('../../assets/img/user.png'),
@@ -53,6 +54,12 @@ const menuItems = [
     name: 'Learning &\n Development',
     bgColor: '#FDA000',
     pageName: '',
+  },
+  {
+    image: require('../../assets/img/recruitment.png'),
+    name: 'PayslipScreen',
+    bgColor: '#FF1B1B',
+    pageName: 'PayslipScreen',
   },
   // {
   //   image: require('../../assets/img/recruitment.png'),
