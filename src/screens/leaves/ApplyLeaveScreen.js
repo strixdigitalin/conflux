@@ -20,8 +20,8 @@ import {useEffect} from 'react';
 import {useIsFocused} from '@react-navigation/native';
 
 const data = [
-  {label: 'First half', value: 'First half'},
-  {label: 'Second half', value: 'Secnod half'},
+  {label: 'First half', value: '1st half'},
+  {label: 'Second half', value: '2nd half'},
   // {label: '3 Hour', value: '3 Hour'},
   // {label: '4 Hour', value: '4 Hour'},
   // {label: '5 Hour', value: '5 Hour'},
@@ -30,7 +30,7 @@ const data = [
 export default function ApplyLeavesScreen({navigation}) {
   const [shift, setShift] = React.useState('Full Day');
   const [startDate, setStartDate] = React.useState('');
-  const [endDate, setEndData] = React.useState('');
+  const [endDate, setEndDate] = React.useState('');
   const [reason, setReason] = React.useState(null);
   const {userData} = useSelector(state => state.User);
   const [showLoader, setShowLoader] = React.useState(false);
@@ -40,7 +40,7 @@ export default function ApplyLeavesScreen({navigation}) {
   const isfocused = useIsFocused();
   useEffect(() => {
     setStartDate('');
-    setEndData('');
+    setEndDate('');
     setReason('');
     setHalfLength('Select length');
     setShift('Full Day');
@@ -71,22 +71,47 @@ export default function ApplyLeavesScreen({navigation}) {
       '<<<this is user data',
     );
     setShowLoader(true);
-
-    const payload = {
-      staffid: userData.staffid,
-      // staffid: 393,
-      type: shift,
-      start_date: startDate,
-      end_date: endDate,
-      reason: reason,
-    };
+    let payload = {};
+    if (shift == 'Half Day') {
+      payload = {
+        staffid: userData.staffid,
+        select_length: halfLength,
+        // staffid: 393,
+        type: shift,
+        start_date: startDate,
+        end_date: endDate,
+        reason: reason,
+      };
+    }
+    if (shift == 'Above a Day') {
+      payload = {
+        staffid: userData.staffid,
+        select_length: halfLength,
+        // staffid: 393,
+        type: shift,
+        start_date: startDate,
+        end_date: endDate,
+        reason: reason,
+      };
+    }
+    if (shift == 'Full Day') {
+      payload = {
+        staffid: userData.staffid,
+        select_length: halfLength,
+        // staffid: 393,
+        type: shift,
+        start_date: startDate,
+        end_date: startDate,
+        reason: reason,
+      };
+    }
     // return null;
     applyLeave(payload, res => {
       const response = JSON.parse(res);
       console.log(res, '<<<at apply leave screen');
       Alert.alert(response.body);
       setShowLoader(false);
-      setEndData('');
+      setEndDate('');
       setReason('');
       setStartDate('');
       navigation.navigate('LeavesScreen');
@@ -182,41 +207,60 @@ export default function ApplyLeavesScreen({navigation}) {
           <View style={{...commonStyles.rowBetween}}>
             <PersonalLeaveDatePicker
               placeholderText="Start Date"
-              minimumDate="01-10-2022"
-              date={new Date(startDate)}
-              maximumDate="24-Dec-2224"
+              heading="Start Date *"
+              selectedVal={startDate}
+              minimumDate={''}
+              maximumDate={endDate === '' ? '' : endDate}
+              initialDate={startDate === '' ? endDate : startDate}
+              isStart="yes"
               pickerWidth={
                 shift === 'Full Day' ? SIZES.width - 34 : SIZES.width / 2.26
               }
-              initialDate={startDate}
-              isStart="yes"
               onDateSelected={function (val) {
-                const checkDate = moment(val).format('YYYY-MM-DD');
-                setStartDate(`${checkDate}`);
+                setStartDate(moment(val).format('DD-MMM-YYYY'));
               }}
             />
 
             {shift === 'Above a Day' ? (
-              <PersonalLeaveDatePicker
-                placeholderText="End Date"
-                minimumDate={startDate}
-                maximumDate="24-Dec-2222"
-                value={endDate}
-                initialDate={endDate}
-                date={new Date(endDate)}
-                isStart="yes"
-                onDateSelected={function (val) {
-                  console.log(
-                    '----',
-                    `${startDate.length}`,
-                    '\n\n\n\n<<<startDate',
-                  );
-                  if (startDate.length == 0)
-                    return showToast('Please select start date first');
-                  const checkDate = moment(val).format('YYYY-MM-DD');
-                  setEndData(`${checkDate}`);
-                }}
-              />
+              startDate.length !== 0 ? (
+                <PersonalLeaveDatePicker
+                  placeholderText="End Date"
+                  heading="End Date *"
+                  selectedVal={endDate}
+                  minimumDate={startDate === '' ? '' : startDate}
+                  maximumDate={endDate === '' ? '' : ''}
+                  initialDate={endDate === '' ? startDate : endDate}
+                  onDateSelected={function (val) {
+                    if (startDate.length === 0) {
+                      alert('Please select start date first');
+                      console.log('\n\n Selected date: 1111');
+                    } else {
+                      setEndDate(moment(val).format('DD-MMM-YYYY'));
+                      console.log('\n\n Selected date: 2222');
+                    }
+                  }}
+                />
+              ) : (
+                <TouchableOpacity
+                  onPress={() => {
+                    Alert.alert('Important', 'Please select start date');
+                  }}
+                  style={{...styles.touchContainer}}
+                  activeOpacity={0.8}>
+                  <View style={[styles.inputContainer]}>
+                    <Image
+                      source={require('../../assets/img/date.png')}
+                      style={{
+                        width: 20,
+                        height: 20,
+                        marginRight: 4,
+                        tintColor: '#999',
+                      }}
+                    />
+                    <Text style={styles.input}>End Date</Text>
+                  </View>
+                </TouchableOpacity>
+              )
             ) : (
               <></>
             )}
@@ -404,5 +448,32 @@ const styles = StyleSheet.create({
     borderRadius: 9,
     width: SIZES.width / 2.26,
     paddingHorizontal: 16,
+  },
+  touchContainer: {
+    elevation: 9,
+    shadowColor: '#999',
+    backgroundColor: '#fff',
+    borderRadius: 9,
+    marginTop: -16,
+  },
+  inputContainer: {
+    width: '100%',
+    height: 50,
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 16,
+    width: SIZES.width / 2.26,
+  },
+  input: {
+    padding: 10,
+    flex: 1,
+    fontSize: 14,
+    color: '#999999',
+  },
+  inputBlack: {
+    padding: 10,
+    flex: 1,
+    fontSize: 14,
+    color: '#000',
   },
 });

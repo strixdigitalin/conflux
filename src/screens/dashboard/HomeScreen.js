@@ -49,37 +49,73 @@ export default function HomeScreen({navigation}) {
             paddingVertical: 12,
             borderRadius: 8,
           }}>
-          <View style={{...commonStyles.rowBetween}}>
-            <View style={{...commonStyles.rowStart, paddingHorizontal: 15}}>
-              <Image
-                source={require('../../assets/img/user-pic.png')}
-                style={{width: 48, height: 48}}
-              />
-              <View style={{marginLeft: 12}}>
-                <Text style={{...commonStyles.fs16_400, color: '#d10044'}}>
-                  Anvika Acharya
+          <ScrollView
+            horizontal
+            disableIntervalMomentum={false}
+            showsHorizontalScrollIndicator={false}
+            pagingEnabled={true}
+            snapToInterval={300}>
+            <View style={{...commonStyles.rowBetween}}>
+              <View style={{...commonStyles.rowStart, paddingHorizontal: 15}}>
+                <Image
+                  source={require('../../assets/img/user-pic.png')}
+                  style={{width: 48, height: 48}}
+                />
+                <View style={{marginLeft: 12}}>
+                  <Text style={{...commonStyles.fs16_400, color: '#d10044'}}>
+                    Anvika Acharya
+                  </Text>
+                  <Text style={{...commonStyles.fs12_400, color: '#000000'}}>
+                    HR & Admin
+                  </Text>
+                </View>
+              </View>
+              <View style={{marginRight: 12}}>
+                <Text style={{...commonStyles.fs24_500, color: COLORS.green}}>
+                  02
                 </Text>
                 <Text style={{...commonStyles.fs12_400, color: '#000000'}}>
-                  HR & Admin
+                  April
                 </Text>
               </View>
             </View>
-            <View style={{marginRight: 12}}>
-              <Text style={{...commonStyles.fs24_500, color: COLORS.green}}>
-                02
-              </Text>
-              <Text style={{...commonStyles.fs12_400, color: '#000000'}}>
-                April
-              </Text>
+            <View style={{...commonStyles.rowBetween}}>
+              <View style={{...commonStyles.rowStart, paddingHorizontal: 15}}>
+                <Image
+                  source={require('../../assets/img/user-pic.png')}
+                  style={{width: 48, height: 48}}
+                />
+                <View style={{marginLeft: 12}}>
+                  <Text style={{...commonStyles.fs16_400, color: '#d10044'}}>
+                    Anvika Acharya
+                  </Text>
+                  <Text style={{...commonStyles.fs12_400, color: '#000000'}}>
+                    HR & Admin
+                  </Text>
+                </View>
+              </View>
+              <View style={{marginRight: 12}}>
+                <Text style={{...commonStyles.fs24_500, color: COLORS.green}}>
+                  02
+                </Text>
+                <Text style={{...commonStyles.fs12_400, color: '#000000'}}>
+                  April
+                </Text>
+              </View>
             </View>
-          </View>
+          </ScrollView>
         </View>
 
         <Text
           style={{...commonStyles.fs14_400, marginTop: 20, marginBottom: 8}}>
           Upcoming Holiday
         </Text>
-
+        <ScrollView
+          horizontal
+          disableIntervalMomentum={false}
+          showsHorizontalScrollIndicator={false}
+          pagingEnabled={true}
+          snapToInterval={300}></ScrollView>
         <Image
           source={require('../../assets/img/diwali.png')}
           resizeMode="contain"

@@ -7,6 +7,7 @@ import GoToLoginPageScreen from '../screens/auth/GoToLoginPageScreen';
 import ForgotPasswordScreen from '../screens/auth/ForgotPasswordScreen';
 import IntroScreen from '../onboarding/IntroScreen';
 import Auth from '../services/Auth';
+import ApplyLeavesScreen from '../screens/leaves/ApplyLeaveScreen';
 import PayslipScreen from '../screens/payslip/PayslipScreen';
 
 const Stack = createStackNavigator();
