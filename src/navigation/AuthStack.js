@@ -8,6 +8,7 @@ import ForgotPasswordScreen from '../screens/auth/ForgotPasswordScreen';
 import IntroScreen from '../onboarding/IntroScreen';
 import Auth from '../services/Auth';
 import ApplyLeavesScreen from '../screens/leaves/ApplyLeaveScreen';
+import CalendarScreen from '../screens/calendar/CalendarScreen';
 
 const Stack = createStackNavigator();
 
@@ -40,8 +41,7 @@ export default function AuthStack() {
     <>
       <Stack.Navigator
         screenOptions={screenOptions}
-        initialRouteName={'ApplyLeavesScreen'}>
-        <Stack.Screen name="ApplyLeavesScreen" component={ApplyLeavesScreen} />
+        initialRouteName={routeName}>
         <Stack.Screen name="IntroScreen" component={IntroScreen} />
         <Stack.Screen
           name="GoToLoginPageScreen"
