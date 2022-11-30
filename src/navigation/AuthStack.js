@@ -40,7 +40,7 @@ export default function AuthStack() {
     <>
       <Stack.Navigator
         screenOptions={screenOptions}
-        initialRouteName={'GoToLoginPageScreen'}>
+        initialRouteName={'IntroScreen'}>
         <Stack.Screen name="PayslipScreen" component={PayslipScreen} />
         <Stack.Screen name="IntroScreen" component={IntroScreen} />
         <Stack.Screen

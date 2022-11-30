@@ -26,16 +26,16 @@ export default function IntroScreen({navigation}) {
   const onFocus = useIsFocused();
   const [sliders, ,] = useState([
     {
-      image: require('../assets/img/slider-1.png'),
+      image: require('../assets/img/slider1-1.png'),
     },
     {
-      image: require('../assets/img/slider-2.png'),
+      image: require('../assets/img/slider1-2.png'),
     },
     {
-      image: require('../assets/img/slider-3.png'),
+      image: require('../assets/img/slider1-3.png'),
     },
     {
-      image: require('../assets/img/slider-4.png'),
+      image: require('../assets/img/slider1-4.png'),
     },
   ]);
 
@@ -167,7 +167,7 @@ export default function IntroScreen({navigation}) {
           horizontal={true}
           data={sliders}
           renderItem={SliderItem}
-          scrollEnabled={true}
+          scrollEnabled={false}
           decelerationRate="fast"
           bounces={false}
           showsHorizontalScrollIndicator={false}
