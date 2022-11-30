@@ -7,8 +7,7 @@ import GoToLoginPageScreen from '../screens/auth/GoToLoginPageScreen';
 import ForgotPasswordScreen from '../screens/auth/ForgotPasswordScreen';
 import IntroScreen from '../onboarding/IntroScreen';
 import Auth from '../services/Auth';
-import ApplyLeavesScreen from '../screens/leaves/ApplyLeaveScreen';
-import CalendarScreen from '../screens/calendar/CalendarScreen';
+import PayslipScreen from '../screens/payslip/PayslipScreen';
 
 const Stack = createStackNavigator();
 
@@ -42,6 +41,7 @@ export default function AuthStack() {
       <Stack.Navigator
         screenOptions={screenOptions}
         initialRouteName={routeName}>
+        <Stack.Screen name="PayslipScreen" component={PayslipScreen} />
         <Stack.Screen name="IntroScreen" component={IntroScreen} />
         <Stack.Screen
           name="GoToLoginPageScreen"

@@ -1,38 +1,38 @@
-import { View, Text, Image, ToastAndroid } from 'react-native';
-import React, { useState } from 'react';
+import {View, Text, Image, ToastAndroid} from 'react-native';
+import React, {useState} from 'react';
 import LeavesHeader from './LeavesHeader';
-import { commonStyles } from '../../utils/styles';
-import { StyleSheet } from 'react-native';
-import { ScrollView } from 'react-native';
-import { TouchableOpacity } from 'react-native';
+import {commonStyles} from '../../utils/styles';
+import {StyleSheet} from 'react-native';
+import {ScrollView} from 'react-native';
+import {TouchableOpacity} from 'react-native';
 import PersonalLeaveDatePicker from '../../components/CustomDatePicker';
-import { TextInput } from 'react-native';
-import { TouchableHighlight } from 'react-native';
-import { applyLeave } from '../../utils/API';
-import { useSelector } from 'react-redux';
+import {TextInput} from 'react-native';
+import {TouchableHighlight} from 'react-native';
+import {applyLeave} from '../../utils/API';
+import {useSelector} from 'react-redux';
 import moment from 'moment/moment';
-import { Alert } from 'react-native';
-import { SIZES } from '../../utils/theme';
-import { Dropdown } from 'react-native-element-dropdown';
-import { dropdownStyles } from '../../utils/dropdownStyles';
-import { ActivityIndicator } from 'react-native-paper';
-import { useEffect } from 'react';
-import { useIsFocused } from '@react-navigation/native';
+import {Alert} from 'react-native';
+import {SIZES} from '../../utils/theme';
+import {Dropdown} from 'react-native-element-dropdown';
+import {dropdownStyles} from '../../utils/dropdownStyles';
+import {ActivityIndicator} from 'react-native-paper';
+import {useEffect} from 'react';
+import {useIsFocused} from '@react-navigation/native';
 
 const data = [
-  { label: 'First half', value: 'First half' },
-  { label: 'Second half', value: 'Secnod half' },
+  {label: 'First half', value: '1st half'},
+  {label: 'Second half', value: '2nd half'},
   // {label: '3 Hour', value: '3 Hour'},
   // {label: '4 Hour', value: '4 Hour'},
   // {label: '5 Hour', value: '5 Hour'},
 ];
 
-export default function ApplyLeavesScreen({ navigation }) {
+export default function ApplyLeavesScreen({navigation}) {
   const [shift, setShift] = React.useState('Full Day');
   const [startDate, setStartDate] = React.useState('');
   const [endDate, setEndDate] = React.useState('');
   const [reason, setReason] = React.useState(null);
-  const { userData } = useSelector(state => state.User);
+  const {userData} = useSelector(state => state.User);
   const [showLoader, setShowLoader] = React.useState(false);
   const [halfLength, setHalfLength] = useState('Select length');
   const [labelUp, setLabelUp] = React.useState(false);
@@ -71,15 +71,40 @@ export default function ApplyLeavesScreen({ navigation }) {
       '<<<this is user data',
     );
     setShowLoader(true);
-
-    const payload = {
-      staffid: userData.staffid,
-      // staffid: 393,
-      type: shift,
-      start_date: startDate,
-      end_date: endDate,
-      reason: reason,
-    };
+    let payload = {};
+    if (shift == 'Half Day') {
+      payload = {
+        staffid: userData.staffid,
+        select_length: halfLength,
+        // staffid: 393,
+        type: shift,
+        start_date: startDate,
+        end_date: endDate,
+        reason: reason,
+      };
+    }
+    if (shift == 'Above a Day') {
+      payload = {
+        staffid: userData.staffid,
+        select_length: halfLength,
+        // staffid: 393,
+        type: shift,
+        start_date: startDate,
+        end_date: endDate,
+        reason: reason,
+      };
+    }
+    if (shift == 'Full Day') {
+      payload = {
+        staffid: userData.staffid,
+        select_length: halfLength,
+        // staffid: 393,
+        type: shift,
+        start_date: startDate,
+        end_date: startDate,
+        reason: reason,
+      };
+    }
     // return null;
     applyLeave(payload, res => {
       const response = JSON.parse(res);
@@ -120,9 +145,9 @@ export default function ApplyLeavesScreen({ navigation }) {
       <LeavesHeader navigation={navigation} />
 
       <ScrollView
-        style={{ width: '100%', height: '100%', backgroundColor: '#fff' }}>
-        <View style={{ alignItems: 'center', marginTop: 22 }}>
-          <Text style={{ ...commonStyles.fs14_400, color: '#0073FF' }}>
+        style={{width: '100%', height: '100%', backgroundColor: '#fff'}}>
+        <View style={{alignItems: 'center', marginTop: 22}}>
+          <Text style={{...commonStyles.fs14_400, color: '#0073FF'}}>
             Leaves Available
           </Text>
         </View>
@@ -150,7 +175,7 @@ export default function ApplyLeavesScreen({ navigation }) {
           />
         </View>
 
-        <View style={{ paddingHorizontal: 16 }}>
+        <View style={{paddingHorizontal: 16}}>
           <View style={styles.tabContainer}>
             {['Full Day', 'Half Day', 'Above a Day'].map((item, index) => {
               return (
@@ -178,8 +203,8 @@ export default function ApplyLeavesScreen({ navigation }) {
           </View>
         </View>
 
-        <View style={{ padding: 16, marginTop: 12 }}>
-          <View style={{ ...commonStyles.rowBetween }}>
+        <View style={{padding: 16, marginTop: 12}}>
+          <View style={{...commonStyles.rowBetween}}>
             <PersonalLeaveDatePicker
               placeholderText="Start Date"
               heading="Start Date *"
@@ -218,9 +243,9 @@ export default function ApplyLeavesScreen({ navigation }) {
               ) : (
                 <TouchableOpacity
                   onPress={() => {
-                    Alert.alert("Important", 'Please select start date');
+                    Alert.alert('Important', 'Please select start date');
                   }}
-                  style={{ ...styles.touchContainer }}
+                  style={{...styles.touchContainer}}
                   activeOpacity={0.8}>
                   <View style={[styles.inputContainer]}>
                     <Image
@@ -244,7 +269,7 @@ export default function ApplyLeavesScreen({ navigation }) {
               <View style={styles.selectedLength}>
                 <Image
                   source={require('../../assets/img/clock.png')}
-                  style={{ width: 20, height: 20, marginRight: 12 }}
+                  style={{width: 20, height: 20, marginRight: 12}}
                 />
                 <Dropdown
                   style={[dropdownStyles.dropdown]}
@@ -266,7 +291,7 @@ export default function ApplyLeavesScreen({ navigation }) {
                           justifyContent: 'center',
                           alignItems: 'center',
                         }}>
-                        <Text style={{ fontSize: 14, color: '#555' }}>
+                        <Text style={{fontSize: 14, color: '#555'}}>
                           {item.label}
                         </Text>
                       </View>
@@ -304,10 +329,10 @@ export default function ApplyLeavesScreen({ navigation }) {
             )}
           </View>
 
-          <View style={{ marginTop: 16 }}>
+          <View style={{marginTop: 16}}>
             {renderFullNameLabel()}
             <View
-              style={{ borderWidth: 1, borderColor: '#999', borderRadius: 10 }}>
+              style={{borderWidth: 1, borderColor: '#999', borderRadius: 10}}>
               <TextInput
                 multiline
                 value={reason}
@@ -333,13 +358,13 @@ export default function ApplyLeavesScreen({ navigation }) {
 
           {!showLoader && (
             <TouchableHighlight
-              style={{ ...styles.applyBtn, width: '50%', borderRadius: 50 }}
+              style={{...styles.applyBtn, width: '50%', borderRadius: 50}}
               underlayColor="#0073FF"
               onPress={() => {
                 SubmitForApply();
                 //   navigation.navigate('ApplyLeavesScreen');
               }}>
-              <Text style={{ ...commonStyles.fs16_400, color: '#fff' }}>
+              <Text style={{...commonStyles.fs16_400, color: '#fff'}}>
                 Submit Request
               </Text>
             </TouchableHighlight>
@@ -347,18 +372,18 @@ export default function ApplyLeavesScreen({ navigation }) {
           {showLoader && <ActivityIndicator />}
         </View>
 
-        <View style={{ height: 70 }} />
+        <View style={{height: 70}} />
       </ScrollView>
     </View>
   );
 }
 
-const RenderLeaveCount = ({ count, title, bgColor, color }) => {
+const RenderLeaveCount = ({count, title, bgColor, color}) => {
   return (
-    <View style={{ ...styles.leaveCount, backgroundColor: bgColor }}>
-      <Text style={{ ...commonStyles.fs26_700, color: color }}>{count}</Text>
+    <View style={{...styles.leaveCount, backgroundColor: bgColor}}>
+      <Text style={{...commonStyles.fs26_700, color: color}}>{count}</Text>
       <Text
-        style={{ ...commonStyles.fs14_500, textAlign: 'center', color: color }}>
+        style={{...commonStyles.fs14_500, textAlign: 'center', color: color}}>
         {title}
       </Text>
     </View>
@@ -429,7 +454,7 @@ const styles = StyleSheet.create({
     shadowColor: '#999',
     backgroundColor: '#fff',
     borderRadius: 9,
-    marginTop: -16
+    marginTop: -16,
   },
   inputContainer: {
     width: '100%',

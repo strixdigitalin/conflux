@@ -29,8 +29,8 @@ export default function LeavesScreen({navigation}) {
     // getAllLeaves(userData.staffid, res => {
 
     setShowLoader(1);
-    // getAllLeaves(userData.staffid, res => {
-    getAllLeaves(110, res => {
+    getAllLeaves(userData.staffid, res => {
+      // getAllLeaves(110, res => {
       console.log(res.body, '<<<<result at get all leaves');
       setAllLeaves(res.body);
 
