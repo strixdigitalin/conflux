@@ -150,21 +150,23 @@ export default function ApplyLeavesScreen({navigation}) {
 
         <View style={styles.leaveContainer}>
           <RenderLeaveCount
-            count={0}
-            title={`Sick\nLeave`}
+            // count={allLeaves.length}
+            count={countType('Sick Leave')}
+            title={`Sick Leave`}
+            // title={`Sick\nLeave`}
             bgColor="#E8EBFB"
             color="#235FDD"
           />
 
           <RenderLeaveCount
-            count={1}
-            title={`Sick\nLeave`}
+            count={countType('Privilege Leave')}
+            title={`Privilege\nLeave`}
             bgColor="#FDF5E3"
             color="#F3A41D"
           />
 
           <RenderLeaveCount
-            count={0}
+            count={countType('Casual Leave')}
             title={`Casual\nLeave`}
             bgColor="#FBEEE9"
             color="#E75E40"

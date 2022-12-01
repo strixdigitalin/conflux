@@ -28,7 +28,7 @@ const paySlips = [
   {name: 'August'},
 ];
 
-export default function PayslipScreen() {
+export default function PayslipScreen({navigation}) {
   const [payslipData, setPayslipData] = useState([]);
 
   useEffect(() => {
@@ -42,7 +42,7 @@ export default function PayslipScreen() {
 
   return (
     <View style={{backgroundColor: '#fff', width: '100%', height: '100%'}}>
-      <PayslipHeader />
+      <PayslipHeader navigation={navigation} />
       <StatusBar barStyle="light-content" backgroundColor={COLORS.blue} />
 
       <View style={{...commonStyles.rowBetween, padding: 14}}>

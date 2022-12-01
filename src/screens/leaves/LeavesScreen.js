@@ -57,23 +57,23 @@ export default function LeavesScreen({navigation}) {
         <View style={styles.leaveContainer}>
           <RenderLeaveCount
             // count={allLeaves.length}
-            count={countType('Full Day')}
-            title={`Full Day`}
+            count={countType('Sick Leave')}
+            title={`Sick Leave`}
             // title={`Sick\nLeave`}
             bgColor="#E8EBFB"
             color="#235FDD"
           />
 
           <RenderLeaveCount
-            count={countType('Half Day')}
-            title={`Half Day`}
+            count={countType('Privilege Leave')}
+            title={`Privilege\nLeave`}
             bgColor="#FDF5E3"
             color="#F3A41D"
           />
 
           <RenderLeaveCount
-            count={countType('Above a Day')}
-            title={`Above a Day`}
+            count={countType('Casual\nLeave')}
+            title={`Casual Leave`}
             bgColor="#FBEEE9"
             color="#E75E40"
           />
