@@ -30,6 +30,7 @@ const data = [
 export default function ApplyLeavesScreen({navigation}) {
   const [shift, setShift] = React.useState('Full Day');
   const [startDate, setStartDate] = React.useState('');
+  const [isSubmitted, setIsSubmitted] = useState(false);
   const [endDate, setEndDate] = React.useState('');
   const [reason, setReason] = React.useState(null);
   const {userData} = useSelector(state => state.User);
@@ -48,19 +49,14 @@ export default function ApplyLeavesScreen({navigation}) {
 
   const SubmitForApply = () => {
     console.log(endDate, shift, halfLength, '<<<this is dend date');
+    setIsSubmitted(true);
     // return null;
-    if (startDate == '') return Alert.alert('Error', 'Date is required!');
-    if (reason == null) return Alert.alert('Error', 'Reason is required!');
-    if (reason.length < 30)
-      return Alert.alert(
-        'Error',
-        'Reason should be greater than 30 characters!',
-      );
+    if (startDate == '') return null;
+    if (reason == null) return null;
+
     // if (reason == null) return Alert.alert('Reason is required!');
-    if (shift == 'Above a Day' && endDate == '')
-      return Alert.alert('Error', 'Please select end date');
-    if (shift == 'Half Day' && halfLength == 'Select length')
-      return Alert.alert('Error', 'Please select Length ');
+    if (shift == 'Above a Day' && endDate == '') return null;
+    if (shift == 'Half Day' && halfLength == 'Select length') return null;
     console.log(
       userData.staffid,
       shift,
@@ -189,6 +185,7 @@ export default function ApplyLeavesScreen({navigation}) {
                   ]}
                   onPress={() => {
                     setShift(item);
+                    setIsSubmitted(false);
                   }}>
                   <Text
                     style={{
@@ -232,7 +229,8 @@ export default function ApplyLeavesScreen({navigation}) {
                   initialDate={endDate === '' ? startDate : endDate}
                   onDateSelected={function (val) {
                     if (startDate.length === 0) {
-                      alert('Please select start date first');
+                      // alert('Please select start date first');
+                      showToast('Please select start date');
                       console.log('\n\n Selected date: 1111');
                     } else {
                       setEndDate(moment(val).format('DD-MMM-YYYY'));
@@ -243,7 +241,8 @@ export default function ApplyLeavesScreen({navigation}) {
               ) : (
                 <TouchableOpacity
                   onPress={() => {
-                    Alert.alert('Important', 'Please select start date');
+                    // Alert.alert('Important', 'Please select start date');
+                    showToast('Please select start date first');
                   }}
                   style={{...styles.touchContainer}}
                   activeOpacity={0.8}>
@@ -328,6 +327,38 @@ export default function ApplyLeavesScreen({navigation}) {
               <></>
             )}
           </View>
+          <View style={{...commonStyles.rowBetween}}>
+            {isSubmitted && startDate == '' && (
+              <Text style={{color: '#FF0000'}}>Start date is required</Text>
+            )}
+            {shift === 'Above a Day' ? (
+              startDate.length !== 0 ? (
+                <View style={{width: '100%', alignSelf: 'flex-end'}}>
+                  {isSubmitted && endDate == '' && (
+                    <Text style={{color: '#FF0000', textAlign: 'right'}}>
+                      End date is required
+                    </Text>
+                  )}
+                </View>
+              ) : null
+            ) : (
+              <></>
+            )}
+
+            {shift === 'Half Day' ? (
+              <>
+                <View style={{width: '100%'}}>
+                  {isSubmitted && halfLength == 'Select length' && (
+                    <Text style={{color: '#FF0000', textAlign: 'right'}}>
+                      This field is required
+                    </Text>
+                  )}
+                </View>
+              </>
+            ) : (
+              <></>
+            )}
+          </View>
 
           <View style={{marginTop: 16}}>
             {renderFullNameLabel()}
@@ -353,6 +384,11 @@ export default function ApplyLeavesScreen({navigation}) {
                 }}
               />
             </View>
+            {isSubmitted && reason.length == 0 && (
+              <>
+                <Text style={{color: '#FF0000'}}>Reason is required</Text>
+              </>
+            )}
           </View>
           <Text />
 

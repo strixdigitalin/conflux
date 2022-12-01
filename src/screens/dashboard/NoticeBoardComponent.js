@@ -4,8 +4,10 @@ import {commonStyles} from '../../utils/styles';
 import {COLORS} from '../../utils/theme';
 import {ScrollView} from 'react-native-gesture-handler';
 
-export default function NoticeBoardComponent() {
-  const renderNoticeList = text => {
+export default function NoticeBoardComponent({notice}) {
+  console.log(notice, '<<<this is notice in notice board screen \n\n\n\n');
+
+  const renderNoticeList = item => {
     return (
       <View
         style={{
@@ -19,6 +21,30 @@ export default function NoticeBoardComponent() {
             backgroundColor: COLORS.blue,
             height: 35,
             marginRight: 6,
+          }}
+        />
+        <Text style={{...commonStyles.fs14_400, fontWeight: 'bold'}}>
+          {item?.subject} :
+        </Text>
+        <Text style={{...commonStyles.fs14_400}}>{item?.description}</Text>
+      </View>
+    );
+  };
+  const Heading = text => {
+    return (
+      <View
+        style={{
+          ...commonStyles.rowStart,
+          alignItems: 'center',
+          // marginBottom: 2,
+        }}>
+        <View
+          style={{
+            width: 1,
+            backgroundColor: COLORS.blue,
+            height: 35,
+            marginRight: 6,
+            fontSize: 18,
           }}
         />
         <Text style={{...commonStyles.fs14_400}}>{text}</Text>
@@ -49,10 +75,10 @@ export default function NoticeBoardComponent() {
           style={{
             maxHeight: 200,
           }}>
-          {renderNoticeList(
-            'The Jeeva Organic sales team achieved a sales value of INR 14,26,158.',
-          )}
-
+          {notice.map(item => {
+            return renderNoticeList(item);
+          })}
+          {/* 
           {renderNoticeList(
             'The Jeeva Organic sales team achieved a sales value of INR 14,26,158.',
           )}
@@ -70,7 +96,7 @@ export default function NoticeBoardComponent() {
           )}
           {renderNoticeList(
             'The Jeeva Organic sales team achieved a sales value of INR 14,26,158.',
-          )}
+          )} */}
         </ScrollView>
       </View>
     </View>

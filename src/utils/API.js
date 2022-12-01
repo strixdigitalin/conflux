@@ -108,6 +108,39 @@ export const applyLeave = async (payload, successCallBack) => {
     })
     .catch(error => console.log('error', error));
 };
+export const upCommingHoliday = async (payload, successCallBack) => {
+  const {staffid, type, start_date, end_date, reason} = payload;
+  var myHeaders = new Headers();
+  myHeaders.append('X-api-key', 'xDC7BEzNo44zu1Nk7GlE564V2jlsjnsf2RrO2ErD');
+  myHeaders.append('Content-Type', 'application/json');
+
+  var raw = JSON.stringify({
+    endpoint: 'dashboard',
+    action: 'upcoming_holiday',
+    product_code: 'JO',
+    params: {
+      staffid: payload.staffid,
+    },
+  });
+
+  var requestOptions = {
+    method: 'POST',
+    headers: myHeaders,
+    body: raw,
+    redirect: 'follow',
+  };
+
+  fetch(
+    'https://gclfo3ljyh.execute-api.us-east-1.amazonaws.com/prod/confluxhr',
+    requestOptions,
+  )
+    .then(response => response.text())
+    .then(result => {
+      console.log(result, '<<<Result');
+      successCallBack(result);
+    })
+    .catch(error => console.log('error', error));
+};
 
 export const getAllLeaves = async (id, callBack) => {
   console.log(id, 'get all leave id');
@@ -143,6 +176,36 @@ export const getAllLeaves = async (id, callBack) => {
     .catch(error => console.log('error', error));
 };
 
+export const getNotice = callBack => {
+  var myHeaders = new Headers();
+  myHeaders.append('X-api-key', 'xDC7BEzNo44zu1Nk7GlE564V2jlsjnsf2RrO2ErD');
+  myHeaders.append('Content-Type', 'application/json');
+
+  var raw = JSON.stringify({
+    endpoint: 'dashboard',
+    action: 'all_notice',
+    product_code: 'JO',
+    params: {
+      staffid: 1,
+    },
+  });
+
+  var requestOptions = {
+    method: 'POST',
+    headers: myHeaders,
+    body: raw,
+    redirect: 'follow',
+  };
+
+  fetch(
+    'https://gclfo3ljyh.execute-api.us-east-1.amazonaws.com/prod/confluxhr',
+    requestOptions,
+  )
+    .then(response => response.text())
+    .then(result => callBack(JSON.parse(result)))
+    .catch(error => console.log('error', error));
+};
+
 export const getAttedance = async (id, callBack) => {
   var myHeaders = new Headers();
   myHeaders.append('X-api-key', 'xDC7BEzNo44zu1Nk7GlE564V2jlsjnsf2RrO2ErD');
@@ -173,5 +236,32 @@ export const getAttedance = async (id, callBack) => {
       // console.log(result, '<<<<attandance result at api screen');
       callBack(JSON.parse(result));
     })
+    .catch(error => console.log('error', error));
+};
+
+export const getBirthdays = callBack => {
+  var myHeaders = new Headers();
+  myHeaders.append('X-api-key', 'xDC7BEzNo44zu1Nk7GlE564V2jlsjnsf2RrO2ErD');
+  myHeaders.append('Content-Type', 'application/json');
+
+  var raw = JSON.stringify({
+    endpoint: 'dashboard',
+    action: 'upcoming_birthday',
+    product_code: 'JO',
+  });
+
+  var requestOptions = {
+    method: 'POST',
+    headers: myHeaders,
+    body: raw,
+    redirect: 'follow',
+  };
+
+  fetch(
+    'https://gclfo3ljyh.execute-api.us-east-1.amazonaws.com/prod/confluxhr',
+    requestOptions,
+  )
+    .then(response => response.text())
+    .then(result => callBack(JSON.parse(result)))
     .catch(error => console.log('error', error));
 };

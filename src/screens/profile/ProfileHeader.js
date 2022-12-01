@@ -47,11 +47,11 @@ export default function ProfileHeader({navigation, userData}) {
         <View>
           <Image
             source={require('../../assets/img/user-pic.png')}
-            style={{width: 70, height: 70}}
+            style={{width: 60, height: 60}}
           />
         </View>
         <View style={{marginLeft: 12}}>
-          <Text style={{...commonStyles.fs24_500, color: '#fff'}}>
+          <Text style={{...commonStyles.fs24_500, color: '#fff', fontSize: 19}}>
             {truncate(
               `${userData?.first_name}  ${
                 userData.last_name != null ? userData?.last_name : ''
@@ -64,10 +64,11 @@ export default function ProfileHeader({navigation, userData}) {
               ...commonStyles.fs16_400,
               color: '#fff',
               marginVertical: 4,
+              fontSize: 12,
             }}>
-            {truncate(userData?.designation_name, 30)}
+            {truncate(userData?.designation_name, 35)}
           </Text>
-          <Text style={{...commonStyles.fs16_400, color: '#fff'}}>
+          <Text style={{...commonStyles.fs16_400, color: '#fff', fontSize: 12}}>
             Emp ID - {userData?.em_id}
           </Text>
         </View>
