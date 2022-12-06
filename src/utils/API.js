@@ -136,7 +136,7 @@ export const upCommingHoliday = async (payload, successCallBack) => {
   )
     .then(response => response.text())
     .then(result => {
-      console.log(result, '<<<Result');
+      console.log(result, '\n\n\n\n\n\n\n<<<Result');
       successCallBack(result);
     })
     .catch(error => console.log('error', error));
