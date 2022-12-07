@@ -8,6 +8,7 @@ import ForgotPasswordScreen from '../screens/auth/ForgotPasswordScreen';
 import IntroScreen from '../onboarding/IntroScreen';
 import Auth from '../services/Auth';
 import PayslipScreen from '../screens/payslip/PayslipScreen';
+import HomeScreen from '../screens/dashboard/HomeScreen';
 
 const Stack = createStackNavigator();
 
@@ -40,7 +41,8 @@ export default function AuthStack() {
     <>
       <Stack.Navigator
         screenOptions={screenOptions}
-        initialRouteName={routeName}>
+        initialRouteName={"HomeScreen"}>
+        <Stack.Screen name="HomeScreen" component={HomeScreen} />
         <Stack.Screen name="PayslipScreen" component={PayslipScreen} />
         <Stack.Screen name="IntroScreen" component={IntroScreen} />
         <Stack.Screen
