@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import { View, Text, FlatList } from 'react-native';
 import React, { useState } from 'react';
 import { Image } from 'react-native';
@@ -14,22 +13,6 @@ import { useEffect } from 'react';
 import { useScrollToTop } from '@react-navigation/native';
 import { getBirthdays, getNotice, upCommingHoliday } from '../../utils/API';
 import { ActivityIndicator } from 'react-native-paper';
-=======
-import {View, Text, FlatList} from 'react-native';
-import React, {useState} from 'react';
-import {Image} from 'react-native';
-import {COLORS, SIZES} from '../../utils/theme';
-import {ImageBackground} from 'react-native';
-import {commonStyles} from '../../utils/styles';
-import HomeHeader from './HomeHeader';
-import NoticeBoardComponent from './NoticeBoardComponent';
-import {ScrollView} from 'react-native';
-import {StatusBar} from 'react-native';
-import {useIsFocused} from '@react-navigation/native';
-import {useEffect} from 'react';
-import {useScrollToTop} from '@react-navigation/native';
-import {getBirthdays, getNotice, upCommingHoliday} from '../../utils/API';
-import {ActivityIndicator} from 'react-native-paper';
 var MonthArr = [
   'Jan',
   'Feb',
@@ -44,7 +27,6 @@ var MonthArr = [
   'Nov',
   'Dec',
 ];
->>>>>>> 7dc71f0964eb81ff489e73dd33102dfebceb5592
 
 export default function HomeScreen({ navigation }) {
   const isfocused = useIsFocused();
@@ -111,20 +93,25 @@ export default function HomeScreen({ navigation }) {
               </View>
             </View>
           )}
-
-          <FlatList
-            data={birthdays}
+          <ScrollView
             horizontal
-            disableIntervalMomentum={true}
-            showsHorizontalScrollIndicator={false}
+            disableIntervalMomentum={false}
+            showsHorizontalScrollIndicator={true}
             pagingEnabled={true}
-            snapToInterval={300}
-            renderItem={({ item }) => {
+            snapToInterval={300}>
+            {birthdayLoader == 2 && birthdays.length == 0 && (
+              <View style={{ padding: 10 }}>
+                <Text>No upcoming birthdays</Text>
+              </View>
+            )}
+            {birthdays.map(item => {
+              const da = new Date(item.em_birthday);
               return (
-                <View style={{
-                  ...commonStyles.rowBetween, width: SIZES.width / 1.08, backgroundColor: '#fff',
-                  elevation: 8, shadowColor: '#999', paddingVertical: 12, borderRadius: 8, marginRight: 16
-                }}>
+                <View
+                  style={{
+                    ...commonStyles.rowBetween, width: SIZES.width / 1.08, backgroundColor: '#fff',
+                    elevation: 8, shadowColor: '#999', paddingVertical: 12, borderRadius: 8, marginRight: 16
+                  }}>
                   <View
                     style={{ ...commonStyles.rowStart, paddingHorizontal: 15 }}>
                     <Image
@@ -134,42 +121,31 @@ export default function HomeScreen({ navigation }) {
                     <View style={{ marginLeft: 12 }}>
                       <Text
                         style={{ ...commonStyles.fs16_400, color: '#d10044' }}>
-                        Anvika Acharya
+                        {item.first_name} {item.last_name}
                       </Text>
                       <Text
-                        style={{ ...commonStyles.fs12_400, color: '#000000' }}>
-                        HR & Admin
+                        style={{
+                          ...commonStyles.fs12_400,
+                          color: '#000000',
+                          fontSize: 10,
+                        }}>
+                        {item.designation}
                       </Text>
                     </View>
                   </View>
                   <View style={{ marginRight: 12 }}>
                     <Text
                       style={{ ...commonStyles.fs24_500, color: COLORS.green }}>
-                      02
+                      {da.getDate()}
                     </Text>
                     <Text style={{ ...commonStyles.fs12_400, color: '#000000' }}>
-                      April
+                      {MonthArr[da.getMonth()]}
                     </Text>
                   </View>
                 </View>
               );
-            }}
-          />
-          {/* <ScrollView
-            horizontal
-            disableIntervalMomentum={true}
-            showsHorizontalScrollIndicator={false}
-            pagingEnabled={true}
-            snapToInterval={300}>
-            {birthdayLoader == 2 && birthdays.length == 0 && (
-              <View style={{ padding: 10 }}>
-                <Text>No upcoming birthdays</Text>
-              </View>
-            )}
-            {birthdays.map(item => {
-              
             })}
-          </ScrollView> */}
+          </ScrollView>
         </View>
 
         <Text
@@ -229,22 +205,11 @@ export default function HomeScreen({ navigation }) {
             <Image
               source={require('../../assets/img/diwali.png')}
               resizeMode="contain"
-<<<<<<< HEAD
-              style={{ width: '100%', height: SIZES.width / 1.67 }}
-=======
               style={{width: '100%', height: SIZES.width / 1.67, marginTop: 10}}
->>>>>>> 7dc71f0964eb81ff489e73dd33102dfebceb5592
             />
           );
         })} */}
-        <View
-          style={{
-            backgroundColor: '#fff',
-            elevation: 8,
-            shadowColor: '#999',
-            paddingVertical: 12,
-            borderRadius: 8,
-          }}>
+        <View>
           {holidayLoader == 1 && (
             <View
               style={{
@@ -260,7 +225,7 @@ export default function HomeScreen({ navigation }) {
           )}
           <ScrollView
             horizontal
-            disableIntervalMomentum={false}
+            disableIntervalMomentum={true}
             showsHorizontalScrollIndicator={false}
             pagingEnabled={true}
             snapToInterval={300}>
@@ -275,10 +240,8 @@ export default function HomeScreen({ navigation }) {
               return (
                 <View
                   style={{
-                    // ...commonStyles.rowBetween,
-                    width: 250,
-                    marginLeft: 10,
-                    paddingHorizontal: 15,
+                    width: SIZES.width / 1.07, backgroundColor: '#fff',
+                    elevation: 8, shadowColor: '#999', paddingVertical: 12, borderRadius: 8, marginRight: 16
                   }}>
                   <View style={{}}>
                     {/* <Image
