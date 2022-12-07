@@ -77,10 +77,12 @@ export default function CalendarScreen({navigation, route}) {
   var month = parseInt(moment().format('MM'));
   const {userData} = useSelector(state => state.User);
   const [attandance, setattandance] = useState([]);
+  const [setByMonthAtt, setSetByMonthAtt] = useState([]);
   var [currMonthPassed, setCurrMonthPassed] = useState(
     moment().format('YYYY-MM-DD'),
   );
 
+  console.log(currMonthPassed, '<<<thisi is curr month');
   const [markedDates, setMarkedDates] = useState({
     '2022-11-20': {textColor: 'green'},
     '2021-12-22': {startingDay: true, color: 'green'},
@@ -97,6 +99,17 @@ export default function CalendarScreen({navigation, route}) {
       endingDay: true,
     },
   });
+  const filterIt = m => {
+    return attandance.filter(item => {
+      const da = item.atten_date;
+      const month = da.split('-');
+      // console.log(month[1]);
+      if (parseInt(m) == parseInt(month[1])) {
+        return true;
+      } else return false;
+      // return false;
+    });
+  };
   console.log('initial month', month);
   var currentyear = parseInt(moment().format('YYYY'));
   useEffect(() => {
@@ -107,6 +120,8 @@ export default function CalendarScreen({navigation, route}) {
       // console.log('\n\n\n\n\n', res, '<<<<staffidresponse', userData.staffid);
       if (res.statusCode === 200) {
         setattandance(res.body);
+        setSetByMonthAtt(filterIt(month));
+
         setLoaderState(2);
         let marked = {};
 
@@ -205,6 +220,11 @@ export default function CalendarScreen({navigation, route}) {
     });
   };
 
+  const handleChangeMonth = data => {
+    console.log('this is month', data.month);
+    setSetByMonthAtt(filterIt(data.month));
+  };
+
   return (
     <>
       <PayslipHeader navigation={navigation} />
@@ -219,7 +239,8 @@ export default function CalendarScreen({navigation, route}) {
             <CalendarList
               current={currMonthPassed}
               horizontal={true}
-              // hideArrows={false}
+              onMonthChange={handleChangeMonth}
+              hideArrows={true}
               // onDayPress={handleDayPress}
               pagingEnabled={true}
               calendarWidth={SIZES.width}
@@ -233,11 +254,18 @@ export default function CalendarScreen({navigation, route}) {
 
             <Text style={styles.eventsText}>Events</Text>
             {loaderState == 1 && <ActivityIndicator />}
+            {loaderState == 2 && setByMonthAtt.length == 0 && (
+              <View>
+                <Text style={{textAlign: 'center'}}>
+                  No events on this month
+                </Text>
+              </View>
+            )}
             {/* {loaderState == 2 && } */}
             {loaderState == 2 ? (
               <FlatList
                 // data={[1, 2]}
-                data={attandance}
+                data={setByMonthAtt}
                 renderItem={({item, id}) => {
                   return (
                     <EventCard

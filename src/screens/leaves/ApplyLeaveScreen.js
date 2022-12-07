@@ -102,6 +102,7 @@ export default function ApplyLeavesScreen({navigation}) {
       };
     }
     // return null;
+
     applyLeave(payload, res => {
       const response = JSON.parse(res);
       console.log(res, '<<<at apply leave screen');
@@ -135,6 +136,11 @@ export default function ApplyLeavesScreen({navigation}) {
   };
   const showToast = msg => {
     ToastAndroid.show(msg, ToastAndroid.SHORT);
+  };
+
+  const countType = type => {
+    // const filtered = allLeaves.filter(item => item.leave_type == type);
+    return 0;
   };
   return (
     <View>
