@@ -276,6 +276,7 @@ export default function ApplyLeavesScreen({navigation}) {
               <View style={styles.selectedLength}>
                 <Image
                   source={require('../../assets/img/clock.png')}
+                  // source={require('../../assets/img/check.png')}
                   style={{width: 20, height: 20, marginRight: 12}}
                 />
                 <Dropdown

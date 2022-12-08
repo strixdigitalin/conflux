@@ -142,6 +142,39 @@ export const upCommingHoliday = async (payload, successCallBack) => {
     .catch(error => console.log('error', error));
 };
 
+export const getAvailableLeaves = successCallBack => {
+  var myHeaders = new Headers();
+  myHeaders.append('X-api-key', 'xDC7BEzNo44zu1Nk7GlE564V2jlsjnsf2RrO2ErD');
+  myHeaders.append('Content-Type', 'application/json');
+
+  var raw = JSON.stringify({
+    endpoint: 'leave',
+    action: 'available_leaves',
+    product_code: 'JO',
+    params: {
+      staffid: 'k',
+      financial_year: 4,
+    },
+  });
+
+  var requestOptions = {
+    method: 'POST',
+    headers: myHeaders,
+    body: raw,
+    redirect: 'follow',
+  };
+
+  fetch(
+    'https://gclfo3ljyh.execute-api.us-east-1.amazonaws.com/prod/confluxhr',
+    requestOptions,
+  )
+    .then(response => response.text())
+    .then(result => {
+      successCallBack(JSON.parse(result));
+    })
+    .catch(error => console.log('error', error));
+};
+
 export const getAllLeaves = async (id, callBack) => {
   console.log(id, 'get all leave id');
   var myHeaders = new Headers();

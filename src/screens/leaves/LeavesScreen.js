@@ -8,7 +8,7 @@ import {Image} from 'react-native';
 import {ScrollView} from 'react-native';
 import {useSelector} from 'react-redux';
 import {useEffect} from 'react';
-import {getAllLeaves} from '../../utils/API';
+import {getAllLeaves, getAvailableLeaves} from '../../utils/API';
 import {ActivityIndicator} from 'react-native-paper';
 import {useState} from 'react';
 import {COLORS} from '../../utils/theme';
@@ -24,10 +24,14 @@ export default function LeavesScreen({navigation}) {
     const filtered = allLeaves.filter(item => item.leave_type == type);
     return filtered.length;
   };
+  const [available, setAvailable] = useState([]);
 
   useEffect(() => {
     // getAllLeaves(userData.staffid, res => {
-
+    getAvailableLeaves(res => {
+      setAvailable(res.body);
+      console.log(res, '<<<<  \n\n\n\n\n\n available \n\n\n\n Leave');
+    });
     setShowLoader(1);
     getAllLeaves(userData.staffid, res => {
       // getAllLeaves(110, res => {
@@ -56,8 +60,12 @@ export default function LeavesScreen({navigation}) {
 
         <View style={styles.leaveContainer}>
           <RenderLeaveCount
-            // count={allLeaves.length}
-            count={countType('Sick Leave')}
+            count={
+              available[0]['Sick Leave'] != null
+                ? available[0]['Sick Leave']
+                : 0
+            }
+            // count={countType('Sick Leave')}
             title={`Sick Leave`}
             // title={`Sick\nLeave`}
             bgColor="#E8EBFB"
@@ -65,14 +73,22 @@ export default function LeavesScreen({navigation}) {
           />
 
           <RenderLeaveCount
-            count={countType('Privilege Leave')}
+            count={
+              available[1]['Casual Leave'] != null
+                ? available[1]['Casual Leave']
+                : 0
+            }
             title={`Privilege\nLeave`}
             bgColor="#FDF5E3"
             color="#F3A41D"
           />
 
           <RenderLeaveCount
-            count={countType('Casual\nLeave')}
+            count={
+              available[2]['Privilege Leave'] != null
+                ? available[2]['Privilege Leave']
+                : 0
+            }
             title={`Casual Leave`}
             bgColor="#FBEEE9"
             color="#E75E40"
