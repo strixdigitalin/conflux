@@ -82,7 +82,7 @@ export const applyLeave = async (payload, successCallBack) => {
     action: 'apply_leave',
     product_code: 'JO',
     params: {
-      staff_id: staffid, //326,
+      staffid: staffid, //326,
       leave_type: type, //'Full Day',
       start_date: start_date, //'2022-09-12',
       end_date: end_date, //'2022-09-15',
