@@ -99,14 +99,12 @@ export default function CalendarScreen({navigation, route}) {
       endingDay: true,
     },
   });
-  const filterIt = (m, y) => {
+  const filterIt = m => {
     return attandance.filter(item => {
       const da = item.atten_date;
       const month = da.split('-');
-      console.log(month);
-      if (
-        parseInt(m) == parseInt(month[1] && parseInt(month[0]) == parseInt(y))
-      ) {
+      // console.log(month[1]);
+      if (parseInt(m) == parseInt(month[1])) {
         return true;
       } else return false;
       // return false;
@@ -223,8 +221,8 @@ export default function CalendarScreen({navigation, route}) {
   };
 
   const handleChangeMonth = data => {
-    console.log('this is month---', data.year);
-    setSetByMonthAtt(filterIt(data.month, data.year));
+    console.log('this is month', data.month);
+    setSetByMonthAtt(filterIt(data.month));
   };
 
   return (
