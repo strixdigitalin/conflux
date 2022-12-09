@@ -107,7 +107,7 @@ export default function HomeScreen({ navigation }) {
                     shadowColor: '#999',
                     paddingVertical: 12,
                     borderRadius: 8,
-                    width: SIZES.width / 1.14,
+                    width: SIZES.width / 1.09,
                     marginHorizontal: 3,
                   }}>
                   <View
@@ -175,17 +175,25 @@ export default function HomeScreen({ navigation }) {
               return (
                 <View
                   style={{
-                    ...commonStyles.rowBetween,
-                    backgroundColor: '#fff',
-                    elevation: 8,
-                    shadowColor: '#999',
-                    paddingVertical: 12,
-                    borderRadius: 8,
-                    width: SIZES.width / 1.1,
-                    marginHorizontal: 3,
+
                   }}>
+                  <Image
+                    source={require('../../assets/img/diwali.png')}
+                    resizeMode="contain"
+                    style={{
+                      width: '100%', height: SIZES.width / 1.67,
+                      ...commonStyles.rowBetween,
+                      backgroundColor: '#fff',
+                      elevation: 8,
+                      shadowColor: '#999',
+                      paddingVertical: 12,
+                      borderRadius: 8,
+                      width: SIZES.width / 1.1,
+                      marginHorizontal: 3,
+                    }}
+                  />
                   <View
-                    style={{ ...commonStyles.rowStart, paddingHorizontal: 15 }}>
+                    style={{ ...commonStyles.rowStart, paddingHorizontal: 15, position: "absolute", top: 10 }}>
                     {/* <Image
                       source={require('../../assets/img/user-pic.png')}
                       style={{width: 48, height: 48}}
@@ -198,7 +206,7 @@ export default function HomeScreen({ navigation }) {
                       <Text
                         style={{
                           ...commonStyles.fs12_400,
-                          color: '#000000',
+                          color: '#fff',
                           fontSize: 10,
                         }}>
                         {item.from_date} {'  '} to {item.to_date}
