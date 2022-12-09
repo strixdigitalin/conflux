@@ -41,8 +41,7 @@ export default function AuthStack() {
     <>
       <Stack.Navigator
         screenOptions={screenOptions}
-        initialRouteName={"HomeScreen"}>
-        <Stack.Screen name="HomeScreen" component={HomeScreen} />
+        initialRouteName={routeName}>
         <Stack.Screen name="PayslipScreen" component={PayslipScreen} />
         <Stack.Screen name="IntroScreen" component={IntroScreen} />
         <Stack.Screen
