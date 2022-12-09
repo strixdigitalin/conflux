@@ -245,6 +245,34 @@ export default function HomeScreen({navigation}) {
           );
         })} */}
       </View>
+      {/* <ScrollView
+        horizontal
+        disableIntervalMomentum={false}
+        showsHorizontalScrollIndicator={false}
+        pagingEnabled={true}
+        snapToInterval={300}> */}
+      <Image
+        source={require('../../assets/img/diwali.png')}
+        resizeMode="contain"
+        style={{width: '100%', height: SIZES.width / 1.67}}
+      />
+
+      <Image
+        source={require('../../assets/img/diwali2.png')}
+        resizeMode="contain"
+        style={{
+          width: '100%',
+          height: SIZES.width / 1.67,
+          marginVertical: 20,
+        }}
+      />
+
+      <Image
+        source={require('../../assets/img/diwali3.png')}
+        resizeMode="contain"
+        style={{width: '100%', height: SIZES.width / 1.67}}
+      />
+      {/* </ScrollView> */}
     </ScrollView>
   );
 }

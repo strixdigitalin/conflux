@@ -55,7 +55,7 @@ export default function HomeHeader({navigation}) {
             navigation.navigate('MenuScreen');
           }}>
           <Image
-            source={require('../../assets/img/clock.png')}
+            source={require('../../assets/img/menu.png')}
             style={{width: 28, height: 28, tintColor: '#fff'}}
           />
         </TouchableOpacity>
