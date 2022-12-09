@@ -53,7 +53,7 @@ export default function ApplyLeavesScreen({navigation}) {
     setHalfLength('Select length');
     setShift('Full Day');
     // Alert.alert('here');
-    getAvailableLeaves(392, res => {
+    getAvailableLeaves(userData.staffid, res => {
       setAvailable(res.body);
       console.log(res, '<<<<  \n\n\n\n\n\n available \n\n\n\n Leave');
     });
@@ -94,9 +94,9 @@ export default function ApplyLeavesScreen({navigation}) {
     }
     if (shift == 'Above a Day') {
       payload = {
-        // staffid: userData.staffid,
+        staffid: userData.staffid,
         select_length: halfLength,
-        staffid: 392,
+        // staffid: 392,
         type: shift,
         start_date: startDate,
         end_date: endDate,

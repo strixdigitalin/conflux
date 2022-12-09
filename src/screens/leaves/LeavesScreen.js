@@ -34,8 +34,8 @@ export default function LeavesScreen({navigation}) {
 
   useEffect(() => {
     // getAllLeaves(userData.staffid, res => {
-    // getAvailableLeaves(userData.staffid, res => {
-    getAvailableLeaves(392, res => {
+    getAvailableLeaves(userData.staffid, res => {
+      // getAvailableLeaves(392, res => {
       // Alert.alert('here');
       setAvailable(res.body);
       console.log(res, '<<<<  \n\n\n\n\n\n available \n\n\n\n Leave');
