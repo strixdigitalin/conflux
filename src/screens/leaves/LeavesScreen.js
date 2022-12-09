@@ -41,9 +41,10 @@ export default function LeavesScreen({navigation}) {
       console.log(res, '<<<<  \n\n\n\n\n\n available \n\n\n\n Leave');
     });
     setShowLoader(1);
+    // getAllLeaves(392, res => {
     getAllLeaves(userData.staffid, res => {
       // getAllLeaves(110, res => {
-      console.log(res.body, '<<<<result at get all leaves');
+      console.log(res.body, '\n\n\n\n<<<<result at get all leaves');
       setAllLeaves(res.body);
 
       if (res.body.length == 0) {
@@ -56,6 +57,7 @@ export default function LeavesScreen({navigation}) {
     <View
       style={{
         marginBottom: 30,
+        backgroundColor: '#fff',
       }}>
       <LeavesHeader navigation={navigation} />
 
@@ -69,8 +71,8 @@ export default function LeavesScreen({navigation}) {
         <View style={styles.leaveContainer}>
           <RenderLeaveCount
             count={
-              available[1]['Casual Leave'] != null
-                ? available[1]['Casual Leave']
+              available[0]['Sick Leave'] != null
+                ? available[0]['Sick Leave']
                 : 0
             }
             // count={countType('Sick Leave')}
@@ -83,10 +85,10 @@ export default function LeavesScreen({navigation}) {
           <RenderLeaveCount
             count={
               available[1]['Casual Leave'] != null
-                ? available[2]['Casual Leave']
+                ? available[1]['Casual Leave']
                 : 0
             }
-            title={`Privilege\nLeave`}
+            title={`Casual Leave`}
             bgColor="#FDF5E3"
             color="#F3A41D"
           />
@@ -97,7 +99,7 @@ export default function LeavesScreen({navigation}) {
                 ? available[2]['Privilege Leave']
                 : 0
             }
-            title={`Casual Leave`}
+            title={`Privilege Leave`}
             bgColor="#FBEEE9"
             color="#E75E40"
           />
@@ -184,7 +186,13 @@ export default function LeavesScreen({navigation}) {
 
 const RenderLeaveCount = ({count, title, bgColor, color}) => {
   return (
-    <View style={{...styles.leaveCount, backgroundColor: bgColor}}>
+    <View
+      style={{
+        ...styles.leaveCount,
+        backgroundColor: bgColor,
+        // borderWidth: 1,
+        marginHorizontal: 4,
+      }}>
       <Text style={{...commonStyles.fs26_700, color: color}}>{count}</Text>
       <Text
         style={{...commonStyles.fs14_500, textAlign: 'center', color: color}}>
@@ -202,6 +210,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingHorizontal: 20,
     marginTop: 22,
+    // marginHorizontal: 10,
   },
   leaveCount: {
     width: '31%',

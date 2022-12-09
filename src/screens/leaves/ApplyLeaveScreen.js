@@ -8,7 +8,7 @@ import {TouchableOpacity} from 'react-native';
 import PersonalLeaveDatePicker from '../../components/CustomDatePicker';
 import {TextInput} from 'react-native';
 import {TouchableHighlight} from 'react-native';
-import {applyLeave} from '../../utils/API';
+import {applyLeave, getAvailableLeaves} from '../../utils/API';
 import {useSelector} from 'react-redux';
 import moment from 'moment/moment';
 import {Alert} from 'react-native';
@@ -38,6 +38,13 @@ export default function ApplyLeavesScreen({navigation}) {
   const [halfLength, setHalfLength] = useState('Select length');
   const [labelUp, setLabelUp] = React.useState(false);
   const [selectedLength, setSelectedLength] = React.useState('');
+  const [available, setAvailable] = useState([
+    {
+      'Sick Leave': 0,
+    },
+    {'Casual Leave': 0},
+    {'Privilege Leave': 0},
+  ]);
   const isfocused = useIsFocused();
   useEffect(() => {
     setStartDate('');
@@ -45,15 +52,21 @@ export default function ApplyLeavesScreen({navigation}) {
     setReason('');
     setHalfLength('Select length');
     setShift('Full Day');
+    // Alert.alert('here');
+    getAvailableLeaves(392, res => {
+      setAvailable(res.body);
+      console.log(res, '<<<<  \n\n\n\n\n\n available \n\n\n\n Leave');
+    });
   }, [isfocused]);
 
+  console.log(userData, ' \n\n\n\n\n\n<<<<< this is userData');
   const SubmitForApply = () => {
     console.log(endDate, shift, halfLength, '<<<this is dend date');
     setIsSubmitted(true);
     // return null;
     if (startDate == '') return null;
     if (reason == null) return null;
-
+    if (reason.trim().length == 0) return null;
     // if (reason == null) return Alert.alert('Reason is required!');
     if (shift == 'Above a Day' && endDate == '') return null;
     if (shift == 'Half Day' && halfLength == 'Select length') return null;
@@ -81,9 +94,9 @@ export default function ApplyLeavesScreen({navigation}) {
     }
     if (shift == 'Above a Day') {
       payload = {
-        staffid: userData.staffid,
+        // staffid: userData.staffid,
         select_length: halfLength,
-        // staffid: 393,
+        staffid: 392,
         type: shift,
         start_date: startDate,
         end_date: endDate,
@@ -111,6 +124,7 @@ export default function ApplyLeavesScreen({navigation}) {
       setEndDate('');
       setReason('');
       setStartDate('');
+
       navigation.navigate('LeavesScreen');
     });
   };
@@ -142,6 +156,7 @@ export default function ApplyLeavesScreen({navigation}) {
     // const filtered = allLeaves.filter(item => item.leave_type == type);
     return 0;
   };
+
   return (
     <View>
       <LeavesHeader navigation={navigation} />
@@ -156,8 +171,12 @@ export default function ApplyLeavesScreen({navigation}) {
 
         <View style={styles.leaveContainer}>
           <RenderLeaveCount
-            // count={allLeaves.length}
-            count={countType('Sick Leave')}
+            count={
+              available[0]['Sick Leave'] != null
+                ? available[0]['Sick Leave']
+                : 0
+            }
+            // count={countType('Sick Leave')}
             title={`Sick Leave`}
             // title={`Sick\nLeave`}
             bgColor="#E8EBFB"
@@ -165,15 +184,23 @@ export default function ApplyLeavesScreen({navigation}) {
           />
 
           <RenderLeaveCount
-            count={countType('Privilege Leave')}
-            title={`Privilege\nLeave`}
+            count={
+              available[1]['Casual Leave'] != null
+                ? available[1]['Casual Leave']
+                : 0
+            }
+            title={`Casual Leave`}
             bgColor="#FDF5E3"
             color="#F3A41D"
           />
 
           <RenderLeaveCount
-            count={countType('Casual Leave')}
-            title={`Casual\nLeave`}
+            count={
+              available[2]['Privilege Leave'] != null
+                ? available[2]['Privilege Leave']
+                : 0
+            }
+            title={`Privilege Leave`}
             bgColor="#FBEEE9"
             color="#E75E40"
           />
@@ -393,7 +420,7 @@ export default function ApplyLeavesScreen({navigation}) {
                 }}
               />
             </View>
-            {isSubmitted && reason.length == 0 && (
+            {isSubmitted && reason.trim().length == 0 && (
               <>
                 <Text style={{color: '#FF0000'}}>Reason is required</Text>
               </>

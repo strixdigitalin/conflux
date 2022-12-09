@@ -1,18 +1,18 @@
-import { View, Text, FlatList } from 'react-native';
-import React, { useState } from 'react';
-import { Image } from 'react-native';
-import { COLORS, SIZES } from '../../utils/theme';
-import { ImageBackground } from 'react-native';
-import { commonStyles } from '../../utils/styles';
+import {View, Text, FlatList} from 'react-native';
+import React, {useState} from 'react';
+import {Image} from 'react-native';
+import {COLORS, SIZES} from '../../utils/theme';
+import {ImageBackground} from 'react-native';
+import {commonStyles} from '../../utils/styles';
 import HomeHeader from './HomeHeader';
 import NoticeBoardComponent from './NoticeBoardComponent';
-import { ScrollView } from 'react-native';
-import { StatusBar } from 'react-native';
-import { useIsFocused } from '@react-navigation/native';
-import { useEffect } from 'react';
-import { useScrollToTop } from '@react-navigation/native';
-import { getBirthdays, getNotice, upCommingHoliday } from '../../utils/API';
-import { ActivityIndicator } from 'react-native-paper';
+import {ScrollView} from 'react-native';
+import {StatusBar} from 'react-native';
+import {useIsFocused} from '@react-navigation/native';
+import {useEffect} from 'react';
+import {useScrollToTop} from '@react-navigation/native';
+import {getBirthdays, getNotice, upCommingHoliday} from '../../utils/API';
+import {ActivityIndicator} from 'react-native-paper';
 var MonthArr = [
   'Jan',
   'Feb',
@@ -28,7 +28,7 @@ var MonthArr = [
   'Dec',
 ];
 
-export default function HomeScreen({ navigation }) {
+export default function HomeScreen({navigation}) {
   const isfocused = useIsFocused();
   const ref = React.useRef(0);
   const [holidayLoader, setHolidayLoader] = useState(0);
@@ -71,12 +71,12 @@ export default function HomeScreen({ navigation }) {
       }}>
       <HomeHeader navigation={navigation} />
       <StatusBar barStyle="light-content" backgroundColor={COLORS.blue} />
-      <View style={{ padding: 15 }}>
+      <View style={{padding: 15}}>
         <NoticeBoardComponent notice={notice} />
 
         <Text
-          style={{ ...commonStyles.fs14_400, marginTop: 20, marginBottom: 8 }}>
-          Upcoming Birthday
+          style={{...commonStyles.fs14_400, marginTop: 20, marginBottom: 8}}>
+          Upcoming Birthdays
         </Text>
 
         <View>
@@ -88,7 +88,7 @@ export default function HomeScreen({ navigation }) {
                 flexDirection: 'row',
                 justifyContent: 'center',
               }}>
-              <View style={{ width: 50, alignItems: 'center' }}>
+              <View style={{width: 50, alignItems: 'center'}}>
                 <ActivityIndicator />
               </View>
             </View>
@@ -96,7 +96,7 @@ export default function HomeScreen({ navigation }) {
 
           <FlatList
             data={birthdays}
-            renderItem={({ item }) => {
+            renderItem={({item}) => {
               const da = new Date(item.em_birthday);
               return (
                 <View
@@ -111,14 +111,14 @@ export default function HomeScreen({ navigation }) {
                     marginHorizontal: 3,
                   }}>
                   <View
-                    style={{ ...commonStyles.rowStart, paddingHorizontal: 15 }}>
+                    style={{...commonStyles.rowStart, paddingHorizontal: 15}}>
                     <Image
                       source={require('../../assets/img/user-pic.png')}
-                      style={{ width: 48, height: 48 }}
+                      style={{width: 48, height: 48}}
                     />
-                    <View style={{ marginLeft: 12 }}>
+                    <View style={{marginLeft: 12}}>
                       <Text
-                        style={{ ...commonStyles.fs16_400, color: '#d10044' }}>
+                        style={{...commonStyles.fs16_400, color: '#d10044'}}>
                         {item.first_name} {item.last_name}
                       </Text>
                       <Text
@@ -131,12 +131,12 @@ export default function HomeScreen({ navigation }) {
                       </Text>
                     </View>
                   </View>
-                  <View style={{ marginRight: 12 }}>
+                  <View style={{marginRight: 12}}>
                     <Text
-                      style={{ ...commonStyles.fs24_500, color: COLORS.green }}>
+                      style={{...commonStyles.fs24_500, color: COLORS.green}}>
                       {da.getDate()}
                     </Text>
-                    <Text style={{ ...commonStyles.fs12_400, color: '#000000' }}>
+                    <Text style={{...commonStyles.fs12_400, color: '#000000'}}>
                       {MonthArr[da.getMonth()]}
                     </Text>
                   </View>
@@ -150,8 +150,8 @@ export default function HomeScreen({ navigation }) {
         </View>
 
         <Text
-          style={{ ...commonStyles.fs14_400, marginTop: 20, marginBottom: 8 }}>
-          Upcoming Holiday
+          style={{...commonStyles.fs14_400, marginTop: 20, marginBottom: 8}}>
+          Upcoming Holidays
         </Text>
 
         <View>
@@ -163,44 +163,48 @@ export default function HomeScreen({ navigation }) {
                 flexDirection: 'row',
                 justifyContent: 'center',
               }}>
-              <View style={{ width: 50, alignItems: 'center' }}>
+              <View style={{width: 50, alignItems: 'center'}}>
                 <ActivityIndicator />
               </View>
             </View>
           )}
           <FlatList
             data={holidays}
-            renderItem={({ item }) => {
+            renderItem={({item}) => {
               const da = new Date(item.em_birthday);
               return (
-                <View
-                  style={{
-
-                  }}>
+                <View style={{}}>
                   <Image
                     source={require('../../assets/img/diwali.png')}
                     resizeMode="contain"
                     style={{
-                      width: '100%', height: SIZES.width / 1.67,
+                      width: '100%',
+                      height: SIZES.width / 1.7,
                       ...commonStyles.rowBetween,
                       backgroundColor: '#fff',
                       elevation: 8,
-                      shadowColor: '#999',
+                      // shadowColor: '#999',
                       paddingVertical: 12,
                       borderRadius: 8,
-                      width: SIZES.width / 1.1,
+                      width: SIZES.width / 1.12,
+                      objectFit: 'contain',
                       marginHorizontal: 3,
                     }}
                   />
                   <View
-                    style={{ ...commonStyles.rowStart, paddingHorizontal: 15, position: "absolute", top: 10 }}>
+                    style={{
+                      ...commonStyles.rowStart,
+                      paddingHorizontal: 15,
+                      position: 'absolute',
+                      top: 10,
+                    }}>
                     {/* <Image
                       source={require('../../assets/img/user-pic.png')}
                       style={{width: 48, height: 48}}
                     /> */}
-                    <View style={{ marginLeft: 12 }}>
+                    <View style={{marginLeft: 12}}>
                       <Text
-                        style={{ ...commonStyles.fs16_400, color: '#d10044' }}>
+                        style={{...commonStyles.fs16_400, color: '#d10044'}}>
                         {item.holiday_name}
                       </Text>
                       <Text
@@ -209,7 +213,7 @@ export default function HomeScreen({ navigation }) {
                           color: '#fff',
                           fontSize: 10,
                         }}>
-                        {item.from_date} {'  '} to {item.to_date}
+                        {item.from_date} to {item.to_date}
                         {/* {item.designation} */}
                       </Text>
                     </View>
@@ -263,27 +267,7 @@ export default function HomeScreen({ navigation }) {
         showsHorizontalScrollIndicator={false}
         pagingEnabled={true}
         snapToInterval={300}> */}
-      <Image
-        source={require('../../assets/img/diwali.png')}
-        resizeMode="contain"
-        style={{ width: '100%', height: SIZES.width / 1.67 }}
-      />
 
-      <Image
-        source={require('../../assets/img/diwali2.png')}
-        resizeMode="contain"
-        style={{
-          width: '100%',
-          height: SIZES.width / 1.67,
-          marginVertical: 20,
-        }}
-      />
-
-      <Image
-        source={require('../../assets/img/diwali3.png')}
-        resizeMode="contain"
-        style={{ width: '100%', height: SIZES.width / 1.67 }}
-      />
       {/* </ScrollView> */}
     </ScrollView>
   );
