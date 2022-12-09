@@ -1,5 +1,5 @@
 import React from 'react';
-import { createStackNavigator } from '@react-navigation/stack';
+import {createStackNavigator} from '@react-navigation/stack';
 
 import LoginScreen from '../screens/auth/LoginScreen';
 import EnterOTPScreen from '../screens/auth/EnterOTPScreen';
@@ -13,7 +13,7 @@ import HomeScreen from '../screens/dashboard/HomeScreen';
 const Stack = createStackNavigator();
 
 export default function AuthStack() {
-  const screenOptions = { headerShown: false };
+  const screenOptions = {headerShown: false};
 
   const [isFirstLaunch, setIsFirstLaunch] = React.useState(null);
   let routeName;
@@ -34,7 +34,8 @@ export default function AuthStack() {
   } else if (isFirstLaunch.toString() === 'true') {
     routeName = 'IntroScreen';
   } else {
-    routeName = 'GoToLoginPageScreen';
+    // routeName = 'GoToLoginPageScreen';
+    routeName = 'IntroScreen';
   }
 
   return (

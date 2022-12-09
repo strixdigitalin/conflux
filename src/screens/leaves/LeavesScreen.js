@@ -1,4 +1,4 @@
-import {View, Text} from 'react-native';
+import {View, Text, Alert} from 'react-native';
 import React from 'react';
 import LeavesHeader from './LeavesHeader';
 import {commonStyles} from '../../utils/styles';
@@ -24,11 +24,19 @@ export default function LeavesScreen({navigation}) {
     const filtered = allLeaves.filter(item => item.leave_type == type);
     return filtered.length;
   };
-  const [available, setAvailable] = useState([]);
+  const [available, setAvailable] = useState([
+    {
+      'Sick Leave': 0,
+    },
+    {'Casual Leave': 0},
+    {'Privilege Leave': 0},
+  ]);
 
   useEffect(() => {
     // getAllLeaves(userData.staffid, res => {
-    getAvailableLeaves(res => {
+    // getAvailableLeaves(userData.staffid, res => {
+    getAvailableLeaves(392, res => {
+      // Alert.alert('here');
       setAvailable(res.body);
       console.log(res, '<<<<  \n\n\n\n\n\n available \n\n\n\n Leave');
     });
@@ -61,8 +69,8 @@ export default function LeavesScreen({navigation}) {
         <View style={styles.leaveContainer}>
           <RenderLeaveCount
             count={
-              available[0]['Sick Leave'] != null
-                ? available[0]['Sick Leave']
+              available[1]['Casual Leave'] != null
+                ? available[1]['Casual Leave']
                 : 0
             }
             // count={countType('Sick Leave')}
@@ -75,7 +83,7 @@ export default function LeavesScreen({navigation}) {
           <RenderLeaveCount
             count={
               available[1]['Casual Leave'] != null
-                ? available[1]['Casual Leave']
+                ? available[2]['Casual Leave']
                 : 0
             }
             title={`Privilege\nLeave`}

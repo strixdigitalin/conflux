@@ -37,10 +37,7 @@ export default function ProfileScreen({navigation}) {
       <View style={{padding: 12}}>
         <PresonalInfo title="Phone" subTitle={`+91 ${userData?.em_phone}`} />
 
-        <PresonalInfo
-          title="Email"
-          subTitle={userData?.em_email + 'kkkkkkkkkkflllllllll'}
-        />
+        <PresonalInfo title="Email" subTitle={userData?.em_email} />
 
         <PresonalInfo title="Birthday" subTitle={userData?.em_birthday} />
 
@@ -66,6 +63,7 @@ export default function ProfileScreen({navigation}) {
             color: '#0073FF',
             marginTop: 3,
             opacity: 0.7,
+            marginBottom: 5,
           }}>
           Permanent Address
         </Text>
@@ -176,12 +174,13 @@ export default function ProfileScreen({navigation}) {
 const PresonalInfo = ({title, subTitle}) => {
   return (
     <View style={{...commonStyles.rowStart, marginTop: 4}}>
-      <Text style={{...commonStyles.fs15_400, width: '50%'}}>{title}</Text>
+      <Text style={{...commonStyles.fs15_400, width: '35%'}}>{title}</Text>
       <Text
         style={{
           ...commonStyles.fs15_400,
-          width: '50%',
+          width: '65%',
           color: 'rgba(0,104,158,0.9294117647058824 )',
+          // borderWidth: 2,
         }}>
         : {truncate(subTitle, 40)}
       </Text>

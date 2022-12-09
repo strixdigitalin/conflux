@@ -142,7 +142,7 @@ export const upCommingHoliday = async (payload, successCallBack) => {
     .catch(error => console.log('error', error));
 };
 
-export const getAvailableLeaves = successCallBack => {
+export const getAvailableLeaves = (staffId, successCallBack) => {
   var myHeaders = new Headers();
   myHeaders.append('X-api-key', 'xDC7BEzNo44zu1Nk7GlE564V2jlsjnsf2RrO2ErD');
   myHeaders.append('Content-Type', 'application/json');
@@ -152,7 +152,7 @@ export const getAvailableLeaves = successCallBack => {
     action: 'available_leaves',
     product_code: 'JO',
     params: {
-      staffid: 'k',
+      staffid: staffId,
       financial_year: 4,
     },
   });
