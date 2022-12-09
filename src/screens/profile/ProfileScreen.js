@@ -174,15 +174,15 @@ export default function ProfileScreen({navigation}) {
 const PresonalInfo = ({title, subTitle}) => {
   return (
     <View style={{...commonStyles.rowStart, marginTop: 4}}>
-      <Text style={{...commonStyles.fs15_400, width: '35%'}}>{title}</Text>
+      <Text style={{...commonStyles.fs15_400, width: '30%'}}>{title}</Text>
       <Text
         style={{
           ...commonStyles.fs15_400,
-          width: '65%',
+          width: '70%',
           color: 'rgba(0,104,158,0.9294117647058824 )',
           // borderWidth: 2,
         }}>
-        : {truncate(subTitle, 40)}
+        : {truncate(subTitle, 25)}
       </Text>
     </View>
   );

@@ -107,7 +107,7 @@ export default function HomeScreen({navigation}) {
                     shadowColor: '#999',
                     paddingVertical: 12,
                     borderRadius: 8,
-                    width: SIZES.width / 1.09,
+                    width: SIZES.width / 1.1,
                     marginHorizontal: 3,
                   }}>
                   <View
