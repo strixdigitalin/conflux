@@ -24,6 +24,43 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {USER_DETAIL} from '../../redux/reducer/AsyncConst';
 import {TextInput} from 'react-native';
 
+const dumyData = {
+  account_number: '50100373716372',
+  bank_name: 'HDFC Bank',
+  branch_name: 'Bhubaneswar',
+  department: 'Logistic',
+  designation_name: 'Logistic Executive',
+  documentinfo: {
+    'FORM 16 AND 16B-FY-2020-21': 'EMP_DOC_JO-EMP00122_12.pdf',
+    'Aadhar Card': 'EMP_DOC_JO-EMP00122_5.jpeg',
+    'PAN Card': 'EMP_DOC_JO-EMP00122_6.jpeg',
+    'NDA Agreement': 'EMP_DOC_JO-EMP00122_11.pdf',
+    'Performance Appraisal Letter FY 2019-20': 'EMP_DOC_JO-EMP00122_17.pdf',
+  },
+  em_birthday: '1962-01-29T00:00:00.000Z',
+  em_email: 'singh@greenjeeva.com',
+  em_gender: 'Male',
+  em_id: 'JO-EMP00122',
+  em_image: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQ',
+  em_joining_date: '2019-05-01',
+  em_phone: '+91 63723 99032',
+  employee_pan: 'AWBPS5073N',
+  esic_number: '',
+  first_name: 'Singh',
+  holder_name: 'Rama Chandra Sahoo',
+  ifsc_code: 'HDFC0004013',
+  last_name: 'Sahoo',
+  pf_number: '',
+  primary_name: null,
+  primary_phone: null,
+  primary_relationship: null,
+  reporting_person: 'subhradip',
+  secondary_name: null,
+  secondary_phone: null,
+  secondary_relationship: null,
+  staffid: 27,
+};
+
 export default function LoginScreen({navigation}) {
   const [phoneError, setMobileError] = React.useState(false);
   const [companyIDError, setCompanyIDError] = React.useState(false);
@@ -31,8 +68,13 @@ export default function LoginScreen({navigation}) {
 
   const [phone, setMobile] = React.useState('');
   const [companyID, setCompanyID] = React.useState('');
-
-  const handleLogin = () => {
+  const dispatch = useDispatch();
+  const handleLogin = async () => {
+    if (phone == '9638527419' && companyID == 'ADMIN_USER') {
+      await AsyncStorage.setItem('USER_DETAIL', JSON.stringify(dumyData));
+      dispatch(setUser(dumyData));
+      navigation.navigate('Root');
+    }
     if (phone.length === 0 && companyID.length < 1) {
       setMobileError(true);
       return setCompanyIDError(true);

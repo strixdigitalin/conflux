@@ -148,7 +148,7 @@ export default function HomeScreen({navigation}) {
             showsHorizontalScrollIndicator={false}
           />
         </View>
-
+        {birthdays.length == 0 && <Text>No Data</Text>}
         <Text
           style={{...commonStyles.fs14_400, marginTop: 20, marginBottom: 8}}>
           Upcoming Holidays
@@ -234,6 +234,9 @@ export default function HomeScreen({navigation}) {
             horizontal
             showsHorizontalScrollIndicator={false}
           />
+
+          {holidays.length == 0 && <Text>No Data</Text>}
+
           {/* <ScrollView
             horizontal
             disableIntervalMomentum={false}

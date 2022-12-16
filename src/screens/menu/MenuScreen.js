@@ -57,7 +57,7 @@ const menuItems = [
   },
   {
     image: require('../../assets/img/recruitment.png'),
-    name: 'PayslipScreen',
+    name: 'Payslip Screen',
     bgColor: '#FF1B1B',
     pageName: 'PayslipScreen',
   },

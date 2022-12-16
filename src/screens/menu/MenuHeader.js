@@ -17,11 +17,12 @@ export default function MenuHeader({navigation}) {
       <TouchableOpacity
         onPress={() => {
           // navigation.goBack();
+          navigation.navigate('HomeTab');
         }}>
-        {/* <Image
+        <Image
           source={require('../../assets/img/left-arrow.png')}
           style={{width: 28, height: 28, tintColor: '#fff'}}
-        /> */}
+        />
       </TouchableOpacity>
       <HeaderProfilePic navigation={navigation} />
       {/* <Image

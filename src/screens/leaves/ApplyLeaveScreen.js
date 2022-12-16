@@ -383,7 +383,7 @@ export default function ApplyLeavesScreen({navigation}) {
 
             {shift === 'Half Day' ? (
               <>
-                <View style={{width: '100%'}}>
+                <View style={{width: startDate == '' ? null : '100%'}}>
                   {isSubmitted && halfLength == 'Select length' && (
                     <Text style={{color: '#FF0000', textAlign: 'right'}}>
                       This field is required

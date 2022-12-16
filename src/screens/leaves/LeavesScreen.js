@@ -17,7 +17,7 @@ import {useIsFocused} from '@react-navigation/native';
 export default function LeavesScreen({navigation}) {
   const {userData} = useSelector(state => state.User);
   const [allLeaves, setAllLeaves] = React.useState([]);
-  const [showLoader, setShowLoader] = useState(0);
+  const [showLoader, setShowLoader] = useState();
   // const [, set] = useState(second)
   const isFocused = useIsFocused();
   const countType = type => {
@@ -40,7 +40,7 @@ export default function LeavesScreen({navigation}) {
       setAvailable(res.body);
       console.log(res, '<<<<  \n\n\n\n\n\n available \n\n\n\n Leave');
     });
-    setShowLoader(1);
+    setShowLoader('.');
     // getAllLeaves(392, res => {
     getAllLeaves(userData.staffid, res => {
       // getAllLeaves(110, res => {
@@ -48,7 +48,7 @@ export default function LeavesScreen({navigation}) {
       setAllLeaves(res.body);
 
       if (res.body.length == 0) {
-        setShowLoader(2);
+        setShowLoader('..');
       }
     });
   }, [isFocused]);
@@ -112,7 +112,9 @@ export default function LeavesScreen({navigation}) {
             navigation.navigate('ApplyLeavesScreen');
           }}>
           <Text style={{...commonStyles.fs16_400, color: '#fff'}}>
-            Apply Leave {showLoader}
+            Apply
+            <Text style={{fontSize: 7}}>{showLoader}</Text>
+            Leave
           </Text>
         </TouchableHighlight>
         {showLoader == 0 && (

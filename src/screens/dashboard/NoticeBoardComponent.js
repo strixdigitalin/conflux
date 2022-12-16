@@ -78,6 +78,7 @@ export default function NoticeBoardComponent({notice}) {
           {notice.map(item => {
             return renderNoticeList(item);
           })}
+          {notice.length==0 && <Text>No Data</Text>}
           {/* 
           {renderNoticeList(
             'The Jeeva Organic sales team achieved a sales value of INR 14,26,158.',

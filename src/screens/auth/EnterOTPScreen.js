@@ -66,6 +66,10 @@ export default function EnterOTPScreen({navigation, route}) {
           if (res.success == false) {
             Alert.alert('Unable to fetch profile data');
           } else {
+            console.log('this is user detail', {
+              ...res.data,
+              staffid: response.body[0].staffid,
+            });
             await AsyncStorage.setItem(
               'USER_DETAIL',
               JSON.stringify({...res.data, staffid: response.body[0].staffid}),
